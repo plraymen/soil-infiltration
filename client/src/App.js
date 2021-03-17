@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import './App.css';
 import {AppBar, Button, IconButton, Menu, MenuItem, TextField, Toolbar, Typography} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
@@ -6,11 +12,16 @@ import Table from "./table";
 import Timer from "react-compound-timer";
 //import Countdown from "react-countdown";
 import { CSVLink, CSVDownload } from "react-csv";
-import PDFViewer from 'pdf-viewer-reactjs';
-import pdf from './Mini_Disk_Manual_Web.pdf';
 import Localbase from 'localbase';
-import RetrivalData from './RetrivalData';
 import {ComposableMap, Geographies, Geography, Marker, ZoomableGroup} from "react-simple-maps";
+
+import Main from './Main.js'
+import DataGathering from './DataGathering.js'
+import Learn from './Learn.js'
+import LearnInfil from './LearnInfil.js'
+import PreviousData from './PreviousData.js'
+import About from './About.js'
+import DataComplete from './DataComplete.js'
 
 let db = new Localbase('db')
 
@@ -20,8 +31,6 @@ let users = [];
 let indexNum = 0;
 let lon = 0;
 let lat = 0;
-let totalTime = 0;
-
 
 async function getUsers() {
   try {
@@ -141,8 +150,6 @@ class App extends React.Component {
       DatabaseData: this.state.DatabaseData = users
     })
 
-    totalTime = 0;
-
     this.setState({
       id: this.state.id = 0,
       time: this.state.time = 0,
@@ -163,7 +170,8 @@ class App extends React.Component {
       infiltrometerData: this.state.infiltrometerData = [{Radius: 0, Alpha: 0, NperH0: 0, Suction: 0}],
       longitude: this.state.longitude = 0,
       latitude: this.state.latitude = 0,
-      PageState: this.state.PageState = "MainPage"
+      PageState: this.state.PageState = "MainPage",
+      totalTime: this.state.totalTime = 0
     })
   }
 
@@ -174,13 +182,9 @@ class App extends React.Component {
       DatabaseData: this.state.DatabaseData = users
     })
 
-    let joined = this.state.Data.concat({id: this.state.id, Time: totalTime, Sqrt: this.state.sqrtTime, Volume: this.state.initialVolume, Infilt: this.state.infilt});
+    let joined = this.state.Data.concat({id: this.state.id, Time: this.totalTime, Sqrt: this.state.sqrtTime, Volume: this.state.initialVolume, Infilt: this.state.infilt});
     this.setState({Data: joined})
     console.log(this.state.Data)
-
-      this.setState({
-        PageState: this.state.PageState = "DataGathering"
-      })
   }
 
   SwitchToDataCompleted() {
@@ -201,9 +205,6 @@ class App extends React.Component {
     this.setState({
       DatabaseData: this.state.DatabaseData = users
     })
-    this.setState({
-      PageState: this.state.PageState = "LearnHowToUsetheApp"
-    })
   }
 
   SwitchToLearnHowToUseTheInfiltrometer() {
@@ -217,7 +218,7 @@ class App extends React.Component {
     })
   }
 
-  async SwitchToPreviousData() {
+  async SwitchToPreviousData( e ) {
     getUsers().then(r => "something")
     getUsers().then(r => "something")
     this.setState({
@@ -230,7 +231,8 @@ class App extends React.Component {
     })
 
     if (this.state.DatabaseData.length < 3) {
-      alert("You have no Previous Data Entries. Please have a minimum of Three Test to view old data.")
+      alert("You have no Previous Data Entries. Please have a minimum of Three Tests to view old data.")
+      e.preventDefault();
     } else {
 
       console.log(this.state.DatabaseData);
@@ -329,7 +331,7 @@ class App extends React.Component {
 
       //This setting the square root of the time
       this.setState({
-        sqrtTime: this.state.sqrtTime = Math.sqrt(totalTime)
+        sqrtTime: this.state.sqrtTime = Math.sqrt(this.totalTime)
       })
 
       //This is for the infilt calculation
@@ -339,7 +341,7 @@ class App extends React.Component {
 
       let joined = this.state.Data.concat({
         id: this.state.id,
-        Time: totalTime,
+        Time: this.totalTime,
         Sqrt: this.state.sqrtTime,
         Volume: this.state.volume,
         Infilt: this.state.infilt
@@ -353,12 +355,14 @@ class App extends React.Component {
     }
   }
 
-  resettingToMainPage() {
+  resettingToMainPage( e ) {
     let flag = false;
     flag = window.confirm("Are you sure you would like to reset to the main page? This will ERASE ALL DATA that was gathered and will not store any information about the current test.");
 
     if (flag === true) {
       this.SwitchToMain()
+    } else {
+      e.preventDefault();
     }
   }
 
@@ -945,595 +949,48 @@ class App extends React.Component {
   }
 
   render() {
-    //Login Screen
-    if (this.state.PageState === "MainPage") {
-      return (
-
-          <div>
-            <div align='center'>
-              <AppBar position="static">
-                <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                  <IconButton edge="start"  color="inherit" aria-label="menu">
-                    <MenuIcon />
-                  </IconButton>
-                  <Typography variant="h5" align='center'>
-                    Welcome to Soil Infiltration App
-                  </Typography>
-                </Toolbar>
-              </AppBar>
-            </div>
-
-
-            <div>
-              <h3 className={"center"}>Start the Program</h3>
-              <div className={"center"}>
-                <TextField id="filled-basic-Time"
-                           label="Time Intervals in Seconds"
-                           variant="filled"
-                           value={this.state.timeInterval}
-                           onChange={e => this.setState({ timeInterval: e.target.value })}
-                />
-              </div>
-              <br/>
-              <div className={"center"}>
-                <TextField id="filled-basic-Initial-Vol"
-                           label="Initial Volume in mL"
-                           variant="filled"
-                           value={this.state.initialVolume}
-                           onChange={e => this.setState({ initialVolume: e.target.value })}
-                />
-              </div>
-              <br/>
-              <br/>
-              <h3 className={"center"}>Enter Infiltrometer Setting</h3>
-              <div className={"center"}>
-                <div>
-                  <h5>Enter Soil Infiltrometer Radius</h5>
-                  <TextField id="filled-basic-Time"
-                             label="Infiltrometer Radius (cm)"
-                             variant="filled"
-                             value={this.state.Radius}
-                             onChange={e => this.setState({ Radius: e.target.value })}
-                  />
-                </div>
-
-                <div>
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectInftiltrometerTypeMiniDisk}
-                  > MiniDisk </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectInftiltrometerTypeMiniDiskV1}
-                  > MiniDisk Version 1 </Button>
-                </div>
-              </div>
-
-              <br/>
-              <div className={"center"}>
-                <div>
-                  <h5>Enter Soil Type - Alpha</h5>
-                  <TextField id="filled-basic-Time"
-                             label="Alpha"
-                             variant="filled"
-                             value={this.state.Alpha}
-                             onChange={e => this.setState({ Alpha: e.target.value })}
-                  />
-                </div>
-                <br/>
-                <div>
-                  <TextField id="filled-basic-Time"
-                             label="n/h0"
-                             variant="filled"
-                             value={this.state.NperH0}
-                             onChange={e => this.setState({ NperH0: e.target.value })}
-                  />
-                </div>
-
-                <div>
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSiltyClay}
-                  > Clay </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeClayLoam}
-                  > Clay Loam </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeLoamy}
-                  > Loam </Button>
-                </div>
-                <div>
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeLoamySand}
-                  > Loamy Sand </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSand}
-                  > Sand </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSandyClay}
-                  > Sandy Clay </Button>
-                </div>
-                <div>
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSandyClayLoam}
-                  > Sandy Clay Loam </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSandyLoam}
-                  > Sandy Loam </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSilt}
-                  > Silt </Button>
-                </div>
-                <div>
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSiltLoam}
-                  > Silt Loam </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSiltyClay}
-                  > Silty Clay </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSiltyClayLoam}
-                  > Silty Clay Loam </Button>
-                </div>
-              </div>
-
-              <br/>
-              <br/>
-              <div className={"center"}>
-                <div>
-                  <h5>Enter Suction (cm)</h5>
-                  <TextField id="filled-basic-Time"
-                             label="Suction (cm)"
-                             variant="filled"
-                             value={this.state.Suction}
-                             onChange={e => this.setState({ Suction: e.target.value })}
-                  />
-
-                  <div>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionTypePoint5}
-                    > 0.5 </Button>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionType1}
-                    > 1 </Button>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionType2}
-                    > 2 </Button>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionType3}
-                    > 3 </Button>
-                  </div>
-                  <div>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionType4}
-                    > 4 </Button>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionType5}
-                    > 5 </Button>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionType6}
-                    > 6 </Button>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionType7}
-                    > 7 </Button>
-                  </div>
-                </div>
-              </div>
-
-              <br/>
-              <br/>
-
-              <div className={"center"}>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToMainToDataGathering}
-                > Start Collecting Data </Button>
-              </div>
-
-              <hr></hr>
-              <h3 className={"center"}>Other Content</h3>
-              <br/>
-              <div className={"center"}>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToLearnHowToUseTheApp}
-                > Learn How to Use the App? </Button>
-              </div>
-              <br/>
-              <div className={"center"}>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToLearnHowToUseTheInfiltrometer}
-                > Learn How to Use the Infiltrometer? </Button>
-              </div>
-              <br/>
-              <div className={"center"}>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToPreviousData}
-                > Previous Test Data </Button>
-              </div>
-              <br/>
-              <div className={"center"}>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToAboutUs}
-                > Learn About Us? </Button>
-              </div>
-            </div>
-          </div>
-      )
-    }
-
-    if (this.state.PageState === "DataGathering") {
-      return (
-          <div>
-            <div align='center'>
-              <AppBar position="static">
-                <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                  <h2>Total Time (Seconds): </h2>
-                  <Timer formatValue={e => totalTime = e}
-                      lastUnit={"s"}
-                      initialTime={0}
-                      direction="forward"
-                  >
-                    <Timer.Seconds />  seconds
-                  </Timer>
-                  <Typography variant="h5" align='center'>
-                    Application is Running
-                  </Typography>
-                  <Button variant="contained"
-                          color="primary"
-                  > Reset Time Intervals  </Button>
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.resettingToMainPage}
-                  > Reset to Main Page </Button>
-                </Toolbar>
-              </AppBar>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-            <div align='center'>
-              <Button variant="contained"
-                      color="primary"
-                      onClick={this.SwitchToDataCompleted}
-              > Data Gathering Completed </Button>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
+    return  (
+      <Router>
+        <div>
           <div align='center'>
-            <table>
-              <tr>
-                <td>Time Left in Interval:  </td>
-                <td><Timer
-                  checkpoints={[ { time: 0, callback: () => this.promptToAddToArray()} ]}
-                  lastUnit={"s"}
-                  initialTime={this.state.timeInterval * 1000}
-                  direction="backward"
-                >
-                  <Timer.Seconds />  seconds
-                </Timer></td>
-
-              </tr>
-            </table>
-          </div>
-
-            <br/>
-            <br/>
-            <br/>
-          <div align='center'>
-            <TextField id="filled-basic-Time"
-                       label="Enter Volumetric Data"
-                       variant="filled"
-                       value={this.state.volume}
-                       onChange={e => this.setState({ volume: e.target.value })}
-            />
-
-            <Button variant="contained"
-                    color="primary"
-                    onClick={this.AddToDataArray}
-            > Submit Volume</Button>
-          </div>
-
-            <br/>
-            <br/>
-            <br/>
-
-            <div>
-              <Table Data={this.state.Data}/>
-            </div>
-          </div>
-      )
-    }
-
-    if (this.state.PageState === "DataCompleted") {
-      return (
-          <div>
             <AppBar position="static">
               <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
+                <IconButton edge="start"  color="inherit" aria-label="menu">
+                  <MenuIcon />
+                </IconButton>
                 <Typography variant="h5" align='center'>
-                  Data Gathered
+                  Welcome to Soil Infiltration App
                 </Typography>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.resettingToMainPage}
-                > Reset to Main Page </Button>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SaveAndExit}
-                > Save & Return to Main Page </Button>
               </Toolbar>
             </AppBar>
-
-            <div align={"center"}>
-              <h3>Add a Title to this Test:
-              <TextField id="filled-basic-Time"
-                         label="Title"
-                         variant="filled"
-                         value={this.state.title}
-                         onChange={e => this.setState({ title: e.target.value })}
-              /></h3>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-
-            <div align={"center"}>
-              <div>
-                <h3>Upload a Picture:</h3>
-                <input  type="file" onChange={this.handleChange}/>
-                <img src={this.state.file}/>
-              </div>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-
-            <div align={"center"}>
-              <h3>Enter GPS Location</h3>
-              <div>
-                <TextField id="filled-basic-Time"
-                           label="Longitude"
-                           variant="filled"
-                           value={this.state.longitude}
-                           onChange={e => this.setState({ longitude: e.target.value })}
-                />
-              </div>
-              <br/>
-              <div>
-                <TextField id="filled-basic-Time"
-                         label="Latitude"
-                         variant="filled"
-                         value={this.state.latitude}
-                         onChange={e => this.setState({ latitude: e.target.value })}
-               />
-              </div>
-              <Button variant="contained"
-                      color="primary"
-                      onClick={this.getGPSLocation}
-              >Use Phones GPS</Button>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-
-            <div align={"center"}>
-              <CSVLink
-                  data={this.state.Data}
-                  filename={this.state.title.toString() + ".csv"}
-                  className="btn btn-primary"
-                  target="_blank"
-
-              >
-                Export as CSV File
-
-              </CSVLink>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-
-            <div>
-              <Table Data={this.state.Data}/>
-            </div>
           </div>
-      )
-    }
 
-//----------------------------------------------------------------Other Content---------------------------------------------------//
-    if (this.state.PageState === "LearnHowToUsetheApp") {
-      return (
-          <div>
-            <AppBar position="static">
-              <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                <Typography variant="h5" align='center'>
-                  Learn How to use the App?
-                </Typography>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToMain}
-                >Return to Main Page </Button>
-              </Toolbar>
-            </AppBar>
-
-            <div>
-              <h3><li>Step 1: Enter in Initial Time Interval</li></h3>
-              <h5>NOTE** This is going to start a timer from the selected time intervals defined on the main page. Once the time intervals is over, you will get prompted to enter in your volumetric data. Then the time intervals will reset.</h5>
-              <br/>
-              <br/>
-              <br/>
-              <h3><li>Step 2: Enter your initial volume in Mili-Liters(mL)</li></h3>
-
-              <br/>
-              <br/>
-              <br/>
-              <h3><li>Step 3: Once you click start, a new page will appear and it will prompt you during your session to enter volumetric data. Once time intervals has reached.</li></h3>
-
-              <br/>
-              <br/>
-              <br/>
-              <h3><li>Step 4: Once data gathering has been completed, press on the completed button to view recorded data.</li></h3>
-
-              <br/>
-              <br/>
-              <br/>
-              <h3><li>Step 5: You will be moved to a new page that will show you graphs, table data, and will allow you to export your data as a CSV file (similar to an excel spreadsheet). This will also allow you to upload a picture. As well as type in or use your phones GPS location data.</li></h3>
-              <h5>NOTE** Useing phone GPS Location Data may not be as accurate as using a dedicated GPS device. The Coordinates could very by one meters to a kilometer away.</h5>
-            </div>
-
-          </div>
-      )
-    }
-
-    if (this.state.PageState === "LearnHowToUsetheInfiltrometer") {
-      return (
-          <div>
-            <AppBar position="static">
-              <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                <Typography variant="h5" align='center'>
-                  Learn How to use the Infiltrometer?
-                </Typography>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToMain}
-                >Return to Main Page </Button>
-              </Toolbar>
-            </AppBar>
-
-            <div>
-              <PDFViewer
-                  document={{
-                    url: pdf
-                  }}
-              />
-            </div>
-
-          </div>
-      )
-    }
-
-    if (this.state.PageState === "PeviousTestData") {
-      return (
-          <div>
-            <AppBar position="static">
-              <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                <Typography variant="h5" align='center'>
-                  Previous Test Data
-                </Typography>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.DeleteDatabase}
-                >Delete Entire Database </Button>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToMain}
-                >Return to Main Page </Button>
-              </Toolbar>
-            </AppBar>
-
-            <br/>
-            <br/>
-            <br/>
-            <div className={"center"}>
-              <h1>View or Edit old Data Values</h1>
-
-              <p>Enter Title: <TextField id="Title"
-                                            label="Title"
-                                            variant="filled"
-                                            value={this.state.title}
-                                            onChange={e => this.setState({ title: e.target.value })}
-              /></p>
-              <br/>
-              <Button variant="contained"
-                      color="primary"
-                      onClick={this.ReviewOldData}
-              > Review Old Data </Button>
-            </div>
-            <br/>
-            <div align={"center"}>
-              <Button variant="contained"
-                         color="primary"
-                         onClick={this.DeleteOldData}
-            > Delete Old Data</Button>
-            </div>
-
-            <br/>
-            <div align={"center"}>
-              <Button variant="contained"
-                      color="primary"
-                      onClick={this.SwitchToEditingOldData}
-              > Edit Data</Button>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-            <div>
-              <RetrivalData DatabaseData={this.state.DatabaseData}/>
-            </div>
-          </div>
-      )
-    }
-
-    if (this.state.PageState === "AboutUs") {
-      return (
-          <div>
-            <AppBar position="static">
-              <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                <Typography variant="h5" align='center'>
-                  About Us?
-                </Typography>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToMain}
-                >Return to Main Page </Button>
-              </Toolbar>
-            </AppBar>
-
-            <div>
-              <h3>This app will be used throughout a myriad of different scientists with all different agricultural aspects from one single device called a Soil Infiltrometer. A Soil Infiltrometer is a device that will penetrate the ground - it must be conducted in a loamy environment like soil. A user then will pour water through a top funnel that then allows a user to watch it drain through time. A user then will record the time difference (from start) and the recorded volume of water that was lost throughout the process. This is an incremental step that is done in different time based intervals, for example: if a user selects time intervals for every 30 seconds, they will then record the volume lost every 30 seconds until the water drains.</h3>
-              <h3>What this application is doing is allowing a user to get more accurate and precise measurements when it comes to recording information. We will build the app so that it will initially allow the user to set the time intervals they want to, then gets notified when the selected time intervals finally come into fruition. When the user gets notified, it will prompt them to enter the volumetric information that the soil infiltrometer shows (please note that the user will have to manually enter the information in and the time is still static during the interval). The app will show a table below that will dynamically auto-populate the information and create several different charts and graphs based-off of the recorded/calculated values. What this application is doing is allowing a user to get more accurate and precise measurements when it comes to recording information. We will build the app so that it will initially allow the user to set the time intervals they want to, then gets notified when the selected time intervals finally come into fruition. When the user gets notified, it will prompt them to enter the volumetric information that the soil infiltrometer shows (please note that the user will have to manually enter the information in and the time is still static during the interval). The app will show a table below that will dynamically auto-populate the information and create several different charts and graphs based-off of the recorded/calculated values.</h3>
-            </div>
-          </div>
-      )
-    }
+          <Switch>
+            <Route path="/data-gathering">
+              <DataGathering that={this} />
+            </Route>
+            <Route path="/data-complete">
+              <DataComplete that={this} />
+            </Route>
+            <Route path="/learn-infiltrometer">
+              <LearnInfil that={this} />
+            </Route>
+            <Route path="/learn">
+              <Learn that={this} />
+            </Route>
+            <Route path="/previous-data">
+              <PreviousData that={this} />
+            </Route>
+            <Route path="/about">
+              <About that={this} />
+            </Route>
+            <Route path="/">
+              <Main that={this} />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    )
 
     if (this.state.PageState === "ReviewOldDataPage") {
       return (

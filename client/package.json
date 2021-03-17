@@ -13,6 +13,7 @@
     "react-compound-timer": "^1.2.0",
     "react-csv": "^2.0.3",
     "react-dom": "^16.2.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "2.1.8",
     "react-simple-maps": "^2.3.0",
     "reactstrap": "^6.5.0",
