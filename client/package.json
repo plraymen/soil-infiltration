@@ -9,6 +9,7 @@
     "bootstrap": "^4.1.3",
     "localbase": "^0.7.4",
     "pdf-viewer-reactjs": "^2.2.3",
+    "prevent-pull-refresh": "^1.0.6",
     "react": "^16.2.0",
     "react-compound-timer": "^1.2.0",
     "react-csv": "^2.0.3",

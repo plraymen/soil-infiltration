@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  touch-action: none;
 }
 
 .App-logo {
@@ -41,3 +42,16 @@
   text-align: center;
 }
 
+img {
+  text-align: center;
+  width:  150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.reviewImg {
+  text-align: center;
+  width:  350px;
+  height: 350px;
+  object-fit: cover;
+}

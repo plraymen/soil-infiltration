@@ -2,16 +2,12 @@
 
 # dependencies
 node_modules
-
-# testing
-coverage
+.gradle
 
 # production
 build
-.gradle
 
 # misc
 .DS_Store
 .env
 npm-debug.log
-package-lock.json

@@ -7355,6 +7355,10 @@ pretty-format@^23.6.0:
     ansi-regex "^3.0.0"
     ansi-styles "^3.2.0"
 
+prevent-pull-refresh@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.npmjs.org/prevent-pull-refresh/-/prevent-pull-refresh-1.0.6.tgz"
+
 private@^0.1.8:
   version "0.1.8"
   resolved "https://registry.npmjs.org/private/-/private-0.1.8.tgz"
