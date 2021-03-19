@@ -13,9 +13,7 @@ import Table from "./table";
 import Timer from "react-compound-timer";
 //import Countdown from "react-countdown";
 import 'prevent-pull-refresh';
-import { CSVLink, CSVDownload } from "react-csv";
 import Localbase from 'localbase';
-import {ComposableMap, Geographies, Geography, Marker, ZoomableGroup} from "react-simple-maps";
 import noImage from "./noImage.jpg"
 
 import Main from './Main.js'
@@ -25,13 +23,12 @@ import LearnInfil from './LearnInfil.js'
 import PreviousData from './PreviousData.js'
 import About from './About.js'
 import DataComplete from './DataComplete.js'
+import ReviewData from './ReviewData.js'
+import Edit from './Edit.js'
 
 let db = new Localbase('db')
 
-const geoUrl = "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
-
 let users = [];
-let indexNum = 0;
 let lon = 0;
 let lat = 0;
 
@@ -96,7 +93,8 @@ class App extends React.Component {
       C1:0,
       K:0,
       InfiltrometerCalculatioons: [{A:0, C1: 0, K:0}],
-      ReviewOldDataArray: [{Title: 0, GPSLocation: 0, Picture: 0}]
+      ReviewOldDataArray: [{Title: 0, GPSLocation: 0, Picture: 0}],
+      indexNum: 0
     };
 
     this.componentDidMount  = this.componentDidMount.bind(this);
@@ -271,7 +269,7 @@ class App extends React.Component {
     }
   }
 
-  SwitchToEditingOldData() {
+  SwitchToEditingOldData( e ) {
     getUsers().then(r => "something")
     getUsers().then(r => "something")
     this.setState({
@@ -279,45 +277,49 @@ class App extends React.Component {
     })
     if (this.state.title === "") {
       alert("You have left the title blank. Please enter information")
+      e.preventDefault();
     } else {
       let confirmation = "no"
       for (let i = 0; i < this.state.DatabaseData.length; i++) {
         if (this.state.DatabaseData[i].Title === this.state.title) {
-          indexNum = i
+          this.setState({
+            indexNum: this.state.indexNum = i
+          })
           confirmation = "yes"
         }
       }
 
-      console.log("IndexNum: " + indexNum)
-      if ((confirmation === "yes") && (this.state.DatabaseData[indexNum].GPSLocation.toString() === "N/A - Not Saved")) {
+      console.log("IndexNum: " + this.state.indexNum)
+      if ((confirmation === "yes") && (this.state.DatabaseData[this.state.indexNum].GPSLocation.toString() === "N/A - Not Saved")) {
         this.setState({
-          title: this.state.title = this.state.DatabaseData[indexNum].Title.toString(),
-          newTitle: this.state.newTitle = this.state.DatabaseData[indexNum].Title.toString(),
-          gpsCoordinates: this.state.gpsCoordinates = this.state.DatabaseData[indexNum].GPSLocation.toString(),
+          title: this.state.title = this.state.DatabaseData[this.state.indexNum].Title.toString(),
+          newTitle: this.state.newTitle = this.state.DatabaseData[this.state.indexNum].Title.toString(),
+          gpsCoordinates: this.state.gpsCoordinates = this.state.DatabaseData[this.state.indexNum].GPSLocation.toString(),
           longitude: this.state.longitude = "N/A - Not Saved",
           latitude: this.state.latitude = "N/A - Not Saved",
-          file: this.state.file = this.state.DatabaseData[indexNum].Picture,
-          Data: this.state.Data = this.state.DatabaseData[indexNum].Data,
-          infiltrometerData: this.state.infiltrometerData = this.state.DatabaseData[indexNum].InfiltrometerData,
+          file: this.state.file = this.state.DatabaseData[this.state.indexNum].Picture,
+          Data: this.state.Data = this.state.DatabaseData[this.state.indexNum].Data,
+          infiltrometerData: this.state.infiltrometerData = this.state.DatabaseData[this.state.indexNum].InfiltrometerData,
           PageState: this.state.PageState = "EditingPage"
         })
-      } else if ((confirmation === "yes") && (this.state.DatabaseData[indexNum].GPSLocation.toString() !== "N/A - Not Saved")) {
-        let arr = this.state.DatabaseData[indexNum].GPSLocation.split(",")
+      } else if ((confirmation === "yes") && (this.state.DatabaseData[this.state.indexNum].GPSLocation.toString() !== "N/A - Not Saved")) {
+        let arr = this.state.DatabaseData[this.state.indexNum].GPSLocation.split(",")
 
         this.setState({
-          title: this.state.title = this.state.DatabaseData[indexNum].Title.toString(),
-          newTitle: this.state.newTitle = this.state.DatabaseData[indexNum].Title.toString(),
-          gpsCoordinates: this.state.gpsCoordinates = this.state.DatabaseData[indexNum].GPSLocation.toString(),
+          title: this.state.title = this.state.DatabaseData[this.state.indexNum].Title.toString(),
+          newTitle: this.state.newTitle = this.state.DatabaseData[this.state.indexNum].Title.toString(),
+          gpsCoordinates: this.state.gpsCoordinates = this.state.DatabaseData[this.state.indexNum].GPSLocation.toString(),
           longitude: this.state.longitude = arr[0],
           latitude: this.state.latitude = arr[1],
-          file: this.state.file = this.state.DatabaseData[indexNum].Picture,
-          Data: this.state.Data = this.state.DatabaseData[indexNum].Data,
-          infiltrometerData: this.state.infiltrometerData = this.state.DatabaseData[indexNum].InfiltrometerData,
+          file: this.state.file = this.state.DatabaseData[this.state.indexNum].Picture,
+          Data: this.state.Data = this.state.DatabaseData[this.state.indexNum].Data,
+          infiltrometerData: this.state.infiltrometerData = this.state.DatabaseData[this.state.indexNum].InfiltrometerData,
           PageState: this.state.PageState = "EditingPage"
         })
       }
       else {
         alert("No Titles Matched Your inputted Text. Please also check Spelling and/or Capitalization (this does matter)")
+        e.preventDefault();
       }
     }
   }
@@ -442,7 +444,7 @@ class App extends React.Component {
     })
   }
 
-  SaveAndExit() {
+  SaveAndExit( e ) {
     getUsers().then(r => "something")
     getUsers().then(r => "something")
     this.setState({
@@ -459,9 +461,10 @@ class App extends React.Component {
 
     if (this.state.title === "") {
       alert("Title must have something filled out")
-
+      e.preventDefault();
     } else if (sameName === "Yes") {
       alert("There is another test with the SAME NAME. Please Choose Another")
+      e.preventDefault();
     }
 
     else if (this.state.file === null && ((this.state.longitude === 0 || this.state.latitude === 0) || (this.state.longitude === "" || this.state.latitude === ""))) {
@@ -596,15 +599,17 @@ class App extends React.Component {
       let confirmation = "no"
       for (let i = 0; i < this.state.DatabaseData.length; i++) {
         if (this.state.DatabaseData[i].Title === this.state.title) {
-          indexNum = i
+          this.setState({
+            indexNum: this.state.indexNum = i
+          })
           confirmation = "yes"
         }
       }
 
-      console.log("IndexNum: " + indexNum)
+      console.log("IndexNum: " + this.state.indexNum)
 
       if (confirmation === "yes") {
-        console.log(this.state.DatabaseData[indexNum].InfiltrometerData)
+        console.log(this.state.DatabaseData[this.state.indexNum].InfiltrometerData)
         this.getGPSLocation();
         this.setState({
           title: this.state.title = "",
@@ -628,20 +633,22 @@ class App extends React.Component {
       let confirmation = "no"
       for (let i = 0; i < this.state.DatabaseData.length; i++) {
         if (this.state.DatabaseData[i].Title === this.state.title) {
-          indexNum = i
+          this.setState({
+            indexNum: this.state.indexNum = i
+          })
           confirmation = "yes"
         }
       }
-      console.log("IndexNum: " + indexNum)
+      console.log("IndexNum: " + this.state.indexNum)
       console.log(this.state.DatabaseData)
       if (confirmation === "yes") {
         let flag = false;
         flag = window.confirm("Are you sure you would like to delete test: " + this.state.title + "? It will ERASE the entry from the current Database.")
 
         if (flag === true) {
-          db.collection('Database').doc({Title: this.state.DatabaseData[indexNum].Title}).delete()
+          db.collection('Database').doc({Title: this.state.DatabaseData[this.state.indexNum].Title}).delete()
           let array = [...this.state.DatabaseData];
-          array.splice(indexNum, 1);
+          array.splice(this.state.indexNum, 1);
           this.setState({DatabaseData: this.state.DatabaseData = array});
           console.log(this.state.DatabaseData)
 
@@ -674,7 +681,7 @@ class App extends React.Component {
     }
   }
 
-  async EditData() {
+  async EditData( e ) {
     getUsers().then(r => "something")
     getUsers().then(r => "something")
     this.setState({
@@ -691,14 +698,16 @@ class App extends React.Component {
     console.log(this.state.DatabaseData)
     if (this.state.newTitle === "") {
       alert("Title must have something filled out")
+      e.preventDefault();
     } else if (sameName === "Yes" && this.state.title !== this.state.newTitle) {
       alert("There is another test with the SAME NAME. Please Choose Another")
+      e.preventDefault();
     }
 
     else if (this.state.file === null && ((this.state.longitude === 0 || this.state.latitude === 0) || (this.state.longitude === "" || this.state.latitude === ""))) {
-      db.collection('Database').doc({ Title: this.state.DatabaseData[indexNum].Title }).delete()
+      db.collection('Database').doc({ Title: this.state.DatabaseData[this.state.indexNum].Title }).delete()
       let array = [...this.state.DatabaseData];
-      array.splice(indexNum, 1);
+      array.splice(this.state.indexNum, 1);
       this.setState({DatabaseData: this.state.DatabaseData = array});
       console.log(this.state.DatabaseData)
 
@@ -721,9 +730,9 @@ class App extends React.Component {
     }
 
     else if (((this.state.longitude === 0 && this.state.latitude === 0) || (this.state.longitude === "" && this.state.latitude === ""))) {
-      db.collection('Database').doc({ Title: this.state.DatabaseData[indexNum].Title }).delete()
+      db.collection('Database').doc({ Title: this.state.DatabaseData[this.state.indexNum].Title }).delete()
       let array = [...this.state.DatabaseData];
-      array.splice(indexNum, 1);
+      array.splice(this.state.indexNum, 1);
       this.setState({DatabaseData: this.state.DatabaseData = array});
       console.log(this.state.DatabaseData)
 
@@ -746,9 +755,9 @@ class App extends React.Component {
     }
 
     else if (((this.state.longitude === 0 || this.state.latitude === 0) || (this.state.longitude === "" || this.state.latitude === "")) && this.state.file !== null) {
-      db.collection('Database').doc({ Title: this.state.DatabaseData[indexNum].Title }).delete()
+      db.collection('Database').doc({ Title: this.state.DatabaseData[this.state.indexNum].Title }).delete()
       let array = [...this.state.DatabaseData];
-      array.splice(indexNum, 1);
+      array.splice(this.state.indexNum, 1);
       this.setState({DatabaseData: this.state.DatabaseData = array});
       console.log(this.state.DatabaseData)
 
@@ -771,9 +780,9 @@ class App extends React.Component {
     }
 
     else if (this.state.file === null) {
-      db.collection('Database').doc({ Title: this.state.DatabaseData[indexNum].Title }).delete()
+      db.collection('Database').doc({ Title: this.state.DatabaseData[this.state.indexNum].Title }).delete()
       let array = [...this.state.DatabaseData];
-      array.splice(indexNum, 1);
+      array.splice(this.state.indexNum, 1);
       this.setState({DatabaseData: this.state.DatabaseData = array});
       console.log(this.state.DatabaseData)
 
@@ -796,9 +805,9 @@ class App extends React.Component {
     }
 
     else {
-      db.collection('Database').doc({ Title: this.state.DatabaseData[indexNum].Title }).delete()
+      db.collection('Database').doc({ Title: this.state.DatabaseData[this.state.indexNum].Title }).delete()
       let array = [...this.state.DatabaseData];
-      array.splice(indexNum, 1);
+      array.splice(this.state.indexNum, 1);
       this.setState({DatabaseData: this.state.DatabaseData = array});
       console.log(this.state.DatabaseData)
 
@@ -920,8 +929,14 @@ class App extends React.Component {
             <Route path="/learn">
               <Learn that={this} />
             </Route>
+            <Route path="/review-data">
+              <ReviewData that={this} />
+            </Route>
             <Route path="/previous-data">
               <PreviousData that={this} />
+            </Route>
+            <Route path="/edit-data">
+              <Edit that={this} />
             </Route>
             <Route path="/about">
               <About that={this} />
@@ -933,278 +948,6 @@ class App extends React.Component {
         </div>
       </Router>
     )
-
-    if (this.state.PageState === "ReviewOldDataPage") {
-      return (
-          <div>
-            <AppBar position="static">
-              <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                <Typography variant="h5" align='center'>
-                  Review Old Data
-                </Typography>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToPreviousData}
-                >Return To Previous Data </Button>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToMain}
-                >Return to Main Page </Button>
-              </Toolbar>
-            </AppBar>
-
-            <div align={"center"}>
-              <br/>
-              <br/>
-              <br/>
-
-              <p>Title: {this.state.DatabaseData[indexNum].Title}</p>
-              <br/>
-
-              <p>GPS Coordinate: {this.state.DatabaseData[indexNum].GPSLocation}</p>
-              <div>
-                <ComposableMap>
-                  <ZoomableGroup zoom={1}>
-                    <Geographies geography={geoUrl}>
-                      {({ geographies }) =>
-                          geographies.map(geo => (
-                              <Geography key={geo.rsmKey} geography={geo} />
-                          ))
-                      }
-                    </Geographies>
-                    <Marker coordinates={[lon,lat]}>
-                      <circle r={1} fill="#F53" />
-                    </Marker>
-                  </ZoomableGroup>
-                </ComposableMap>
-              </div>
-              <br/>
-
-              <p>Picture</p>
-              <img className={"reviewImg"} src={this.state.DatabaseData[indexNum].Picture} alt="Picture"/>
-              <br/>
-              <br/>
-              <div align={"center"}>
-                <CSVLink
-                    data={this.state.DatabaseData[indexNum].Data}
-                    filename={this.state.DatabaseData[indexNum].Title.toString() + ".csv"}
-                    className="btn btn-primary"
-                    target="_blank"
-
-                >
-                  Export as CSV File
-
-                </CSVLink>
-              </div>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-
-            <div align={"center"}>
-              <table>
-                <tr>
-                  <th>Setting</th>
-                  <th>Number</th>
-                </tr>
-                <tr>
-                  <td>Radius: </td>
-                  <td>{this.state.DatabaseData[indexNum].InfiltrometerData.Radius.toString()}</td>
-                </tr>
-                <tr>
-                  <td>Alpha: </td>
-                  <td>{this.state.DatabaseData[indexNum].InfiltrometerData.Alpha.toString()}</td>
-                </tr>
-                <tr>
-                  <td>n/ho: </td>
-                  <td>{this.state.DatabaseData[indexNum].InfiltrometerData.NperH0.toString()}</td>
-                </tr>
-                <tr>
-                  <td>Suction: </td>
-                  <td>{this.state.DatabaseData[indexNum].InfiltrometerData.Suction.toString()}</td>
-                </tr>
-              </table>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-
-            <div>
-              <Table Data={this.state.DatabaseData[indexNum].Data}/>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-          </div>
-      )
-    }
-
-    if (this.state.PageState === "EditingPage") {
-      return (
-          <div>
-            <AppBar position="static">
-              <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                <Typography variant="h5" align='center'>
-                  Editing Old Data
-                </Typography>
-
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.resettingToEditingMainPage}
-                >Reset and Return to Main Page </Button>
-
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.EditData}
-                >Save and Return to Main Page </Button>
-
-              </Toolbar>
-            </AppBar>
-
-            <div align={"center"}>
-              <br/>
-              <br/>
-              <br/>
-
-              <p>Change Title: </p>
-              <TextField id="filled-basic-Time"
-                         label="Title"
-                         variant="filled"
-                         value={this.state.newTitle}
-                         onChange={e => this.setState({ newTitle: e.target.value })}
-              />
-
-              <br/>
-              <br/>
-
-              <p>Change GPS Coordinates: </p>
-              <div>
-                <div>
-                  <TextField id="filled-basic-Time"
-                             label="Longitude"
-                             variant="filled"
-                             value={this.state.longitude}
-                             onChange={e => this.setState({ longitude: e.target.value })}
-                  />
-                </div>
-                <br/>
-                <div>
-                  <TextField id="filled-basic-Time"
-                             label="Latitude"
-                             variant="filled"
-                             value={this.state.latitude}
-                             onChange={e => this.setState({ latitude: e.target.value })}
-                  />
-                </div>
-              </div>
-              <div>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.getGPSLocation}
-                >Use Phones GPS</Button>
-              </div>
-
-              <br/>
-              <br/>
-
-              <div>
-                <p>Change Picture:  </p>
-                <TextField id="filled-basic-Time"
-                           label="Picture"
-                           variant="filled"
-                           value={this.state.file}
-                           onChange={e => this.setState({ file: e.target.value })}
-                />
-              </div>
-              <div>
-                <h3>Upload a Picture:</h3>
-                <input
-                    type="file"
-                    id="imageFile"
-                    name='imageFile'
-                    onChange={this.imageUpload} />
-                <img src={this.state.file}/>
-              </div>
-
-              <br/>
-              <br/>
-
-              <div>
-                <p>Change Data:  </p>
-                <TextField id="filled-basic-Time"
-                           label="Data"
-                           variant="filled"
-                           value={this.state.Data}
-                           onChange={e => this.setState({ Data: e.target.value })}
-                />
-              </div>
-
-              <br/>
-              <br/>
-
-              <div>
-                <p>Change Infiltrometer Settings:  </p>
-                <TextField id="filled-basic-Time"
-                           label="Data"
-                           variant="filled"
-                           value={this.state.infiltrometerData}
-                           onChange={e => this.setState({ infiltrometerData: e.target.value })}
-                />
-              </div>
-              <br/>
-              <br/>
-              <div align={"center"}>
-                <table>
-                  <tr>
-                    <th>Setting</th>
-                    <th>Number</th>
-                  </tr>
-                  <tr>
-                    <td>Radius: </td>
-                    <td>{this.state.DatabaseData[indexNum].InfiltrometerData.Radius.toString()}</td>
-                  </tr>
-                  <tr>
-                    <td>Alpha: </td>
-                    <td>{this.state.DatabaseData[indexNum].InfiltrometerData.Alpha.toString()}</td>
-                  </tr>
-                  <tr>
-                    <td>n/ho: </td>
-                    <td>{this.state.DatabaseData[indexNum].InfiltrometerData.NperH0.toString()}</td>
-                  </tr>
-                  <tr>
-                    <td>Suction: </td>
-                    <td>{this.state.DatabaseData[indexNum].InfiltrometerData.Suction.toString()}</td>
-                  </tr>
-                </table>
-              </div>
-
-              <br/>
-              <br/>
-
-            </div>
-
-
-            <div>
-              <Table Data={this.state.DatabaseData[indexNum].Data}/>
-            </div>
-
-
-
-            <br/>
-            <br/>
-            <br/>
-            <div>
-              {/*<TestInfiltrometerSettings Data={this.state.DatabaseData[indexNum].infiltrometerData}/>*/}
-            </div>
-            <br/>
-            <br/>
-            <br/>
-          </div>
-      )
-    }
   }
 }
 

@@ -32,10 +32,7 @@ function PreviousData({that}) {
                                    onChange={e => that.setState({ title: e.target.value })}
         /></p>
         <br/>
-        <Button variant="contained"
-                color="primary"
-                onClick={that.ReviewOldData}
-        > Review Old Data </Button>
+        <Link to="/review-data" onClick={that.ReviewOldData}>Review Old Data</Link>
       </div>
       <br/>
       <div align={"center"}>
@@ -47,10 +44,7 @@ function PreviousData({that}) {
 
       <br/>
       <div align={"center"}>
-        <Button variant="contained"
-                color="primary"
-                onClick={that.SwitchToEditingOldData}
-        > Edit Data</Button>
+        <Link to="/edit-data" onClick={that.SwitchToEditingOldData}>Edit Data</Link>
       </div>
 
       <br/>
