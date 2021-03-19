@@ -12,21 +12,19 @@ class RetrivalData extends Component {
             //         { id: 4, Time: 'Asad', Volume: 25}
             //     ]
             // }
-            students: this.props.DatabaseData
+            students: this.props.ReviewOldDataArray
         }
     }
 
     renderTableData() {
 
         return this.state.students.map((student, index) => {
-            const { Title, GPSLocation, Picture, Data, InfiltrometerData} = student //destructuring
+            const { Title, Picture, GPSLocation} = student //destructuring
             return (
                 <tr key={Title}>
                     <td>{Title}</td>
                     <td>{GPSLocation}</td>
-                    <td>{Picture}</td>
-                    <td>{Data.toString()}</td>
-                    <td>{InfiltrometerData.toString()}</td>
+                    <td><img src={Picture} alt="Picture"/></td>
                 </tr>
             )
         })

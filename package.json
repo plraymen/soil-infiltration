@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "prevent-pull-refresh": "^1.0.6",
     "web-vitals": "^1.1.1"
   }
 }

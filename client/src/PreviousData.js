@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 import {AppBar, Button, TextField, Toolbar, Typography} from "@material-ui/core";
 import RetrivalData from './RetrivalData';
 
@@ -14,10 +15,7 @@ function PreviousData({that}) {
                   color="primary"
                   onClick={that.DeleteDatabase}
           >Delete Entire Database </Button>
-          <Button variant="contained"
-                  color="primary"
-                  onClick={that.SwitchToMain}
-          >Return to Main Page </Button>
+          <Link to="/" onClick={that.SwitchToMain}>Return to Main Page</Link>
         </Toolbar>
       </AppBar>
 
@@ -28,10 +26,10 @@ function PreviousData({that}) {
         <h1>View or Edit old Data Values</h1>
 
         <p>Enter Title: <TextField id="Title"
-                                      label="Title"
-                                      variant="filled"
-                                      value={that.state.title}
-                                      onChange={e => that.setState({ title: e.target.value })}
+                                   label="Title"
+                                   variant="filled"
+                                   value={that.state.title}
+                                   onChange={e => that.setState({ title: e.target.value })}
         /></p>
         <br/>
         <Button variant="contained"
@@ -42,9 +40,9 @@ function PreviousData({that}) {
       <br/>
       <div align={"center"}>
         <Button variant="contained"
-                   color="primary"
-                   onClick={that.DeleteOldData}
-      > Delete Old Data</Button>
+                color="primary"
+                onClick={that.DeleteOldData}
+        > Delete Old Data</Button>
       </div>
 
       <br/>
@@ -59,7 +57,8 @@ function PreviousData({that}) {
       <br/>
       <br/>
       <div>
-        <RetrivalData DatabaseData={that.state.DatabaseData}/>
+        <p>{console.log(that.state.ReviewOldDataArray)}</p>
+        <RetrivalData ReviewOldDataArray={that.state.ReviewOldDataArray}/>
       </div>
     </div>
   )

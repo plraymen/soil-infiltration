@@ -12,6 +12,7 @@ function DataComplete({that}) {
           <Typography variant="h5" align='center'>
             Data Gathered
           </Typography>
+
           <Link to="/" onClick={that.resettingToMainPage}>Reset to Main Page</Link>
           <Link to="/" onClick={that.SaveAndExit}>Save & Return to Main Page</Link>
         </Toolbar>
@@ -19,12 +20,12 @@ function DataComplete({that}) {
 
       <div align={"center"}>
         <h3>Add a Title to this Test:
-        <TextField id="filled-basic-Time"
-                   label="Title"
-                   variant="filled"
-                   value={that.state.title}
-                   onChange={e => that.setState({ title: e.target.value })}
-        /></h3>
+          <TextField id="filled-basic-Time"
+                     label="Title"
+                     variant="filled"
+                     value={that.state.title}
+                     onChange={e => that.setState({ title: e.target.value })}
+          /></h3>
       </div>
 
       <br/>
@@ -32,10 +33,20 @@ function DataComplete({that}) {
       <br/>
 
       <div align={"center"}>
+        {/*<div>*/}
+        <h3>Upload a Picture:</h3>
+        {/*  <input  type="file" onChange={that.handleChange}/>*/}
+        {/*  <img src={that.state.file}/>*/}
+        {/*</div>*/}
         <div>
-          <h3>Upload a Picture:</h3>
-          <input  type="file" onChange={that.handleChange}/>
-          <img src={that.state.file}/>
+          <input
+              type="file"
+              id="imageFile"
+              name='imageFile'
+              onChange={that.imageUpload} />
+        </div>
+        <div>
+          <img src={that.state.file} alt="Picture"/>
         </div>
       </div>
 
@@ -56,11 +67,11 @@ function DataComplete({that}) {
         <br/>
         <div>
           <TextField id="filled-basic-Time"
-                   label="Latitude"
-                   variant="filled"
-                   value={that.state.latitude}
-                   onChange={e => that.setState({ latitude: e.target.value })}
-         />
+                     label="Latitude"
+                     variant="filled"
+                     value={that.state.latitude}
+                     onChange={e => that.setState({ latitude: e.target.value })}
+          />
         </div>
         <Button variant="contained"
                 color="primary"
@@ -87,11 +98,42 @@ function DataComplete({that}) {
 
       <br/>
       <br/>
+
+      <div align={"center"}>
+        <table>
+          <tr>
+            <th>Setting</th>
+            <th>Number</th>
+          </tr>
+          <tr>
+            <td>Radius: </td>
+            <td>{that.state.Radius.toString()}</td>
+          </tr>
+          <tr>
+            <td>Alpha: </td>
+            <td>{that.state.Alpha.toString()}</td>
+          </tr>
+          <tr>
+            <td>n/ho: </td>
+            <td>{that.state.NperH0.toString()}</td>
+          </tr>
+          <tr>
+            <td>Suction: </td>
+            <td>{that.state.Suction.toString()}</td>
+          </tr>
+        </table>
+      </div>
+
+      <br/>
       <br/>
 
       <div>
         <Table Data={that.state.Data}/>
       </div>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
     </div>
   )
 }
