@@ -55,3 +55,10 @@ img {
   height: 350px;
   object-fit: cover;
 }
+
+hr {
+  width: 80%;
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(68, 151, 226, 0), rgba(68, 151, 226, 0.75), rgba(68, 151, 226, 0));
+}
