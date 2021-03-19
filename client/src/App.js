@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import './App.css';
 import './button.css';
 import {AppBar, Button, IconButton, Menu, MenuItem, TextField, Toolbar, Typography} from "@material-ui/core";
@@ -7,25 +13,24 @@ import Table from "./table";
 import Timer from "react-compound-timer";
 //import Countdown from "react-countdown";
 import 'prevent-pull-refresh';
-import { CSVLink, CSVDownload } from "react-csv";
-import PDFViewer from 'pdf-viewer-reactjs';
-import pdf from './Mini_Disk_Manual_Web.pdf';
 import Localbase from 'localbase';
-import RetrivalData from './RetrivalData';
-import {ComposableMap, Geographies, Geography, Marker, ZoomableGroup} from "react-simple-maps";
 import noImage from "./noImage.jpg"
 
-import { soilData, suctionData } from "./configSoil";
+import Main from './Main.js'
+import DataGathering from './DataGathering.js'
+import Learn from './Learn.js'
+import LearnInfil from './LearnInfil.js'
+import PreviousData from './PreviousData.js'
+import About from './About.js'
+import DataComplete from './DataComplete.js'
+import ReviewData from './ReviewData.js'
+import Edit from './Edit.js'
 
 let db = new Localbase('db')
 
-const geoUrl = "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
-
 let users = [];
-let indexNum = 0;
 let lon = 0;
 let lat = 0;
-let totalTime = 0;
 
 async function getUsers() {
   try {
@@ -88,7 +93,8 @@ class App extends React.Component {
       C1:0,
       K:0,
       InfiltrometerCalculatioons: [{A:0, C1: 0, K:0}],
-      ReviewOldDataArray: [{Title: 0, GPSLocation: 0, Picture: 0}]
+      ReviewOldDataArray: [{Title: 0, GPSLocation: 0, Picture: 0}],
+      indexNum: 0
     };
 
     this.componentDidMount  = this.componentDidMount.bind(this);
@@ -152,8 +158,6 @@ class App extends React.Component {
       DatabaseData: this.state.DatabaseData = users
     })
 
-    totalTime = 0;
-
     this.setState({
       id: this.state.id = 0,
       time: this.state.time = 0,
@@ -176,6 +180,7 @@ class App extends React.Component {
       latitude: this.state.latitude = 0,
       ReviewOldDataArray: [{Title: 0, GPSLocation: 0, Picture: 0}],
       PageState: this.state.PageState = "MainPage",
+      totalTime: this.state.totalTime = 0
     })
   }
 
@@ -183,16 +188,14 @@ class App extends React.Component {
     getUsers().then(r => "something")
     getUsers().then(r => "something")
     this.setState({
-      DatabaseData: this.state.DatabaseData = users
+      DatabaseData: this.state.DatabaseData = users,
+      totalTime: this.state.totalTime = 0,
+      time: this.state.time = 0
     })
 
-    let joined = this.state.Data.concat({id: this.state.id, Time: totalTime, Sqrt: this.state.sqrtTime, Volume: this.state.initialVolume, Infilt: this.state.infilt});
+    let joined = this.state.Data.concat({id: this.state.id, Time: 0, Sqrt: this.state.sqrtTime, Volume: this.state.initialVolume, Infilt: this.state.infilt});
     this.setState({Data: joined})
     console.log(this.state.Data)
-
-    this.setState({
-      PageState: this.state.PageState = "DataGathering"
-    })
   }
 
   SwitchToDataCompleted() {
@@ -213,9 +216,6 @@ class App extends React.Component {
     this.setState({
       DatabaseData: this.state.DatabaseData = users
     })
-    this.setState({
-      PageState: this.state.PageState = "LearnHowToUsetheApp"
-    })
   }
 
   SwitchToLearnHowToUseTheInfiltrometer() {
@@ -229,7 +229,7 @@ class App extends React.Component {
     })
   }
 
-  async SwitchToPreviousData() {
+  async SwitchToPreviousData( e ) {
     getUsers().then(r => "something")
     getUsers().then(r => "something")
     this.setState({
@@ -242,7 +242,8 @@ class App extends React.Component {
     })
 
     if (this.state.DatabaseData.length < 3) {
-      alert("You have no Previous Data Entries. Please have a minimum of Three Test to view old data.")
+      alert("You have no Previous Data Entries. Please have a minimum of Three Tests to view old data.")
+      e.preventDefault();
     } else {
 
       let joined = [];
@@ -268,7 +269,7 @@ class App extends React.Component {
     }
   }
 
-  SwitchToEditingOldData() {
+  SwitchToEditingOldData( e ) {
     getUsers().then(r => "something")
     getUsers().then(r => "something")
     this.setState({
@@ -276,45 +277,49 @@ class App extends React.Component {
     })
     if (this.state.title === "") {
       alert("You have left the title blank. Please enter information")
+      e.preventDefault();
     } else {
       let confirmation = "no"
       for (let i = 0; i < this.state.DatabaseData.length; i++) {
         if (this.state.DatabaseData[i].Title === this.state.title) {
-          indexNum = i
+          this.setState({
+            indexNum: this.state.indexNum = i
+          })
           confirmation = "yes"
         }
       }
 
-      console.log("IndexNum: " + indexNum)
-      if ((confirmation === "yes") && (this.state.DatabaseData[indexNum].GPSLocation.toString() === "N/A - Not Saved")) {
+      console.log("IndexNum: " + this.state.indexNum)
+      if ((confirmation === "yes") && (this.state.DatabaseData[this.state.indexNum].GPSLocation.toString() === "N/A - Not Saved")) {
         this.setState({
-          title: this.state.title = this.state.DatabaseData[indexNum].Title.toString(),
-          newTitle: this.state.newTitle = this.state.DatabaseData[indexNum].Title.toString(),
-          gpsCoordinates: this.state.gpsCoordinates = this.state.DatabaseData[indexNum].GPSLocation.toString(),
+          title: this.state.title = this.state.DatabaseData[this.state.indexNum].Title.toString(),
+          newTitle: this.state.newTitle = this.state.DatabaseData[this.state.indexNum].Title.toString(),
+          gpsCoordinates: this.state.gpsCoordinates = this.state.DatabaseData[this.state.indexNum].GPSLocation.toString(),
           longitude: this.state.longitude = "N/A - Not Saved",
           latitude: this.state.latitude = "N/A - Not Saved",
-          file: this.state.file = this.state.DatabaseData[indexNum].Picture,
-          Data: this.state.Data = this.state.DatabaseData[indexNum].Data,
-          infiltrometerData: this.state.infiltrometerData = this.state.DatabaseData[indexNum].InfiltrometerData,
+          file: this.state.file = this.state.DatabaseData[this.state.indexNum].Picture,
+          Data: this.state.Data = this.state.DatabaseData[this.state.indexNum].Data,
+          infiltrometerData: this.state.infiltrometerData = this.state.DatabaseData[this.state.indexNum].InfiltrometerData,
           PageState: this.state.PageState = "EditingPage"
         })
-      } else if ((confirmation === "yes") && (this.state.DatabaseData[indexNum].GPSLocation.toString() !== "N/A - Not Saved")) {
-        let arr = this.state.DatabaseData[indexNum].GPSLocation.split(",")
+      } else if ((confirmation === "yes") && (this.state.DatabaseData[this.state.indexNum].GPSLocation.toString() !== "N/A - Not Saved")) {
+        let arr = this.state.DatabaseData[this.state.indexNum].GPSLocation.split(",")
 
         this.setState({
-          title: this.state.title = this.state.DatabaseData[indexNum].Title.toString(),
-          newTitle: this.state.newTitle = this.state.DatabaseData[indexNum].Title.toString(),
-          gpsCoordinates: this.state.gpsCoordinates = this.state.DatabaseData[indexNum].GPSLocation.toString(),
+          title: this.state.title = this.state.DatabaseData[this.state.indexNum].Title.toString(),
+          newTitle: this.state.newTitle = this.state.DatabaseData[this.state.indexNum].Title.toString(),
+          gpsCoordinates: this.state.gpsCoordinates = this.state.DatabaseData[this.state.indexNum].GPSLocation.toString(),
           longitude: this.state.longitude = arr[0],
           latitude: this.state.latitude = arr[1],
-          file: this.state.file = this.state.DatabaseData[indexNum].Picture,
-          Data: this.state.Data = this.state.DatabaseData[indexNum].Data,
-          infiltrometerData: this.state.infiltrometerData = this.state.DatabaseData[indexNum].InfiltrometerData,
+          file: this.state.file = this.state.DatabaseData[this.state.indexNum].Picture,
+          Data: this.state.Data = this.state.DatabaseData[this.state.indexNum].Data,
+          infiltrometerData: this.state.infiltrometerData = this.state.DatabaseData[this.state.indexNum].InfiltrometerData,
           PageState: this.state.PageState = "EditingPage"
         })
       }
       else {
         alert("No Titles Matched Your inputted Text. Please also check Spelling and/or Capitalization (this does matter)")
+        e.preventDefault();
       }
     }
   }
@@ -356,7 +361,7 @@ class App extends React.Component {
 
       //This setting the square root of the time
       this.setState({
-        sqrtTime: this.state.sqrtTime = Math.sqrt(totalTime)
+        sqrtTime: this.state.sqrtTime = Math.sqrt(this.totalTime)
       })
 
       //This is for the infilt calculation
@@ -366,7 +371,7 @@ class App extends React.Component {
 
       let joined = this.state.Data.concat({
         id: this.state.id,
-        Time: totalTime,
+        Time: this.totalTime,
         Sqrt: this.state.sqrtTime,
         Volume: this.state.volume,
         Infilt: this.state.infilt
@@ -380,12 +385,14 @@ class App extends React.Component {
     }
   }
 
-  resettingToMainPage() {
+  resettingToMainPage( e ) {
     let flag = false;
     flag = window.confirm("Are you sure you would like to reset to the main page? This will ERASE ALL DATA that was gathered and will not store any information about the current test.");
 
     if (flag === true) {
       this.SwitchToMain()
+    } else {
+      e.preventDefault();
     }
   }
 
@@ -437,7 +444,7 @@ class App extends React.Component {
     })
   }
 
-  SaveAndExit() {
+  SaveAndExit( e ) {
     getUsers().then(r => "something")
     getUsers().then(r => "something")
     this.setState({
@@ -454,9 +461,10 @@ class App extends React.Component {
 
     if (this.state.title === "") {
       alert("Title must have something filled out")
-
+      e.preventDefault();
     } else if (sameName === "Yes") {
       alert("There is another test with the SAME NAME. Please Choose Another")
+      e.preventDefault();
     }
 
     else if (this.state.file === null && ((this.state.longitude === 0 || this.state.latitude === 0) || (this.state.longitude === "" || this.state.latitude === ""))) {
@@ -591,15 +599,17 @@ class App extends React.Component {
       let confirmation = "no"
       for (let i = 0; i < this.state.DatabaseData.length; i++) {
         if (this.state.DatabaseData[i].Title === this.state.title) {
-          indexNum = i
+          this.setState({
+            indexNum: this.state.indexNum = i
+          })
           confirmation = "yes"
         }
       }
 
-      console.log("IndexNum: " + indexNum)
+      console.log("IndexNum: " + this.state.indexNum)
 
       if (confirmation === "yes") {
-        console.log(this.state.DatabaseData[indexNum].InfiltrometerData)
+        console.log(this.state.DatabaseData[this.state.indexNum].InfiltrometerData)
         this.getGPSLocation();
         this.setState({
           title: this.state.title = "",
@@ -623,20 +633,22 @@ class App extends React.Component {
       let confirmation = "no"
       for (let i = 0; i < this.state.DatabaseData.length; i++) {
         if (this.state.DatabaseData[i].Title === this.state.title) {
-          indexNum = i
+          this.setState({
+            indexNum: this.state.indexNum = i
+          })
           confirmation = "yes"
         }
       }
-      console.log("IndexNum: " + indexNum)
+      console.log("IndexNum: " + this.state.indexNum)
       console.log(this.state.DatabaseData)
       if (confirmation === "yes") {
         let flag = false;
         flag = window.confirm("Are you sure you would like to delete test: " + this.state.title + "? It will ERASE the entry from the current Database.")
 
         if (flag === true) {
-          db.collection('Database').doc({Title: this.state.DatabaseData[indexNum].Title}).delete()
+          db.collection('Database').doc({Title: this.state.DatabaseData[this.state.indexNum].Title}).delete()
           let array = [...this.state.DatabaseData];
-          array.splice(indexNum, 1);
+          array.splice(this.state.indexNum, 1);
           this.setState({DatabaseData: this.state.DatabaseData = array});
           console.log(this.state.DatabaseData)
 
@@ -669,7 +681,7 @@ class App extends React.Component {
     }
   }
 
-  async EditData() {
+  async EditData( e ) {
     getUsers().then(r => "something")
     getUsers().then(r => "something")
     this.setState({
@@ -686,14 +698,16 @@ class App extends React.Component {
     console.log(this.state.DatabaseData)
     if (this.state.newTitle === "") {
       alert("Title must have something filled out")
+      e.preventDefault();
     } else if (sameName === "Yes" && this.state.title !== this.state.newTitle) {
       alert("There is another test with the SAME NAME. Please Choose Another")
+      e.preventDefault();
     }
 
     else if (this.state.file === null && ((this.state.longitude === 0 || this.state.latitude === 0) || (this.state.longitude === "" || this.state.latitude === ""))) {
-      db.collection('Database').doc({ Title: this.state.DatabaseData[indexNum].Title }).delete()
+      db.collection('Database').doc({ Title: this.state.DatabaseData[this.state.indexNum].Title }).delete()
       let array = [...this.state.DatabaseData];
-      array.splice(indexNum, 1);
+      array.splice(this.state.indexNum, 1);
       this.setState({DatabaseData: this.state.DatabaseData = array});
       console.log(this.state.DatabaseData)
 
@@ -716,9 +730,9 @@ class App extends React.Component {
     }
 
     else if (((this.state.longitude === 0 && this.state.latitude === 0) || (this.state.longitude === "" && this.state.latitude === ""))) {
-      db.collection('Database').doc({ Title: this.state.DatabaseData[indexNum].Title }).delete()
+      db.collection('Database').doc({ Title: this.state.DatabaseData[this.state.indexNum].Title }).delete()
       let array = [...this.state.DatabaseData];
-      array.splice(indexNum, 1);
+      array.splice(this.state.indexNum, 1);
       this.setState({DatabaseData: this.state.DatabaseData = array});
       console.log(this.state.DatabaseData)
 
@@ -741,9 +755,9 @@ class App extends React.Component {
     }
 
     else if (((this.state.longitude === 0 || this.state.latitude === 0) || (this.state.longitude === "" || this.state.latitude === "")) && this.state.file !== null) {
-      db.collection('Database').doc({ Title: this.state.DatabaseData[indexNum].Title }).delete()
+      db.collection('Database').doc({ Title: this.state.DatabaseData[this.state.indexNum].Title }).delete()
       let array = [...this.state.DatabaseData];
-      array.splice(indexNum, 1);
+      array.splice(this.state.indexNum, 1);
       this.setState({DatabaseData: this.state.DatabaseData = array});
       console.log(this.state.DatabaseData)
 
@@ -766,9 +780,9 @@ class App extends React.Component {
     }
 
     else if (this.state.file === null) {
-      db.collection('Database').doc({ Title: this.state.DatabaseData[indexNum].Title }).delete()
+      db.collection('Database').doc({ Title: this.state.DatabaseData[this.state.indexNum].Title }).delete()
       let array = [...this.state.DatabaseData];
-      array.splice(indexNum, 1);
+      array.splice(this.state.indexNum, 1);
       this.setState({DatabaseData: this.state.DatabaseData = array});
       console.log(this.state.DatabaseData)
 
@@ -791,9 +805,9 @@ class App extends React.Component {
     }
 
     else {
-      db.collection('Database').doc({ Title: this.state.DatabaseData[indexNum].Title }).delete()
+      db.collection('Database').doc({ Title: this.state.DatabaseData[this.state.indexNum].Title }).delete()
       let array = [...this.state.DatabaseData];
-      array.splice(indexNum, 1);
+      array.splice(this.state.indexNum, 1);
       this.setState({DatabaseData: this.state.DatabaseData = array});
       console.log(this.state.DatabaseData)
 
@@ -886,837 +900,54 @@ class App extends React.Component {
   }
 
   render() {
-    //Login Screen
-    if (this.state.PageState === "MainPage") {
-      return (
-          <div>
-            <div align='center'>
-              <AppBar position="static">
-                <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                  <IconButton edge="start"  color="inherit" aria-label="menu">
-                    <MenuIcon />
-                  </IconButton>
-                  <Typography variant="h5" align='center'>
-                    Welcome to Soil Infiltration App
-                  </Typography>
-                </Toolbar>
-              </AppBar>
-            </div>
-
-
-            <div>
-              <h3 className={"center"}>Start the Program</h3>
-              <div className={"center"}>
-                <TextField id="filled-basic-Time"
-                           label="Time Intervals in Seconds"
-                           variant="filled"
-                           value={this.state.timeInterval}
-                           onChange={e => this.setState({ timeInterval: e.target.value })}
-                />
-              </div>
-              <br/>
-              <div className={"center"}>
-                <TextField id="filled-basic-Initial-Vol"
-                           label="Initial Volume in mL"
-                           variant="filled"
-                           value={this.state.initialVolume}
-                           onChange={e => this.setState({ initialVolume: e.target.value })}
-                />
-              </div>
-              <br/>
-              <br/>
-              <h3 className={"center"}>Enter Infiltrometer Setting</h3>
-              <div className={"center"}>
-                <div>
-                  <h5>Enter Soil Infiltrometer Radius</h5>
-                  <TextField id="filled-basic-Time"
-                             label="Infiltrometer Radius (cm)"
-                             variant="filled"
-                             value={this.state.Radius}
-                             onChange={e => this.setState({ Radius: e.target.value })}
-                  />
-                </div>
-
-                <div>
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectInftiltrometerTypeMiniDisk}
-                  > MiniDisk </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectInftiltrometerTypeMiniDiskV1}
-                  > MiniDisk Version 1 </Button>
-                </div>
-              </div>
-
-              <br/>
-              <div className={"center"}>
-                <div>
-                  <h5>Enter Soil Type - Alpha</h5>
-                  <TextField id="filled-basic-Time"
-                             label="Alpha"
-                             variant="filled"
-                             value={this.state.Alpha}
-                             onChange={e => this.setState({ Alpha: e.target.value })}
-                  />
-                </div>
-                <br/>
-                <div>
-                  <TextField id="filled-basic-Time"
-                             label="n/h0"
-                             variant="filled"
-                             value={this.state.NperH0}
-                             onChange={e => this.setState({ NperH0: e.target.value })}
-                  />
-                </div>
-
-                <div class="buttonContainer">
-                  {soilData.map((data, key) => {
-                    return (
-                        <Button key={key}
-                                variant="contained"
-                                color="primary"
-                                onClick={() => this.selectSoilType(data.Alpha, data.NperH0)}>
-                          {data.name}
-                        </Button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <br/>
-              <br/>
-              <div className={"center"}>
-                <div>
-                  <h5>Enter Suction (cm)</h5>
-                  <TextField id="filled-basic-Time"
-                             label="Suction (cm)"
-                             variant="filled"
-                             value={this.state.Suction}
-                             onChange={e => this.setState({ Suction: e.target.value })}
-                  />
-
-                  <br/>
-
-                  <div class="buttonContainer">
-                    {suctionData.map((data, key) => {
-                      return (
-                          <Button key={key}
-                                  variant="contained"
-                                  color="primary"
-                                  onClick={() => this.selectSoilSuction(data.suction)}>
-                            {Math.abs(data.suction)}
-                          </Button>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-
-              <br/>
-              <br/>
-
-              <div className={"center"}>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToMainToDataGathering}
-                > Start Collecting Data </Button>
-              </div>
-
-              <hr></hr>
-              <h3 className={"center"}>Other Content</h3>
-              <br/>
-              <div className={"center otherContainer"}>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToLearnHowToUseTheApp}
-                > Learn How to Use the App? </Button>
-
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToLearnHowToUseTheInfiltrometer}
-                > Learn How to Use the Infiltrometer? </Button>
-
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToPreviousData}
-                > Previous Test Data </Button>
-
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToAboutUs}
-                > Learn About Us? </Button>
-              </div>
-            </div>
-          </div>
-      )
-    }
-
-    if (this.state.PageState === "DataGathering") {
-      return (
-          <div>
-            <div align='center'>
-              <AppBar position="static">
-                <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                  <h2>Total Time (Seconds): </h2>
-                  <Timer formatValue={e => totalTime = e}
-                         lastUnit={"s"}
-                         initialTime={0}
-                         direction="forward"
-                  >
-                    <Timer.Seconds />  seconds
-                  </Timer>
-                  <Typography variant="h5" align='center'>
-                    Application is Running
-                  </Typography>
-                  <Button variant="contained"
-                          color="primary"
-                  > Reset Time Intervals  </Button>
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.resettingToMainPage}
-                  > Reset to Main Page </Button>
-                </Toolbar>
-              </AppBar>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-            <div align='center'>
-              <Button variant="contained"
-                      color="primary"
-                      onClick={this.SwitchToDataCompleted}
-              > Data Gathering Completed </Button>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-            <div align='center'>
-              <table>
-                <tr>
-                  <td>Time Left in Interval:  </td>
-                  <td><Timer
-                      checkpoints={[ { time: 0, callback: () => this.promptToAddToArray()} ]}
-                      lastUnit={"s"}
-                      initialTime={this.state.timeInterval * 1000}
-                      direction="backward"
-                  >
-                    <Timer.Seconds />  seconds
-                  </Timer></td>
-
-                </tr>
-              </table>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-            <div align='center'>
-              <TextField id="filled-basic-Time"
-                         label="Enter Volumetric Data"
-                         variant="filled"
-                         value={this.state.volume}
-                         onChange={e => this.setState({ volume: e.target.value })}
-              />
-
-              <Button variant="contained"
-                      color="primary"
-                      onClick={this.AddToDataArray}
-              > Submit Volume</Button>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-            <div>
-              <h1 id='title'>Table Data</h1>
-              <table id='students'>
-                <tbody>
-                <tr>{this.renderTableHeader()}</tr>
-                {this.renderTableData()}
-                </tbody>
-              </table>
-            </div>
-            <br/>
-            <br/>
-            <br/>
-
-          </div>
-      )
-    }
-
-    if (this.state.PageState === "DataCompleted") {
-      return (
-          <div>
+    return  (
+      <Router>
+        <div>
+          <div align='center'>
             <AppBar position="static">
               <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
+                <IconButton edge="start"  color="inherit" aria-label="menu">
+                  <MenuIcon />
+                </IconButton>
                 <Typography variant="h5" align='center'>
-                  Data Gathered
+                  Welcome to Soil Infiltration App
                 </Typography>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.resettingToMainPage}
-                > Reset to Main Page </Button>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SaveAndExit}
-                > Save & Return to Main Page </Button>
               </Toolbar>
             </AppBar>
-
-            <div align={"center"}>
-              <h3>Add a Title to this Test:
-                <TextField id="filled-basic-Time"
-                           label="Title"
-                           variant="filled"
-                           value={this.state.title}
-                           onChange={e => this.setState({ title: e.target.value })}
-                /></h3>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-
-            <div align={"center"}>
-              {/*<div>*/}
-              <h3>Upload a Picture:</h3>
-              {/*  <input  type="file" onChange={this.handleChange}/>*/}
-              {/*  <img src={this.state.file}/>*/}
-              {/*</div>*/}
-              <div>
-                <input
-                    type="file"
-                    id="imageFile"
-                    name='imageFile'
-                    onChange={this.imageUpload} />
-              </div>
-              <div>
-                <img src={this.state.file} alt="Picture"/>
-              </div>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-
-            <div align={"center"}>
-              <h3>Enter GPS Location</h3>
-              <div>
-                <TextField id="filled-basic-Time"
-                           label="Longitude"
-                           variant="filled"
-                           value={this.state.longitude}
-                           onChange={e => this.setState({ longitude: e.target.value })}
-                />
-              </div>
-              <br/>
-              <div>
-                <TextField id="filled-basic-Time"
-                           label="Latitude"
-                           variant="filled"
-                           value={this.state.latitude}
-                           onChange={e => this.setState({ latitude: e.target.value })}
-                />
-              </div>
-              <Button variant="contained"
-                      color="primary"
-                      onClick={this.getGPSLocation}
-              >Use Phones GPS</Button>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-
-            <div align={"center"}>
-              <CSVLink
-                  data={this.state.Data}
-                  filename={this.state.title.toString() + ".csv"}
-                  className="btn btn-primary"
-                  target="_blank"
-
-              >
-                Export as CSV File
-
-              </CSVLink>
-            </div>
-
-            <br/>
-            <br/>
-
-            <div align={"center"}>
-              <table>
-                <tr>
-                  <th>Setting</th>
-                  <th>Number</th>
-                </tr>
-                <tr>
-                  <td>Radius: </td>
-                  <td>{this.state.Radius.toString()}</td>
-                </tr>
-                <tr>
-                  <td>Alpha: </td>
-                  <td>{this.state.Alpha.toString()}</td>
-                </tr>
-                <tr>
-                  <td>n/ho: </td>
-                  <td>{this.state.NperH0.toString()}</td>
-                </tr>
-                <tr>
-                  <td>Suction: </td>
-                  <td>{this.state.Suction.toString()}</td>
-                </tr>
-              </table>
-            </div>
-
-            <br/>
-            <br/>
-
-            <div>
-              <Table Data={this.state.Data}/>
-            </div>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
           </div>
-      )
-    }
 
-//----------------------------------------------------------------Other Content---------------------------------------------------//
-    if (this.state.PageState === "LearnHowToUsetheApp") {
-      return (
-          <div>
-            <AppBar position="static">
-              <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                <Typography variant="h5" align='center'>
-                  Learn How to use the App?
-                </Typography>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToMain}
-                >Return to Main Page </Button>
-              </Toolbar>
-            </AppBar>
-
-            <div>
-              <h3><li>Step 1: Enter in Initial Time Interval</li></h3>
-              <h5>NOTE** This is going to start a timer from the selected time intervals defined on the main page. Once the time intervals is over, you will get prompted to enter in your volumetric data. Then the time intervals will reset.</h5>
-              <br/>
-              <br/>
-              <br/>
-              <h3><li>Step 2: Enter your initial volume in Mili-Liters(mL)</li></h3>
-
-              <br/>
-              <br/>
-              <br/>
-              <h3><li>Step 3: Once you click start, a new page will appear and it will prompt you during your session to enter volumetric data. Once time intervals has reached.</li></h3>
-
-              <br/>
-              <br/>
-              <br/>
-              <h3><li>Step 4: Once data gathering has been completed, press on the completed button to view recorded data.</li></h3>
-
-              <br/>
-              <br/>
-              <br/>
-              <h3><li>Step 5: You will be moved to a new page that will show you graphs, table data, and will allow you to export your data as a CSV file (similar to an excel spreadsheet). This will also allow you to upload a picture. As well as type in or use your phones GPS location data.</li></h3>
-              <h5>NOTE** Useing phone GPS Location Data may not be as accurate as using a dedicated GPS device. The Coordinates could very by one meters to a kilometer away.</h5>
-            </div>
-
-          </div>
-      )
-    }
-
-    if (this.state.PageState === "LearnHowToUsetheInfiltrometer") {
-      return (
-          <div>
-            <AppBar position="static">
-              <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                <Typography variant="h5" align='center'>
-                  Learn How to use the Infiltrometer?
-                </Typography>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToMain}
-                >Return to Main Page </Button>
-              </Toolbar>
-            </AppBar>
-
-            <div>
-              <PDFViewer
-                  document={{
-                    url: pdf
-                  }}
-              />
-            </div>
-
-          </div>
-      )
-    }
-
-    if (this.state.PageState === "PeviousTestData") {
-      return (
-          <div>
-            <AppBar position="static">
-              <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                <Typography variant="h5" align='center'>
-                  Previous Test Data
-                </Typography>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.DeleteDatabase}
-                >Delete Entire Database </Button>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToMain}
-                >Return to Main Page </Button>
-              </Toolbar>
-            </AppBar>
-
-            <br/>
-            <br/>
-            <br/>
-            <div className={"center"}>
-              <h1>View or Edit old Data Values</h1>
-
-              <p>Enter Title: <TextField id="Title"
-                                         label="Title"
-                                         variant="filled"
-                                         value={this.state.title}
-                                         onChange={e => this.setState({ title: e.target.value })}
-              /></p>
-              <br/>
-              <Button variant="contained"
-                      color="primary"
-                      onClick={this.ReviewOldData}
-              > Review Old Data </Button>
-            </div>
-            <br/>
-            <div align={"center"}>
-              <Button variant="contained"
-                      color="primary"
-                      onClick={this.DeleteOldData}
-              > Delete Old Data</Button>
-            </div>
-
-            <br/>
-            <div align={"center"}>
-              <Button variant="contained"
-                      color="primary"
-                      onClick={this.SwitchToEditingOldData}
-              > Edit Data</Button>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-            <div>
-              <p>{console.log(this.state.ReviewOldDataArray)}</p>
-              <RetrivalData ReviewOldDataArray={this.state.ReviewOldDataArray}/>
-            </div>
-          </div>
-      )
-    }
-
-    if (this.state.PageState === "AboutUs") {
-      return (
-          <div>
-            <AppBar position="static">
-              <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                <Typography variant="h5" align='center'>
-                  About Us?
-                </Typography>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToMain}
-                >Return to Main Page </Button>
-              </Toolbar>
-            </AppBar>
-
-            <div>
-              <h3>This app will be used throughout a myriad of different scientists with all different agricultural aspects from one single device called a Soil Infiltrometer. A Soil Infiltrometer is a device that will penetrate the ground - it must be conducted in a loamy environment like soil. A user then will pour water through a top funnel that then allows a user to watch it drain through time. A user then will record the time difference (from start) and the recorded volume of water that was lost throughout the process. This is an incremental step that is done in different time based intervals, for example: if a user selects time intervals for every 30 seconds, they will then record the volume lost every 30 seconds until the water drains.</h3>
-              <h3>What this application is doing is allowing a user to get more accurate and precise measurements when it comes to recording information. We will build the app so that it will initially allow the user to set the time intervals they want to, then gets notified when the selected time intervals finally come into fruition. When the user gets notified, it will prompt them to enter the volumetric information that the soil infiltrometer shows (please note that the user will have to manually enter the information in and the time is still static during the interval). The app will show a table below that will dynamically auto-populate the information and create several different charts and graphs based-off of the recorded/calculated values. What this application is doing is allowing a user to get more accurate and precise measurements when it comes to recording information. We will build the app so that it will initially allow the user to set the time intervals they want to, then gets notified when the selected time intervals finally come into fruition. When the user gets notified, it will prompt them to enter the volumetric information that the soil infiltrometer shows (please note that the user will have to manually enter the information in and the time is still static during the interval). The app will show a table below that will dynamically auto-populate the information and create several different charts and graphs based-off of the recorded/calculated values.</h3>
-            </div>
-          </div>
-      )
-    }
-
-    if (this.state.PageState === "ReviewOldDataPage") {
-      return (
-          <div>
-            <AppBar position="static">
-              <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                <Typography variant="h5" align='center'>
-                  Review Old Data
-                </Typography>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToPreviousData}
-                >Return To Previous Data </Button>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.SwitchToMain}
-                >Return to Main Page </Button>
-              </Toolbar>
-            </AppBar>
-
-            <div align={"center"}>
-              <br/>
-              <br/>
-              <br/>
-
-              <p>Title: {this.state.DatabaseData[indexNum].Title}</p>
-              <br/>
-
-              <p>GPS Coordinate: {this.state.DatabaseData[indexNum].GPSLocation}</p>
-              <div>
-                <ComposableMap>
-                  <ZoomableGroup zoom={1}>
-                    <Geographies geography={geoUrl}>
-                      {({ geographies }) =>
-                          geographies.map(geo => (
-                              <Geography key={geo.rsmKey} geography={geo} />
-                          ))
-                      }
-                    </Geographies>
-                    <Marker coordinates={[lon,lat]}>
-                      <circle r={1} fill="#F53" />
-                    </Marker>
-                  </ZoomableGroup>
-                </ComposableMap>
-              </div>
-              <br/>
-
-              <p>Picture</p>
-              <img className={"reviewImg"} src={this.state.DatabaseData[indexNum].Picture} alt="Picture"/>
-              <br/>
-              <br/>
-              <div align={"center"}>
-                <CSVLink
-                    data={this.state.DatabaseData[indexNum].Data}
-                    filename={this.state.DatabaseData[indexNum].Title.toString() + ".csv"}
-                    className="btn btn-primary"
-                    target="_blank"
-
-                >
-                  Export as CSV File
-
-                </CSVLink>
-              </div>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-
-            <div align={"center"}>
-              <table>
-                <tr>
-                  <th>Setting</th>
-                  <th>Number</th>
-                </tr>
-                <tr>
-                  <td>Radius: </td>
-                  <td>{this.state.DatabaseData[indexNum].InfiltrometerData.Radius.toString()}</td>
-                </tr>
-                <tr>
-                  <td>Alpha: </td>
-                  <td>{this.state.DatabaseData[indexNum].InfiltrometerData.Alpha.toString()}</td>
-                </tr>
-                <tr>
-                  <td>n/ho: </td>
-                  <td>{this.state.DatabaseData[indexNum].InfiltrometerData.NperH0.toString()}</td>
-                </tr>
-                <tr>
-                  <td>Suction: </td>
-                  <td>{this.state.DatabaseData[indexNum].InfiltrometerData.Suction.toString()}</td>
-                </tr>
-              </table>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-
-            <div>
-              <Table Data={this.state.DatabaseData[indexNum].Data}/>
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-          </div>
-      )
-    }
-
-    if (this.state.PageState === "EditingPage") {
-      return (
-          <div>
-            <AppBar position="static">
-              <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                <Typography variant="h5" align='center'>
-                  Editing Old Data
-                </Typography>
-
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.resettingToEditingMainPage}
-                >Reset and Return to Main Page </Button>
-
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.EditData}
-                >Save and Return to Main Page </Button>
-
-              </Toolbar>
-            </AppBar>
-
-            <div align={"center"}>
-              <br/>
-              <br/>
-              <br/>
-
-              <p>Change Title: </p>
-              <TextField id="filled-basic-Time"
-                         label="Title"
-                         variant="filled"
-                         value={this.state.newTitle}
-                         onChange={e => this.setState({ newTitle: e.target.value })}
-              />
-
-              <br/>
-              <br/>
-
-              <p>Change GPS Coordinates: </p>
-              <div>
-                <div>
-                  <TextField id="filled-basic-Time"
-                             label="Longitude"
-                             variant="filled"
-                             value={this.state.longitude}
-                             onChange={e => this.setState({ longitude: e.target.value })}
-                  />
-                </div>
-                <br/>
-                <div>
-                  <TextField id="filled-basic-Time"
-                             label="Latitude"
-                             variant="filled"
-                             value={this.state.latitude}
-                             onChange={e => this.setState({ latitude: e.target.value })}
-                  />
-                </div>
-              </div>
-              <div>
-                <Button variant="contained"
-                        color="primary"
-                        onClick={this.getGPSLocation}
-                >Use Phones GPS</Button>
-              </div>
-
-              <br/>
-              <br/>
-
-              <div>
-                <p>Change Picture:  </p>
-                <TextField id="filled-basic-Time"
-                           label="Picture"
-                           variant="filled"
-                           value={this.state.file}
-                           onChange={e => this.setState({ file: e.target.value })}
-                />
-              </div>
-              <div>
-                <h3>Upload a Picture:</h3>
-                <input
-                    type="file"
-                    id="imageFile"
-                    name='imageFile'
-                    onChange={this.imageUpload} />
-                <img src={this.state.file}/>
-              </div>
-
-              <br/>
-              <br/>
-
-              <div>
-                <p>Change Data:  </p>
-                <TextField id="filled-basic-Time"
-                           label="Data"
-                           variant="filled"
-                           value={this.state.Data}
-                           onChange={e => this.setState({ Data: e.target.value })}
-                />
-              </div>
-
-              <br/>
-              <br/>
-
-              <div>
-                <p>Change Infiltrometer Settings:  </p>
-                <TextField id="filled-basic-Time"
-                           label="Data"
-                           variant="filled"
-                           value={this.state.infiltrometerData}
-                           onChange={e => this.setState({ infiltrometerData: e.target.value })}
-                />
-              </div>
-              <br/>
-              <br/>
-              <div align={"center"}>
-                <table>
-                  <tr>
-                    <th>Setting</th>
-                    <th>Number</th>
-                  </tr>
-                  <tr>
-                    <td>Radius: </td>
-                    <td>{this.state.DatabaseData[indexNum].InfiltrometerData.Radius.toString()}</td>
-                  </tr>
-                  <tr>
-                    <td>Alpha: </td>
-                    <td>{this.state.DatabaseData[indexNum].InfiltrometerData.Alpha.toString()}</td>
-                  </tr>
-                  <tr>
-                    <td>n/ho: </td>
-                    <td>{this.state.DatabaseData[indexNum].InfiltrometerData.NperH0.toString()}</td>
-                  </tr>
-                  <tr>
-                    <td>Suction: </td>
-                    <td>{this.state.DatabaseData[indexNum].InfiltrometerData.Suction.toString()}</td>
-                  </tr>
-                </table>
-              </div>
-
-              <br/>
-              <br/>
-
-            </div>
-
-
-            <div>
-              <Table Data={this.state.DatabaseData[indexNum].Data}/>
-            </div>
-
-
-
-            <br/>
-            <br/>
-            <br/>
-            <div>
-              {/*<TestInfiltrometerSettings Data={this.state.DatabaseData[indexNum].infiltrometerData}/>*/}
-            </div>
-            <br/>
-            <br/>
-            <br/>
-          </div>
-      )
-    }
+          <Switch>
+            <Route path="/data-gathering">
+              <DataGathering that={this} />
+            </Route>
+            <Route path="/data-complete">
+              <DataComplete that={this} />
+            </Route>
+            <Route path="/learn-infiltrometer">
+              <LearnInfil that={this} />
+            </Route>
+            <Route path="/learn">
+              <Learn that={this} />
+            </Route>
+            <Route path="/review-data">
+              <ReviewData that={this} />
+            </Route>
+            <Route path="/previous-data">
+              <PreviousData that={this} />
+            </Route>
+            <Route path="/edit-data">
+              <Edit that={this} />
+            </Route>
+            <Route path="/about">
+              <About that={this} />
+            </Route>
+            <Route path="/">
+              <Main that={this} />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    )
   }
 }
 
