@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import './button.css';
 import {AppBar, Button, IconButton, Menu, MenuItem, TextField, Toolbar, Typography} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import Table from "./table";
@@ -13,6 +14,8 @@ import Localbase from 'localbase';
 import RetrivalData from './RetrivalData';
 import {ComposableMap, Geographies, Geography, Marker, ZoomableGroup} from "react-simple-maps";
 import noImage from "./noImage.jpg"
+
+import { soilData, suctionData } from "./configSoil";
 
 let db = new Localbase('db')
 
@@ -111,27 +114,9 @@ class App extends React.Component {
 
     this.selectInftiltrometerTypeMiniDisk = this.selectInftiltrometerTypeMiniDisk.bind(this)
     this.selectInftiltrometerTypeMiniDiskV1 = this.selectInftiltrometerTypeMiniDiskV1.bind(this)
-    this.selectSoilTypeClay = this.selectSoilTypeClay.bind(this)
-    this.selectSoilTypeClayLoam = this.selectSoilTypeClayLoam.bind(this)
-    this.selectSoilTypeLoamySand = this.selectSoilTypeLoamySand.bind(this)
-    this.selectSoilTypeSand = this.selectSoilTypeSand.bind(this)
-    this.selectSoilTypeSandyClay = this.selectSoilTypeSandyClay.bind(this)
-    this.selectSoilTypeSandyClayLoam = this.selectSoilTypeSandyClayLoam.bind(this)
-    this.selectSoilTypeSandyLoam = this.selectSoilTypeSandyLoam.bind(this)
-    this.selectSoilTypeSilt = this.selectSoilTypeSilt.bind(this)
-    this.selectSoilTypeSiltLoam = this.selectSoilTypeSiltLoam.bind(this)
-    this.selectSoilTypeSiltyClay = this.selectSoilTypeSiltyClay.bind(this)
-    this.selectSoilTypeSiltyClayLoam = this.selectSoilTypeSiltyClayLoam.bind(this)
-    this.selectSoilTypeLoamy = this.selectSoilTypeLoamy.bind(this)
 
-    this.selectSoilSuctionTypePoint5 = this.selectSoilSuctionTypePoint5.bind(this)
-    this.selectSoilSuctionType1 = this.selectSoilSuctionType1.bind(this)
-    this.selectSoilSuctionType2 = this.selectSoilSuctionType2.bind(this)
-    this.selectSoilSuctionType3 = this.selectSoilSuctionType3.bind(this)
-    this.selectSoilSuctionType4 = this.selectSoilSuctionType4.bind(this)
-    this.selectSoilSuctionType5 = this.selectSoilSuctionType5.bind(this)
-    this.selectSoilSuctionType6 = this.selectSoilSuctionType6.bind(this)
-    this.selectSoilSuctionType7 = this.selectSoilSuctionType7.bind(this)
+    this.selectSoilType = this.selectSoilType.bind(this)
+    this.selectSoilSuction = this.selectSoilSuction.bind(this)
 
     this.resettingToMainPage = this.resettingToMainPage.bind(this)
     this.resettingToEditingMainPage = this.resettingToEditingMainPage.bind(this)
@@ -205,9 +190,9 @@ class App extends React.Component {
     this.setState({Data: joined})
     console.log(this.state.Data)
 
-      this.setState({
-        PageState: this.state.PageState = "DataGathering"
-      })
+    this.setState({
+      PageState: this.state.PageState = "DataGathering"
+    })
   }
 
   SwitchToDataCompleted() {
@@ -264,9 +249,9 @@ class App extends React.Component {
       for (let i = 0; i < this.state.DatabaseData.length; i++) {
         console.log(i);
         joined.push({
-            Title: this.state.DatabaseData[i].Title,
-            GPSLocation: this.state.DatabaseData[i].GPSLocation,
-            Picture: this.state.DatabaseData[i].Picture
+          Title: this.state.DatabaseData[i].Title,
+          GPSLocation: this.state.DatabaseData[i].GPSLocation,
+          Picture: this.state.DatabaseData[i].Picture
         });
       }
 
@@ -839,9 +824,9 @@ class App extends React.Component {
 
   //For infilt calculations - Select infiltrometer
   selectInftiltrometerTypeMiniDisk() {
-      this.setState({
-        Radius: this.state.Radius = 2.25
-      })
+    this.setState({
+      Radius: this.state.Radius = 2.25
+    })
   }
 
   selectInftiltrometerTypeMiniDiskV1() {
@@ -850,137 +835,16 @@ class App extends React.Component {
     })
   }
 
-  //For infilt Calculations - Select Soil Type
-  selectSoilTypeClay() {
+  selectSoilType(alpha, nper) {
     this.setState({
-      Alpha: this.state.Alpha = .008,
-      NperH0: this.state.NperH0 = 1.9
-    })
+      Alpha: this.state.Alpha = alpha,
+      NperH0: this.state.NperH0 = nper
+    });
   }
 
-  selectSoilTypeClayLoam() {
+  selectSoilSuction(level) {
     this.setState({
-      Alpha: this.state.Alpha = .019,
-      NperH0: this.state.NperH0 = 1.31
-    })
-  }
-
-  selectSoilTypeLoamy() {
-    this.setState({
-      Alpha: this.state.Alpha = .036,
-      NperH0: this.state.NperH0 = 1.56
-    })
-  }
-
-  selectSoilTypeLoamySand() {
-    this.setState({
-      Alpha: this.state.Alpha = .124,
-      NperH0: this.state.NperH0 = 2.28
-    })
-  }
-
-  selectSoilTypeSand() {
-    this.setState({
-      Alpha: this.state.Alpha = .145,
-      NperH0: this.state.NperH0 = 2.68
-    })
-  }
-
-  selectSoilTypeSandyClay() {
-    this.setState({
-      Alpha: this.state.Alpha = .027,
-      NperH0: this.state.NperH0 = 1.23
-    })
-  }
-
-  selectSoilTypeSandyClayLoam() {
-    this.setState({
-      Alpha: this.state.Alpha = .059,
-      NperH0: this.state.NperH0 = 1.48
-    })
-  }
-
-  selectSoilTypeSandyLoam() {
-    this.setState({
-      Alpha: this.state.Alpha = .075,
-      NperH0: this.state.NperH0 = 1.89
-    })
-  }
-
-  selectSoilTypeSilt() {
-    this.setState({
-      Alpha: this.state.Alpha = .016,
-      NperH0: this.state.NperH0 = 1.37
-    })
-  }
-
-  selectSoilTypeSiltLoam() {
-    this.setState({
-      Alpha: this.state.Alpha = .02,
-      NperH0: this.state.NperH0 = 1.41
-    })
-  }
-
-  selectSoilTypeSiltyClay() {
-    this.setState({
-      Alpha: this.state.Alpha = .005,
-      NperH0: this.state.NperH0 = 1.09
-    })
-  }
-
-  selectSoilTypeSiltyClayLoam() {
-    this.setState({
-      Alpha: this.state.Alpha = .01,
-      NperH0: this.state.NperH0 = 1.23
-    })
-  }
-
-  //For Infilt Calculations - Select Suction Type
-  selectSoilSuctionTypePoint5() {
-    this.setState({
-      Suction: this.state.Suction = -.5
-    })
-  }
-
-  selectSoilSuctionType1() {
-    this.setState({
-      Suction: this.state.Suction = -1
-    })
-  }
-
-  selectSoilSuctionType2() {
-    this.setState({
-      Suction: this.state.Suction = -2
-    })
-  }
-
-  selectSoilSuctionType3() {
-    this.setState({
-      Suction: this.state.Suction = -3
-    })
-  }
-
-  selectSoilSuctionType4() {
-    this.setState({
-      Suction: this.state.Suction = -4
-    })
-  }
-
-  selectSoilSuctionType5() {
-    this.setState({
-      Suction: this.state.Suction = -5
-    })
-  }
-
-  selectSoilSuctionType6() {
-    this.setState({
-      Suction: this.state.Suction = -6
-    })
-  }
-
-  selectSoilSuctionType7() {
-    this.setState({
-      Suction: this.state.Suction = -7
+      Suction: level
     })
   }
 
@@ -1107,69 +971,17 @@ class App extends React.Component {
                   />
                 </div>
 
-                <div>
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSiltyClay}
-                  > Clay </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeClayLoam}
-                  > Clay Loam </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeLoamy}
-                  > Loam </Button>
-                </div>
-                <div>
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeLoamySand}
-                  > Loamy Sand </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSand}
-                  > Sand </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSandyClay}
-                  > Sandy Clay </Button>
-                </div>
-                <div>
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSandyClayLoam}
-                  > Sandy Clay Loam </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSandyLoam}
-                  > Sandy Loam </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSilt}
-                  > Silt </Button>
-                </div>
-                <div>
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSiltLoam}
-                  > Silt Loam </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSiltyClay}
-                  > Silty Clay </Button>
-
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={this.selectSoilTypeSiltyClayLoam}
-                  > Silty Clay Loam </Button>
+                <div class="buttonContainer">
+                  {soilData.map((data, key) => {
+                    return (
+                        <Button key={key}
+                                variant="contained"
+                                color="primary"
+                                onClick={() => this.selectSoilType(data.Alpha, data.NperH0)}>
+                          {data.name}
+                        </Button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -1185,41 +997,19 @@ class App extends React.Component {
                              onChange={e => this.setState({ Suction: e.target.value })}
                   />
 
-                  <div>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionTypePoint5}
-                    > 0.5 </Button>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionType1}
-                    > 1 </Button>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionType2}
-                    > 2 </Button>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionType3}
-                    > 3 </Button>
-                  </div>
-                  <div>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionType4}
-                    > 4 </Button>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionType5}
-                    > 5 </Button>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionType6}
-                    > 6 </Button>
-                    <Button variant="contained"
-                            color="primary"
-                            onClick={this.selectSoilSuctionType7}
-                    > 7 </Button>
+                  <br/>
+
+                  <div class="buttonContainer">
+                    {suctionData.map((data, key) => {
+                      return (
+                          <Button key={key}
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => this.selectSoilSuction(data.suction)}>
+                            {Math.abs(data.suction)}
+                          </Button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -1237,28 +1027,22 @@ class App extends React.Component {
               <hr></hr>
               <h3 className={"center"}>Other Content</h3>
               <br/>
-              <div className={"center"}>
+              <div className={"center otherContainer"}>
                 <Button variant="contained"
                         color="primary"
                         onClick={this.SwitchToLearnHowToUseTheApp}
                 > Learn How to Use the App? </Button>
-              </div>
-              <br/>
-              <div className={"center"}>
+
                 <Button variant="contained"
                         color="primary"
                         onClick={this.SwitchToLearnHowToUseTheInfiltrometer}
                 > Learn How to Use the Infiltrometer? </Button>
-              </div>
-              <br/>
-              <div className={"center"}>
+
                 <Button variant="contained"
                         color="primary"
                         onClick={this.SwitchToPreviousData}
                 > Previous Test Data </Button>
-              </div>
-              <br/>
-              <div className={"center"}>
+
                 <Button variant="contained"
                         color="primary"
                         onClick={this.SwitchToAboutUs}
@@ -1277,9 +1061,9 @@ class App extends React.Component {
                 <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
                   <h2>Total Time (Seconds): </h2>
                   <Timer formatValue={e => totalTime = e}
-                      lastUnit={"s"}
-                      initialTime={0}
-                      direction="forward"
+                         lastUnit={"s"}
+                         initialTime={0}
+                         direction="forward"
                   >
                     <Timer.Seconds />  seconds
                   </Timer>
@@ -1310,39 +1094,39 @@ class App extends React.Component {
             <br/>
             <br/>
             <br/>
-          <div align='center'>
-            <table>
-              <tr>
-                <td>Time Left in Interval:  </td>
-                <td><Timer
-                  checkpoints={[ { time: 0, callback: () => this.promptToAddToArray()} ]}
-                  lastUnit={"s"}
-                  initialTime={this.state.timeInterval * 1000}
-                  direction="backward"
-                >
-                  <Timer.Seconds />  seconds
-                </Timer></td>
+            <div align='center'>
+              <table>
+                <tr>
+                  <td>Time Left in Interval:  </td>
+                  <td><Timer
+                      checkpoints={[ { time: 0, callback: () => this.promptToAddToArray()} ]}
+                      lastUnit={"s"}
+                      initialTime={this.state.timeInterval * 1000}
+                      direction="backward"
+                  >
+                    <Timer.Seconds />  seconds
+                  </Timer></td>
 
-              </tr>
-            </table>
-          </div>
+                </tr>
+              </table>
+            </div>
 
             <br/>
             <br/>
             <br/>
-          <div align='center'>
-            <TextField id="filled-basic-Time"
-                       label="Enter Volumetric Data"
-                       variant="filled"
-                       value={this.state.volume}
-                       onChange={e => this.setState({ volume: e.target.value })}
-            />
+            <div align='center'>
+              <TextField id="filled-basic-Time"
+                         label="Enter Volumetric Data"
+                         variant="filled"
+                         value={this.state.volume}
+                         onChange={e => this.setState({ volume: e.target.value })}
+              />
 
-            <Button variant="contained"
-                    color="primary"
-                    onClick={this.AddToDataArray}
-            > Submit Volume</Button>
-          </div>
+              <Button variant="contained"
+                      color="primary"
+                      onClick={this.AddToDataArray}
+              > Submit Volume</Button>
+            </div>
 
             <br/>
             <br/>
@@ -1385,12 +1169,12 @@ class App extends React.Component {
 
             <div align={"center"}>
               <h3>Add a Title to this Test:
-              <TextField id="filled-basic-Time"
-                         label="Title"
-                         variant="filled"
-                         value={this.state.title}
-                         onChange={e => this.setState({ title: e.target.value })}
-              /></h3>
+                <TextField id="filled-basic-Time"
+                           label="Title"
+                           variant="filled"
+                           value={this.state.title}
+                           onChange={e => this.setState({ title: e.target.value })}
+                /></h3>
             </div>
 
             <br/>
@@ -1399,7 +1183,7 @@ class App extends React.Component {
 
             <div align={"center"}>
               {/*<div>*/}
-                <h3>Upload a Picture:</h3>
+              <h3>Upload a Picture:</h3>
               {/*  <input  type="file" onChange={this.handleChange}/>*/}
               {/*  <img src={this.state.file}/>*/}
               {/*</div>*/}
@@ -1409,7 +1193,7 @@ class App extends React.Component {
                     id="imageFile"
                     name='imageFile'
                     onChange={this.imageUpload} />
-                </div>
+              </div>
               <div>
                 <img src={this.state.file} alt="Picture"/>
               </div>
@@ -1432,11 +1216,11 @@ class App extends React.Component {
               <br/>
               <div>
                 <TextField id="filled-basic-Time"
-                         label="Latitude"
-                         variant="filled"
-                         value={this.state.latitude}
-                         onChange={e => this.setState({ latitude: e.target.value })}
-               />
+                           label="Latitude"
+                           variant="filled"
+                           value={this.state.latitude}
+                           onChange={e => this.setState({ latitude: e.target.value })}
+                />
               </div>
               <Button variant="contained"
                       color="primary"
@@ -1601,10 +1385,10 @@ class App extends React.Component {
               <h1>View or Edit old Data Values</h1>
 
               <p>Enter Title: <TextField id="Title"
-                                            label="Title"
-                                            variant="filled"
-                                            value={this.state.title}
-                                            onChange={e => this.setState({ title: e.target.value })}
+                                         label="Title"
+                                         variant="filled"
+                                         value={this.state.title}
+                                         onChange={e => this.setState({ title: e.target.value })}
               /></p>
               <br/>
               <Button variant="contained"
@@ -1615,9 +1399,9 @@ class App extends React.Component {
             <br/>
             <div align={"center"}>
               <Button variant="contained"
-                         color="primary"
-                         onClick={this.DeleteOldData}
-            > Delete Old Data</Button>
+                      color="primary"
+                      onClick={this.DeleteOldData}
+              > Delete Old Data</Button>
             </div>
 
             <br/>
@@ -1830,9 +1614,9 @@ class App extends React.Component {
               </div>
               <div>
                 <Button variant="contained"
-                      color="primary"
-                      onClick={this.getGPSLocation}
-              >Use Phones GPS</Button>
+                        color="primary"
+                        onClick={this.getGPSLocation}
+                >Use Phones GPS</Button>
               </div>
 
               <br/>
