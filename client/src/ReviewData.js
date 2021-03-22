@@ -15,8 +15,12 @@ function ReviewData({that}) {
             <Typography variant="h5" align='center'>
               Review Old Data
             </Typography>
-            <Link to="/previous-data" onClick={that.SwitchToPreviousData}>Return To Previous Data</Link>
-            <Link to="/" onClick={that.SwitchToMain}>Return to Main Page</Link>
+            <Link to="/previous-data" onClick={that.SwitchToPreviousData} style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary">Return To Previous Data</Button>
+            </Link>
+            <Link to="/" onClick={that.SwitchToMain} style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary">Return to Main Page</Button>
+            </Link>
           </Toolbar>
         </AppBar>
 
@@ -51,6 +55,8 @@ function ReviewData({that}) {
           <img className={"reviewImg"} src={that.state.DatabaseData[that.state.indexNum].Picture} alt="Picture"/>
           <br/>
           <br/>
+          <br/>
+          <br/>
           <div align={"center"}>
             <CSVLink
                 data={that.state.DatabaseData[that.state.indexNum].Data}
@@ -59,7 +65,7 @@ function ReviewData({that}) {
                 target="_blank"
 
             >
-              Export as CSV File
+                <Button variant="contained" color="primary">Export as CSV File</Button>
 
             </CSVLink>
           </div>

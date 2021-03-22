@@ -7,14 +7,8 @@ import {
 } from "react-router-dom";
 import './App.css';
 import './button.css';
-import {AppBar, Button, IconButton, Menu, MenuItem, TextField, Toolbar, Typography} from "@material-ui/core";
-import MenuIcon from '@material-ui/icons/Menu';
-import Table from "./table";
-import Timer from "react-compound-timer";
-//import Countdown from "react-countdown";
 import 'prevent-pull-refresh';
 import Localbase from 'localbase';
-import noImage from "./noImage.jpg"
 
 import Main from './Main.js'
 import DataGathering from './DataGathering.js'
@@ -25,6 +19,9 @@ import About from './About.js'
 import DataComplete from './DataComplete.js'
 import ReviewData from './ReviewData.js'
 import Edit from './Edit.js'
+import 'react-simple-drawer/dist/index.css'
+import sound from './Alarm-ClockSound.mp3'
+import {Button} from "@material-ui/core";
 
 let db = new Localbase('db')
 
@@ -94,9 +91,11 @@ class App extends React.Component {
       K:0,
       InfiltrometerCalculatioons: [{A:0, C1: 0, K:0}],
       ReviewOldDataArray: [{Title: 0, GPSLocation: 0, Picture: 0}],
-      indexNum: 0
+      indexNum: 0,
+      play: false,
+      audio: "",
+      isOpen: false
     };
-
     this.componentDidMount  = this.componentDidMount.bind(this);
     this.SwitchToMainToDataGathering = this.SwitchToMainToDataGathering.bind(this);
     this.SwitchToMain = this.SwitchToMain.bind(this);
@@ -127,6 +126,9 @@ class App extends React.Component {
     this.resettingToMainPage = this.resettingToMainPage.bind(this)
     this.resettingToEditingMainPage = this.resettingToEditingMainPage.bind(this)
     this.promptToAddToArray = this.promptToAddToArray.bind(this)
+    this.playAudio = this.playAudio.bind(this)
+    this.openDrawer = this.openDrawer.bind(this)
+    this.closeDrawer = this.closeDrawer.bind(this)
     //this.imageUpload = this.imageUpload.bind(this)
   }
 
@@ -149,6 +151,23 @@ class App extends React.Component {
       lastTouchEnd = now;
     }, false);
 
+    this.state.audio = new Audio(sound)
+    this.state.audio.load()
+  }
+
+  playAudio() {
+    const audioPromise = this.state.audio.play()
+    if (audioPromise !== undefined) {
+      audioPromise
+          .then(_ => {
+            // autoplay started
+          })
+          .catch(err => {
+            // catch dom exception
+            console.info(err)
+          })
+    }
+    this.promptToAddToArray();
   }
 
   SwitchToMain() {
@@ -335,7 +354,8 @@ class App extends React.Component {
     })
   }
 
-  promptToAddToArray(reset) {
+  promptToAddToArray() {
+
     let entered = prompt("Enter Volumetric Data (mL): ", "0");
 
     this.setState({
@@ -873,6 +893,15 @@ class App extends React.Component {
     });
   };
 
+  //_____________________________________________________
+  //Drawer
+  closeDrawer () {
+    this.setState({isOpen: false});
+  }
+
+  openDrawer () {
+    this.setState({isOpen: true});
+  }
 
   //-----------------------------------------------------
   //Re-RenduringTable
@@ -901,22 +930,11 @@ class App extends React.Component {
 
   render() {
     return  (
+    <div>
+      <div>
       <Router>
         <div>
-          <div align='center'>
-            <AppBar position="static">
-              <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                <IconButton edge="start"  color="inherit" aria-label="menu">
-                  <MenuIcon />
-                </IconButton>
-                <Typography variant="h5" align='center'>
-                  Welcome to Soil Infiltration App
-                </Typography>
-              </Toolbar>
-            </AppBar>
-          </div>
-
-          <Switch>
+           <Switch>
             <Route path="/data-gathering">
               <DataGathering that={this} />
             </Route>
@@ -941,12 +959,17 @@ class App extends React.Component {
             <Route path="/about">
               <About that={this} />
             </Route>
+             <Route path="/drawer">
+               <drawer that={this} />
+             </Route>
             <Route path="/">
               <Main that={this} />
             </Route>
           </Switch>
         </div>
       </Router>
+      </div>
+    </div>
     )
   }
 }

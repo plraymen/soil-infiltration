@@ -1,30 +1,31 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {AppBar, Button, TextField, Toolbar, Typography} from "@material-ui/core";
 import Timer from "react-compound-timer";
-import Table from "./table";
 
 function DataGathering({that}) {
   return (
     <div>
       <div align='center'>
         <AppBar position="static">
-          <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-            <h2>Total Time (Seconds): </h2>
+          <Toolbar style={{backgroundColor: '#FFA500'}} variant="dense">
+            <h4>Total Time: </h4>
             <Timer formatValue={e => that.totalTime = e}
                    lastUnit={"s"}
                    initialTime={0}
                    direction="forward"
             >
-              <Timer.Seconds />  seconds
+                <h4><Timer.Seconds /> Sec</h4>
             </Timer>
-            <Typography variant="h5" align='center'>
+              <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}>
               Application is Running
             </Typography>
             <Button variant="contained"
                     color="primary"
             > Reset Time Intervals  </Button>
-            <Link to="/" onClick={that.resettingToMainPage}>Reset to Main Page</Link>
+            <Link to="/" onClick={that.resettingToMainPage} style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary"> Reset to Main Page </Button>
+            </Link>
           </Toolbar>
         </AppBar>
       </div>
@@ -33,7 +34,9 @@ function DataGathering({that}) {
       <br/>
       <br/>
       <div align='center'>
-        <Link to="/data-complete" onClick={that.SwitchToDataCompleted}>Data Gathering Completed</Link>
+        <Link to="/data-complete" onClick={that.SwitchToDataCompleted} style={{ textDecoration: 'none' }}>
+            <Button variant="contained" color="primary">Data Gathering Completed</Button>
+        </Link>
       </div>
 
       <br/>
@@ -44,7 +47,7 @@ function DataGathering({that}) {
           <tr>
             <td>Time Left in Interval:  </td>
             <td><Timer
-                checkpoints={[ { time: 0, callback: () => that.promptToAddToArray()} ]}
+                checkpoints={[ { time: 0, callback: () => that.playAudio()} ]}
                 lastUnit={"s"}
                 initialTime={that.state.timeInterval * 1000}
                 direction="backward"
@@ -88,7 +91,6 @@ function DataGathering({that}) {
       <br/>
       <br/>
       <br/>
-
     </div>
   )
 }

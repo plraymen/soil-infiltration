@@ -13,19 +13,24 @@ function DataComplete({that}) {
             Data Gathered
           </Typography>
 
-          <Link to="/" onClick={that.resettingToMainPage}>Reset to Main Page</Link>
-          <Link to="/" onClick={that.SaveAndExit}>Save & Return to Main Page</Link>
+          <Link to="/" onClick={that.resettingToMainPage} style={{ textDecoration: 'none' }}>
+              <Button variant="contained" color="primary">Reset to Main Page</Button>
+          </Link>
+          <Link to="/" onClick={that.SaveAndExit} style={{ textDecoration: 'none' }}>
+              <Button variant="contained" color="primary">Save & Return to Main Page</Button>
+          </Link>
         </Toolbar>
       </AppBar>
 
       <div align={"center"}>
-        <h3>Add a Title to this Test:
+
+        <h3>Add a Title to this Test</h3>
           <TextField id="filled-basic-Time"
                      label="Title"
                      variant="filled"
                      value={that.state.title}
                      onChange={e => that.setState({ title: e.target.value })}
-          /></h3>
+          />
       </div>
 
       <br/>
@@ -33,11 +38,7 @@ function DataComplete({that}) {
       <br/>
 
       <div align={"center"}>
-        {/*<div>*/}
         <h3>Upload a Picture:</h3>
-        {/*  <input  type="file" onChange={that.handleChange}/>*/}
-        {/*  <img src={that.state.file}/>*/}
-        {/*</div>*/}
         <div>
           <input
               type="file"
@@ -82,7 +83,6 @@ function DataComplete({that}) {
       <br/>
       <br/>
       <br/>
-
       <div align={"center"}>
         <CSVLink
             data={that.state.Data}
@@ -91,7 +91,7 @@ function DataComplete({that}) {
             target="_blank"
 
         >
-          Export as CSV File
+            <Button variant="contained" color="primary">Export as CSV File</Button>
 
         </CSVLink>
       </div>

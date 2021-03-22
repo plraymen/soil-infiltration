@@ -15,7 +15,9 @@ function PreviousData({that}) {
                   color="primary"
                   onClick={that.DeleteDatabase}
           >Delete Entire Database </Button>
-          <Link to="/" onClick={that.SwitchToMain}>Return to Main Page</Link>
+          <Link to="/" onClick={that.SwitchToMain} style={{ textDecoration: 'none' }}>
+              <Button variant="contained" color="primary"> Return to Main Page </Button>
+          </Link>
         </Toolbar>
       </AppBar>
 
@@ -32,7 +34,9 @@ function PreviousData({that}) {
                                    onChange={e => that.setState({ title: e.target.value })}
         /></p>
         <br/>
-        <Link to="/review-data" onClick={that.ReviewOldData}>Review Old Data</Link>
+        <Link to="/review-data" onClick={that.ReviewOldData} style={{ textDecoration: 'none' }}>
+            <Button variant="contained" color="primary">Review Old Data</Button>
+        </Link>
       </div>
       <br/>
       <div align={"center"}>
@@ -44,7 +48,9 @@ function PreviousData({that}) {
 
       <br/>
       <div align={"center"}>
-        <Link to="/edit-data" onClick={that.SwitchToEditingOldData}>Edit Data</Link>
+        <Link to="/edit-data" onClick={that.SwitchToEditingOldData} style={{ textDecoration: 'none' }}>
+            <Button variant="contained" color="primary">Edit Data</Button>
+        </Link>
       </div>
 
       <br/>

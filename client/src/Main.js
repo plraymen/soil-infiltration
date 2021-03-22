@@ -1,12 +1,82 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import {Button, TextField} from "@material-ui/core";
+import Drawer from 'react-simple-drawer'
+import 'react-simple-drawer/dist/index.css'
+
+import {
+    AppBar,
+    Button, Grid,
+    IconButton,
+    InputLabel,
+    MenuItem,
+    Select, SwipeableDrawer,
+    TextField,
+    Toolbar,
+    Typography
+} from "@material-ui/core";
 
 import { soilData, suctionData } from "./configSoil";
+import MenuIcon from "@material-ui/icons/Menu";
+
+const styles = {
+    root: {
+        flexGrow: 1
+    },
+    typography: {
+        flexGrow: 1,
+        align: "center"
+    }
+};
 
 function Main({that}) {
+
+    let backdrop;
+    if(that.state.drawerOpen){
+        // backdrop = <Backdrop close={this.backdropClickHandler}/>;
+    }
+
   return (
     <div>
+    <div>
+        <AppBar position="static" >
+            <Toolbar style={{backgroundColor: '#FFA500'}} variant="dense">
+                <IconButton edge="start"  color="inherit" aria-label="menu" align="left">
+
+                    <Drawer closeIcon={<MenuIcon></MenuIcon>}
+                        cta={<MenuIcon></MenuIcon>}
+                        maskable={true}
+                        placement={"left"}
+                        open={false}
+                    >
+                        <div className={"center"}>
+                            <Link to="/learn" onClick={that.SwitchToLearnHowToUseTheApp} style={{ textDecoration: 'none' }}>
+                                <Button variant="contained" color="primary">Learn How to Use the App?</Button>
+                            </Link>
+                        </div>
+                        <br/>
+                        <div className={"center"}>
+                            <Link to="/learn-infiltrometer" onClick={that.SwitchToLearnHowToUseTheInfiltrometer} style={{ textDecoration: 'none' }}>
+                                <Button variant="contained" color="primary">Learn How to Use the Infiltrometer?</Button>
+                            </Link>
+                        </div>
+                        <br/>
+                        <div className={"center"}>
+                            <Link to="/previous-data" onClick={that.SwitchToPreviousData} style={{ textDecoration: 'none' }}>
+                                <Button variant="contained" color="primary"> Previous Test Data </Button>
+                            </Link>
+                        </div>
+                        <br/>
+                        <div className={"center"}>
+                            <Link to="/about" onClick={that.SwitchToAboutUs} style={{ textDecoration: 'none' }}>
+                                <Button variant="contained" color="primary"> Learn About Us? </Button>
+                            </Link>
+                        </div>
+                    </Drawer>
+                </IconButton>
+                <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}> Welcome to Soil Infiltration App </Typography>
+            </Toolbar>
+        </AppBar>
+    </div>
       <h3 className={"center"}>Start the Program</h3>
       <div className={"center"}>
         <TextField id="filled-basic-Time"
@@ -40,15 +110,17 @@ function Main({that}) {
         </div>
 
         <div>
-          <Button variant="contained"
-                  color="primary"
-                  onClick={that.selectInftiltrometerTypeMiniDisk}
-          > MiniDisk </Button>
-
-          <Button variant="contained"
-                  color="primary"
-                  onClick={that.selectInftiltrometerTypeMiniDiskV1}
-          > MiniDisk Version 1 </Button>
+            <InputLabel>Select a Value</InputLabel>
+            <Select defaultValue={"Main"} labelId="label" id="select" value="20">
+                <MenuItem id={"Main"} variant="contained"
+                        color="primary"
+                        onClick={that.selectInftiltrometerTypeMiniDisk}
+                > MiniDisk </MenuItem>
+                <MenuItem variant="contained"
+                        color="primary"
+                        onClick={that.selectInftiltrometerTypeMiniDiskV1}
+                > MiniDisk Version 1 </MenuItem>
+            </Select>
         </div>
       </div>
 
@@ -73,18 +145,22 @@ function Main({that}) {
           />
         </div>
 
-        <div class="buttonContainer">
-          {soilData.map((data, key) => {
-            return (
-                <Button key={key}
-                        variant="contained"
-                        color="primary"
-                        onClick={() => that.selectSoilType(data.Alpha, data.NperH0)}>
-                  {data.name}
-                </Button>
-            );
-          })}
-        </div>
+          <div>
+              <InputLabel>Select a Value</InputLabel>
+              <Select defaultValue={Select} labelId="label" id="select">
+                  {soilData.map((data, key) => {
+                      return (
+                          <MenuItem defaultValue={"Clay"} key={key}
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => that.selectSoilType(data.Alpha, data.NperH0)}>
+                              {data.name}
+                          </MenuItem>
+                      );
+                  })}
+
+              </Select>
+          </div>
       </div>
 
       <br/>
@@ -102,16 +178,19 @@ function Main({that}) {
           <br/>
 
           <div class="buttonContainer">
-            {suctionData.map((data, key) => {
-              return (
-                  <Button key={key}
-                          variant="contained"
-                          color="primary"
-                          onClick={() => that.selectSoilSuction(data.suction)}>
-                    {Math.abs(data.suction)}
-                  </Button>
-              );
-            })}
+            <InputLabel>Select a Value</InputLabel>
+            <Select labelId="label" id="select" value={"Clay"} defaultValue={"Clay"}>
+                {suctionData.map((data, key) => {
+                  return (
+                      <MenuItem key={key}
+                              variant="contained"
+                              color="primary"
+                              onClick={() => that.selectSoilSuction(data.suction)}>
+                        {Math.abs(data.suction)}
+                      </MenuItem>
+                  );
+                })}
+            </Select>
           </div>
         </div>
       </div>
@@ -120,27 +199,14 @@ function Main({that}) {
       <br/>
 
       <div className={"center"}>
-        <Link onClick={that.SwitchToMainToDataGathering} to="/data-gathering">Start Collecting Data</Link>
+        <Link onClick={that.SwitchToMainToDataGathering} to="/data-gathering" style={{ textDecoration: 'none' }}>
+            <Button variant="contained" color="primary"> Start Collecting Data</Button>
+        </Link>
       </div>
-
-      <hr></hr>
-      <h3 className={"center"}>Other Content</h3>
-      <br/>
-      <div className={"center"}>
-        <Link to="/learn" onClick={that.SwitchToLearnHowToUseTheApp}>Learn How to Use the App?</Link>
-      </div>
-      <br/>
-      <div className={"center"}>
-        <Link to="/learn-infiltrometer" onClick={that.SwitchToLearnHowToUseTheInfiltrometer}>Learn How to Use the Infiltrometer?</Link>
-      </div>
-      <br/>
-      <div className={"center"}>
-        <Link to="/previous-data" onClick={that.SwitchToPreviousData}>Previous Test Data</Link>
-      </div>
-      <br/>
-      <div className={"center"}>
-        <Link to="/about" onClick={that.SwitchToAboutUs}>Learn About Us?</Link>
-      </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
     </div>
   )
 }
