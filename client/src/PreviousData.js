@@ -2,37 +2,25 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import {AppBar, Button, TextField, Toolbar, Typography} from "@material-ui/core";
 import RetrivalData from './RetrivalData';
+import OtherContent from "./OtherContent";
 
 function PreviousData({that}) {
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-          <Typography variant="h5" align='center'>
-            Previous Test Data
-          </Typography>
-          <Button variant="contained"
-                  color="primary"
-                  onClick={that.DeleteDatabase}
-          >Delete Entire Database </Button>
-          <Link to="/" onClick={that.SwitchToMain} style={{ textDecoration: 'none' }}>
-              <Button variant="contained" color="primary"> Return to Main Page </Button>
-          </Link>
-        </Toolbar>
-      </AppBar>
-
-      <br/>
-      <br/>
-      <br/>
+        <OtherContent/>
+        {that.SwitchToPreviousData}
       <div className={"center"}>
         <h1>View or Edit old Data Values</h1>
 
-        <p>Enter Title: <TextField id="Title"
+        <p>Enter Test Title</p>
+
+            <TextField id="Title"
                                    label="Title"
                                    variant="filled"
                                    value={that.state.title}
                                    onChange={e => that.setState({ title: e.target.value })}
-        /></p>
+        />
+        <br/>
         <br/>
         <Link to="/review-data" onClick={that.ReviewOldData} style={{ textDecoration: 'none' }}>
             <Button variant="contained" color="primary">Review Old Data</Button>
@@ -45,6 +33,12 @@ function PreviousData({that}) {
                 onClick={that.DeleteOldData}
         > Delete Old Data</Button>
       </div>
+        <br/>
+        <div align={"center"}>
+            <Link to="/" onClick={that.DeleteDatabase} style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary"> Delete Entire Database </Button>
+            </Link>
+        </div>
 
       <br/>
       <div align={"center"}>
@@ -53,13 +47,37 @@ function PreviousData({that}) {
         </Link>
       </div>
 
-      <br/>
+        <br/>
+        <br/>
+
+        <hr></hr>
+        <div align={"center"}>
+            <h3>Having Trouble Seeing Old Data? Or The Table is not Populated?</h3>
+            <Link to="/previous-data" onClick={that.SwitchToPreviousData} style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary"> Refresh Table </Button>
+            </Link>
+        </div>
+
+        <hr></hr>
       <br/>
       <br/>
       <div>
         <p>{console.log(that.state.ReviewOldDataArray)}</p>
-        <RetrivalData ReviewOldDataArray={that.state.ReviewOldDataArray}/>
+        {/*<RetrivalData ReviewOldDataArray={that.state.ReviewOldDataArray}/>*/}
+          <div>
+              <h1 id='title'>Previous Test Data</h1>
+              <table id='students'>
+                  <tbody>
+                  <tr>{that.renderPreviousTableHeader()}</tr>
+                  {that.renderPreviousTableData()}
+                  </tbody>
+              </table>
+          </div>
       </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
     </div>
   )
 }

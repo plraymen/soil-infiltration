@@ -1,20 +1,23 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import {AppBar, Button, Toolbar, Typography} from "@material-ui/core";
+import OtherContent from "./OtherContent";
 
 function About({that}) {
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-          <Typography variant="h5" align='center'>
-            About Us?
-          </Typography>
-            <Link to="/" onClick={that.SwitchToMain} style={{ textDecoration: 'none' }}>
-                <Button variant="contained" color="primary">Return to Main Page</Button>
-            </Link>
-        </Toolbar>
-      </AppBar>
+      {/*<AppBar position="static">*/}
+      {/*  <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>*/}
+      {/*    <Typography variant="h5" align='center'>*/}
+      {/*      About Us?*/}
+      {/*    </Typography>*/}
+      {/*      <Link to="/" onClick={that.SwitchToMain} style={{ textDecoration: 'none' }}>*/}
+      {/*          <Button variant="contained" color="primary">Return to Main Page</Button>*/}
+      {/*      </Link>*/}
+      {/*  </Toolbar>*/}
+      {/*</AppBar>*/}
+
+      <OtherContent></OtherContent>
 
       <div>
         <h3>This app will be used throughout a myriad of different scientists with all different agricultural aspects from one single device called a Soil Infiltrometer. A Soil Infiltrometer is a device that will penetrate the ground - it must be conducted in a loamy environment like soil. A user then will pour water through a top funnel that then allows a user to watch it drain through time. A user then will record the time difference (from start) and the recorded volume of water that was lost throughout the process. This is an incremental step that is done in different time based intervals, for example: if a user selects time intervals for every 30 seconds, they will then record the volume lost every 30 seconds until the water drains.</h3>

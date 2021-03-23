@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import Drawer from 'react-simple-drawer'
-import 'react-simple-drawer/dist/index.css'
+import OtherContent from "./OtherContent";
+
 
 import {
     AppBar,
@@ -17,65 +17,15 @@ import {
 
 import { soilData, suctionData } from "./configSoil";
 import MenuIcon from "@material-ui/icons/Menu";
+import Timer from "react-compound-timer";
 
-const styles = {
-    root: {
-        flexGrow: 1
-    },
-    typography: {
-        flexGrow: 1,
-        align: "center"
-    }
-};
 
 function Main({that}) {
-
-    let backdrop;
-    if(that.state.drawerOpen){
-        // backdrop = <Backdrop close={this.backdropClickHandler}/>;
-    }
 
   return (
     <div>
     <div>
-        <AppBar position="static" >
-            <Toolbar style={{backgroundColor: '#FFA500'}} variant="dense">
-                <IconButton edge="start"  color="inherit" aria-label="menu" align="left">
-
-                    <Drawer closeIcon={<MenuIcon></MenuIcon>}
-                        cta={<MenuIcon></MenuIcon>}
-                        maskable={true}
-                        placement={"left"}
-                        open={false}
-                    >
-                        <div className={"center"}>
-                            <Link to="/learn" onClick={that.SwitchToLearnHowToUseTheApp} style={{ textDecoration: 'none' }}>
-                                <Button variant="contained" color="primary">Learn How to Use the App?</Button>
-                            </Link>
-                        </div>
-                        <br/>
-                        <div className={"center"}>
-                            <Link to="/learn-infiltrometer" onClick={that.SwitchToLearnHowToUseTheInfiltrometer} style={{ textDecoration: 'none' }}>
-                                <Button variant="contained" color="primary">Learn How to Use the Infiltrometer?</Button>
-                            </Link>
-                        </div>
-                        <br/>
-                        <div className={"center"}>
-                            <Link to="/previous-data" onClick={that.SwitchToPreviousData} style={{ textDecoration: 'none' }}>
-                                <Button variant="contained" color="primary"> Previous Test Data </Button>
-                            </Link>
-                        </div>
-                        <br/>
-                        <div className={"center"}>
-                            <Link to="/about" onClick={that.SwitchToAboutUs} style={{ textDecoration: 'none' }}>
-                                <Button variant="contained" color="primary"> Learn About Us? </Button>
-                            </Link>
-                        </div>
-                    </Drawer>
-                </IconButton>
-                <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}> Welcome to Soil Infiltration App </Typography>
-            </Toolbar>
-        </AppBar>
+        <OtherContent></OtherContent>
     </div>
       <h3 className={"center"}>Start the Program</h3>
       <div className={"center"}>
@@ -127,7 +77,7 @@ function Main({that}) {
       <br/>
       <div className={"center"}>
         <div>
-          <h5>Enter Soil Type - Alpha</h5>
+          <h5>Enter Soil Type - Alpha and n/h0</h5>
           <TextField id="filled-basic-Time"
                      label="Alpha"
                      variant="filled"
@@ -144,7 +94,6 @@ function Main({that}) {
                      onChange={e => that.setState({ NperH0: e.target.value })}
           />
         </div>
-
           <div>
               <InputLabel>Select a Value</InputLabel>
               <Select defaultValue={Select} labelId="label" id="select">
@@ -163,7 +112,6 @@ function Main({that}) {
           </div>
       </div>
 
-      <br/>
       <br/>
       <div className={"center"}>
         <div>

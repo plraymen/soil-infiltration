@@ -19,10 +19,10 @@ import About from './About.js'
 import DataComplete from './DataComplete.js'
 import ReviewData from './ReviewData.js'
 import Edit from './Edit.js'
-import 'react-simple-drawer/dist/index.css'
 import sound from './Alarm-ClockSound.mp3'
-import {Button} from "@material-ui/core";
+import OtherContent from "./OtherContent";
 
+let playSound = false;
 let db = new Localbase('db')
 
 let users = [];
@@ -70,6 +70,7 @@ class App extends React.Component {
       time: 0,
       timeInterval: 30,
       initialVolume: 95,
+      audio: "",
       volume: 0,
       Data: [],
       title: "",
@@ -93,8 +94,9 @@ class App extends React.Component {
       ReviewOldDataArray: [{Title: 0, GPSLocation: 0, Picture: 0}],
       indexNum: 0,
       play: false,
-      audio: "",
-      isOpen: false
+      isOpen: false,
+      visible: false,
+      position: 'left'
     };
     this.componentDidMount  = this.componentDidMount.bind(this);
     this.SwitchToMainToDataGathering = this.SwitchToMainToDataGathering.bind(this);
@@ -127,9 +129,8 @@ class App extends React.Component {
     this.resettingToEditingMainPage = this.resettingToEditingMainPage.bind(this)
     this.promptToAddToArray = this.promptToAddToArray.bind(this)
     this.playAudio = this.playAudio.bind(this)
-    this.openDrawer = this.openDrawer.bind(this)
-    this.closeDrawer = this.closeDrawer.bind(this)
-    //this.imageUpload = this.imageUpload.bind(this)
+    this.loadTable = this.loadTable.bind(this)
+
   }
 
   componentDidMount  () {
@@ -153,21 +154,23 @@ class App extends React.Component {
 
     this.state.audio = new Audio(sound)
     this.state.audio.load()
+    this.loadTable()
   }
 
   playAudio() {
-    const audioPromise = this.state.audio.play()
-    if (audioPromise !== undefined) {
-      audioPromise
-          .then(_ => {
-            // autoplay started
-          })
-          .catch(err => {
-            // catch dom exception
-            console.info(err)
-          })
-    }
-    this.promptToAddToArray();
+    this.state.audio = new Audio(sound)
+    this.state.audio.load()
+    this.loadTable()
+    this.state.audio.play()
+    playSound = true;
+  }
+
+  loadTable() {
+    getUsers().then(r => "something")
+    getUsers().then(r => "something")
+    this.setState({
+      DatabaseData: this.state.DatabaseData = users
+    })
   }
 
   SwitchToMain() {
@@ -201,9 +204,11 @@ class App extends React.Component {
       PageState: this.state.PageState = "MainPage",
       totalTime: this.state.totalTime = 0
     })
+    this.loadTable();
   }
 
   SwitchToMainToDataGathering() {
+    this.loadTable()
     getUsers().then(r => "something")
     getUsers().then(r => "something")
     this.setState({
@@ -249,6 +254,8 @@ class App extends React.Component {
   }
 
   async SwitchToPreviousData( e ) {
+    this.loadTable();
+    this.loadTable();
     getUsers().then(r => "something")
     getUsers().then(r => "something")
     this.setState({
@@ -259,9 +266,8 @@ class App extends React.Component {
     this.setState({
       DatabaseData: this.state.DatabaseData = users
     })
-
-    if (this.state.DatabaseData.length < 3) {
-      alert("You have no Previous Data Entries. Please have a minimum of Three Tests to view old data.")
+    if (this.state.DatabaseData.length < 1) {
+      alert("You have no Previous Data Entries. Please have a minimum of One Tests to view old data.")
       e.preventDefault();
     } else {
 
@@ -355,9 +361,7 @@ class App extends React.Component {
   }
 
   promptToAddToArray() {
-
     let entered = prompt("Enter Volumetric Data (mL): ", "0");
-
     this.setState({
       volume: this.state.volume = entered
     })
@@ -368,6 +372,9 @@ class App extends React.Component {
   }
 
   AddToDataArray() {
+    // this.setState({
+    //   volume: num
+    // })
     if (this.state.volume === "") {
       alert("Volumetric Data is Empty, Please Enter a number in the given text field.")
     } else {
@@ -608,6 +615,7 @@ class App extends React.Component {
   //-------------------------------------------------------------------------------------------------------------------//
 
   async ReviewOldData() {
+    this.loadTable();
     getUsers().then(r => "something")
     getUsers().then(r => "something")
     this.setState({
@@ -683,7 +691,7 @@ class App extends React.Component {
     }
   }
 
-  async DeleteDatabase() {
+  async DeleteDatabase(e) {
     getUsers().then(r => "something")
     getUsers().then(r => "something")
     this.setState({
@@ -893,16 +901,6 @@ class App extends React.Component {
     });
   };
 
-  //_____________________________________________________
-  //Drawer
-  closeDrawer () {
-    this.setState({isOpen: false});
-  }
-
-  openDrawer () {
-    this.setState({isOpen: true});
-  }
-
   //-----------------------------------------------------
   //Re-RenduringTable
   renderTableData() {
@@ -928,9 +926,38 @@ class App extends React.Component {
     })
   }
 
+  //-----------------------------------------------------
+  //Render Previous Data
+  renderPreviousTableData() {
+
+    return this.state.ReviewOldDataArray.map((student, index) => {
+      const { Title, Picture, GPSLocation} = student //destructuring
+      return (
+          <tr key={Title}>
+            <td>{Title}</td>
+            <td>{GPSLocation}</td>
+            <td><img src={Picture} alt="Picture"/></td>
+          </tr>
+      )
+    })
+  }
+
+  renderPreviousTableHeader() {
+    let header = Object.keys(this.state.ReviewOldDataArray[0])
+    return header.map((key, index) => {
+      return <th key={index}>{key.toUpperCase()}</th>
+    })
+  }
+
+  //-----------------------------------------------------
+  //Rendering Model
+
   render() {
+
     return  (
     <div>
+      <div>
+      </div>
       <div>
       <Router>
         <div>
@@ -959,8 +986,8 @@ class App extends React.Component {
             <Route path="/about">
               <About that={this} />
             </Route>
-             <Route path="/drawer">
-               <drawer that={this} />
+             <Route path="/responsiveDrawer">
+               <OtherContent that={this} />
              </Route>
             <Route path="/">
               <Main that={this} />

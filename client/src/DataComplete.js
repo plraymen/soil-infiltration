@@ -8,20 +8,26 @@ function DataComplete({that}) {
   return (
     <div>
       <AppBar position="static">
-        <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-          <Typography variant="h5" align='center'>
-            Data Gathered
+        <Toolbar variant="dense">
+          <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}>
+            Data Gathered: Application Completed
           </Typography>
-
-          <Link to="/" onClick={that.resettingToMainPage} style={{ textDecoration: 'none' }}>
-              <Button variant="contained" color="primary">Reset to Main Page</Button>
-          </Link>
-          <Link to="/" onClick={that.SaveAndExit} style={{ textDecoration: 'none' }}>
-              <Button variant="contained" color="primary">Save & Return to Main Page</Button>
-          </Link>
         </Toolbar>
       </AppBar>
-
+        <br/>
+        <br/>
+        <div align={"center"}>
+        <Link to="/" onClick={that.resettingToMainPage} style={{ textDecoration: 'none' }}>
+            <Button variant="contained" color="primary">Reset to Main Page</Button>
+        </Link>
+        </div>
+        <br/>
+        <div align={"center"}>
+        <Link to="/" onClick={that.SaveAndExit} style={{ textDecoration: 'none' }}>
+            <Button variant="contained" color="primary">Save & Return to Main Page</Button>
+        </Link>
+        </div>
+        <br/>
       <div align={"center"}>
 
         <h3>Add a Title to this Test</h3>

@@ -1,20 +1,22 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import {AppBar, Button, Toolbar, Typography} from "@material-ui/core";
+import OtherContent from "./OtherContent";
 
 function Learn({that}) {
       return (
           <div>
-            <AppBar position="static">
-              <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-                <Typography variant="h5" align='center'>
-                  Learn How to use the App?
-                </Typography>
-                <Link to="/" onClick={that.SwitchToMain} style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" color="primary">Return to Main Page</Button>
-                </Link>
-              </Toolbar>
-            </AppBar>
+            <OtherContent></OtherContent>
+            {/*<AppBar position="static">*/}
+            {/*  <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>*/}
+            {/*    <Typography variant="h5" align='center'>*/}
+            {/*      Learn How to use the App?*/}
+            {/*    </Typography>*/}
+            {/*    <Link to="/" onClick={that.SwitchToMain} style={{ textDecoration: 'none' }}>*/}
+            {/*        <Button variant="contained" color="primary">Return to Main Page</Button>*/}
+            {/*    </Link>*/}
+            {/*  </Toolbar>*/}
+            {/*</AppBar>*/}
 
             <div>
               <h3><li>Step 1: Enter in Initial Time Interval</li></h3>
