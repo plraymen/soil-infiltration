@@ -16,8 +16,6 @@ import {
 } from "@material-ui/core";
 
 import { soilData, suctionData } from "./configSoil";
-import MenuIcon from "@material-ui/icons/Menu";
-import Timer from "react-compound-timer";
 
 
 function Main({that}) {

@@ -1,43 +1,89 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import {AppBar, Button, TextField, Toolbar, Typography} from "@material-ui/core";
 import Table from "./table";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import CloseIcon from "@material-ui/icons/Close";
+import ListItemText from "@material-ui/core/ListItemText";
 
 function Edit({that}) {
+  //-------------------------------------------------------------------------------------------------//
+  //Drawer
+  let index = 0;
+
+  const Name = [
+    {id: 0, name: "Editing Old Data: "},
+  ]
+
+  let currentWindow = window.location.pathname;
+  if (currentWindow === "/") {
+    index = 0;
+  }
+
+  const Categories =
+      [
+        {id: " Save Changes and Return to Main Page", location: "/", command: that.EditData, number: 0},
+        {id: " Reset and Return to Main Page", location: "/", command: that.resettingToEditingMainPage, number: 1},
+      ]
+
+  const [openModel, setOpenModal] = React.useState(false);
+  const handleDrawerOpen = () => {
+    setOpenModal(true);
+  };
+  const handleDrawerClose = () => {
+    setOpenModal(false);
+  };
+
+  //------------------------------------------------------------------------------------------------//
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar variant="dense">
-          <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}>
-            Editing Old Data
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <div>
+        <CssBaseline />
+        <AppBar position="static">
+          <Toolbar variant="dense">
+            <IconButton color="inherit" onClick={handleDrawerOpen} edge="start">
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}> {Name[index].name} {that.state.DatabaseData[that.state.indexNum].Title} </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer variant="persistent" anchor="left" open={openModel}>
+          <List>
+            <ListItem button key="home" onClick={handleDrawerClose}>
+              <ListItemIcon>
+                <CloseIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Close" />
+            </ListItem>
+            <List>
+              {Categories.map((id, command) => (
+                  <ListItem button component={NavLink} to={id.location} onClick={id.command} activeClassName="Mui-selected" exact>
+                    <ListItemText primary={id.id} />
+                  </ListItem>
+              ))}
+            </List>
+          </List>
+        </Drawer>
+        <main style={{ marginTop: 50 }}>
+        </main>
+      </div>
 
       <div align={"center"}>
-        <br/>
-        <div>
-          <Link to="/" onClick={that.resettingToEditingMainPage} style={{ textDecoration: 'none' }}>
-            <Button variant="contained" color="primary">Reset and Return to Main Page</Button>
-          </Link>
-        </div>
-        <br/>
-        <div>
-        <Link to="/" onClick={that.EditData} style={{ textDecoration: 'none' }}>
-          <Button variant="contained" color="primary">Save Changes and Return to Main Page</Button>
-        </Link>
-        </div>
-
-        <br/>
-        <br/>
-
         <p>Change Title: </p>
+        <div>
         <TextField id="filled-basic-Time"
                    label="Title"
                    variant="filled"
                    value={that.state.newTitle}
                    onChange={e => that.setState({ newTitle: e.target.value })}
         />
+        </div>
 
         <br/>
         <br/>
@@ -83,12 +129,15 @@ function Edit({that}) {
         </div>
         <div>
           <h3>Upload a Picture:</h3>
-          <input
+          <div><input
               type="file"
               id="imageFile"
               name='imageFile'
               onChange={that.imageUpload} />
+          </div>
+           <div>
           <img src={that.state.file}/>
+           </div>
         </div>
 
         <br/>

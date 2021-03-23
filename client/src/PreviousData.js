@@ -33,12 +33,6 @@ function PreviousData({that}) {
                 onClick={that.DeleteOldData}
         > Delete Old Data</Button>
       </div>
-        <br/>
-        <div align={"center"}>
-            <Link to="/" onClick={that.DeleteDatabase} style={{ textDecoration: 'none' }}>
-                <Button variant="contained" color="primary"> Delete Entire Database </Button>
-            </Link>
-        </div>
 
       <br/>
       <div align={"center"}>
@@ -59,6 +53,14 @@ function PreviousData({that}) {
         </div>
 
         <hr></hr>
+
+        <br/>
+        <div align={"center"}>
+            <Link to="/" onClick={that.DeleteDatabase} style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="secondary"> Delete Entire Database </Button>
+            </Link>
+        </div>
+
       <br/>
       <br/>
       <div>

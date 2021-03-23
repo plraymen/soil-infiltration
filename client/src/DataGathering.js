@@ -1,7 +1,17 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import {AppBar, Button, TextField, Toolbar, Typography, makeStyles, Modal} from "@material-ui/core";
 import Timer from "react-compound-timer";
+import DataGatheringDrawer from './DataGatheringDrawer'
+import CssBaseline from "@material-ui/core/CssBaseline";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import CloseIcon from "@material-ui/icons/Close";
+import ListItemText from "@material-ui/core/ListItemText";
 
 const tiRef = React.createRef();
 function getModalStyle() {
@@ -63,17 +73,71 @@ function DataGathering({that}) {
         </div>
     );
 
+    //-------------------------------------------------------------------------------------------------//
+    //Drawer
+    let index = 0;
+
+    const Name = [
+        {id: 0, name: "Data Collecting: Application is Running"},
+    ]
+
+    let currentWindow = window.location.pathname;
+    if (currentWindow === "/") {
+        index = 0;
+    }
+
+    const Categories =
+        [
+            {id: " Data Gathering Completed", location: "/data-complete", command: that.SwitchToDataCompleted, number: 0},
+            {id: " Reset to Main Page", location: "/", command: that.resettingToMainPage, number: 1},
+        ]
+
+    const [openModel, setOpenModal] = React.useState(false);
+    const handleDrawerOpen = () => {
+        setOpenModal(true);
+    };
+    const handleDrawerClose = () => {
+        setOpenModal(false);
+    };
+
+    //------------------------------------------------------------------------------------------------//
+
   return (
     <div>
-      <div align='center'>
-        <AppBar position="static">
-          <Toolbar variant="dense">
-              <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}>
-              Data Collecting: Application is Running
-            </Typography>
-          </Toolbar>
-        </AppBar>
-      </div>
+        <div>
+            <CssBaseline />
+            <AppBar position="static">
+                <Toolbar variant="dense">
+                    <IconButton color="inherit" onClick={handleDrawerOpen} edge="start">
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}> {Name[index].name} </Typography>
+                </Toolbar>
+            </AppBar>
+            <Drawer variant="persistent" anchor="left" open={openModel}>
+                <List>
+                    <ListItem button key="home" onClick={handleDrawerClose}>
+                        <ListItemIcon>
+                            <CloseIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Close" />
+                    </ListItem>
+                    <List>
+                        {Categories.map((id, command) => (
+                            <ListItem button component={NavLink} to={id.location} onClick={id.command} activeClassName="Mui-selected" exact>
+                                <ListItemText primary={id.id} />
+                            </ListItem>
+                        ))}
+                    </List>
+                </List>
+            </Drawer>
+            <main style={{ marginTop: 50 }}>
+            </main>
+
+
+        </div>
+
+
       <div align='center'>
       </div>
         <div>
@@ -120,25 +184,6 @@ function DataGathering({that}) {
       </div>
         <br/>
         <br/>
-      <div align={"center"}>
-          <Link to="/data-complete" onClick={that.SwitchToDataCompleted} style={{ textDecoration: 'none' }}>
-              <Button variant="contained" color="primary">Data Gathering Completed</Button>
-          </Link>
-      </div>
-        <br/>
-        <div align={"center"}>
-            <Link to="/" onClick={that.resettingToMainPage} style={{ textDecoration: 'none' }}>
-                <Button variant="contained" color="primary"> Reset to Main Page </Button>
-            </Link>
-        </div>
-      <br/>
-        <div align={"center"}>
-            <Button variant="contained"
-                    color="primary"
-            > Reset Time Intervals  </Button>
-        </div>
-      <br/>
-      <br/>
       <h3 align={"center"}>This is for Testing Purposes - Will Get Deleted When the Project is Finished</h3>
       <div align='center'>
         <TextField id="filled-basic-Time"

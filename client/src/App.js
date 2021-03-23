@@ -21,6 +21,7 @@ import ReviewData from './ReviewData.js'
 import Edit from './Edit.js'
 import sound from './Alarm-ClockSound.mp3'
 import OtherContent from "./OtherContent";
+import DataGatheringDrawer from "./DataGatheringDrawer";
 
 let playSound = false;
 let db = new Localbase('db')
@@ -968,6 +969,9 @@ class App extends React.Component {
             <Route path="/data-gathering">
               <DataGathering that={this} />
             </Route>
+             <Route path="/Data-gathering-drawer">
+               <DataGatheringDrawer that={this} />
+             </Route>
             <Route path="/data-complete">
               <DataComplete that={this} />
             </Route>
