@@ -37,7 +37,6 @@ export default function OtherContent({that}) {
         index = 4;
     }
 
-
     const Categories = [{id: " Main Page", location: "/", command: "that.SwitchToMain", number: 0},
         {id: " Learn How To Use The App?", location: '/learn', command: "that.SwitchToLearnHowToUseTheApp", number: 1},
         {id: " Learn How to Use the Infiltrometer?", location: "/learn-infiltrometer", command: "that.SwitchToLearnHowToUseTheInfiltrometer", number: 2},

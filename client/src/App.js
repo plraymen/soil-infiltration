@@ -130,6 +130,7 @@ class App extends React.Component {
     this.promptToAddToArray = this.promptToAddToArray.bind(this)
     this.playAudio = this.playAudio.bind(this)
     this.loadTable = this.loadTable.bind(this)
+    this.pauseAudio = this.pauseAudio.bind(this)
 
   }
 
@@ -158,11 +159,13 @@ class App extends React.Component {
   }
 
   playAudio() {
-    this.state.audio = new Audio(sound)
-    this.state.audio.load()
     this.loadTable()
     this.state.audio.play()
-    playSound = true;
+  }
+
+  pauseAudio() {
+    this.loadTable()
+    this.state.audio.pause();
   }
 
   loadTable() {

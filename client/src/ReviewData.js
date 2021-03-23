@@ -11,18 +11,24 @@ function ReviewData({that}) {
   return (
       <div>
         <AppBar position="static">
-          <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-            <Typography variant="h5" align='center'>
-              Review Old Data
+          <Toolbar variant="dense">
+            <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}>
+              Review Old Data: {that.state.DatabaseData[that.state.indexNum].Title}
             </Typography>
-            <Link to="/previous-data" onClick={that.SwitchToPreviousData} style={{ textDecoration: 'none' }}>
-                <Button variant="contained" color="primary">Return To Previous Data</Button>
-            </Link>
-            <Link to="/" onClick={that.SwitchToMain} style={{ textDecoration: 'none' }}>
-                <Button variant="contained" color="primary">Return to Main Page</Button>
-            </Link>
           </Toolbar>
         </AppBar>
+          <br/>
+          <div align={"center"}>
+              <Link to="/previous-data" onClick={that.SwitchToPreviousData} style={{ textDecoration: 'none' }}>
+                  <Button variant="contained" color="primary">Return To Previous Data</Button>
+              </Link>
+          </div>
+          <br/>
+          <div align={"center"}>
+              <Link to="/" onClick={that.SwitchToMain} style={{ textDecoration: 'none' }}>
+                  <Button variant="contained" color="primary">Return to Main Page</Button>
+              </Link>
+          </div>
 
         <div align={"center"}>
           <br/>

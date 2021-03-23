@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import {AppBar, Button, TextField, Toolbar, Typography, makeStyles, Modal} from "@material-ui/core";
 import Timer from "react-compound-timer";
 
+const tiRef = React.createRef();
 function getModalStyle() {
     const top = 50
     const left = 50
@@ -36,6 +37,7 @@ function DataGathering({that}) {
     };
 
     const handleClose = () => {
+        that.pauseAudio()
         that.AddToDataArray()
         setOpen(false);
     };
@@ -102,20 +104,22 @@ function DataGathering({that}) {
             <tr>
                 <td>Time Left in Interval:  </td>
                 <td><Timer
-                    checkpoints={[ {time: 0, callback:() => handleOpen()}]}
-                    lastUnit={"s"}
+                    ref={tiRef}
                     initialTime={that.state.timeInterval * 1000}
                     direction="backward"
-                >
-                    <Timer.Seconds />  seconds
-
-                </Timer></td>
-
+                    checkpoints={[
+                        {time: 0, callback: function (e) {
+                                tiRef.current.reset()
+                                tiRef.current.start()
+                                handleOpen()
+                            },
+                        },]}
+                > <Timer.Seconds/> seconds </Timer></td>
             </tr>
         </table>
       </div>
-      <br/>
-      <br/>
+        <br/>
+        <br/>
       <div align={"center"}>
           <Link to="/data-complete" onClick={that.SwitchToDataCompleted} style={{ textDecoration: 'none' }}>
               <Button variant="contained" color="primary">Data Gathering Completed</Button>

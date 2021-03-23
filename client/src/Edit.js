@@ -7,19 +7,27 @@ function Edit({that}) {
   return (
     <div>
       <AppBar position="static">
-        <Toolbar variant="dense" style={{backgroundColor: '#FFA500'}} align='center'>
-          <Typography variant="h5" align='center'>
+        <Toolbar variant="dense">
+          <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}>
             Editing Old Data
           </Typography>
-
-          <Link to="/" onClick={that.resettingToEditingMainPage}>Reset and Return to Main Page</Link>
-          <Link to="/" onClick={that.EditData}>Save and Return to Main Page</Link>
-
         </Toolbar>
       </AppBar>
 
       <div align={"center"}>
         <br/>
+        <div>
+          <Link to="/" onClick={that.resettingToEditingMainPage} style={{ textDecoration: 'none' }}>
+            <Button variant="contained" color="primary">Reset and Return to Main Page</Button>
+          </Link>
+        </div>
+        <br/>
+        <div>
+        <Link to="/" onClick={that.EditData} style={{ textDecoration: 'none' }}>
+          <Button variant="contained" color="primary">Save Changes and Return to Main Page</Button>
+        </Link>
+        </div>
+
         <br/>
         <br/>
 
