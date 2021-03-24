@@ -48,10 +48,12 @@ function DataGathering({that}) {
 
     const handleClose = () => {
         that.pauseAudio()
-        that.AddToDataArray()
+        that.CalculatedAddToDataArray()
         setOpen(false);
     };
 
+    //-------------------------------------------------------------------------------------------------//
+    //Modal
     const body = (
         <div align={"center"} style={modalStyle} className={classes.paper}>
             <h3>Quickly: Enter Volumetric Data</h3>
@@ -59,8 +61,10 @@ function DataGathering({that}) {
                 <TextField id="filled-basic-Time"
                            label="Enter Volumetric Data"
                            variant="filled"
-                           value={that.state.volume}
                            onChange={e => that.setState({ volume: e.target.value })}
+                           type="number"
+                           pattern="[0-9]*"
+                           inputmode="numeric"
                 />
             </div>
             <br/>
@@ -160,7 +164,6 @@ function DataGathering({that}) {
                            lastUnit={"s"}
                            initialTime={0}
                            direction="forward"
-                           //checkpoints={[ {time: timeTotal * 1000, callback:() => handleOpen()}]}
                 >
                     <Timer.Seconds /> Seconds
                 </Timer></td>
@@ -184,13 +187,15 @@ function DataGathering({that}) {
       </div>
         <br/>
         <br/>
-      <h3 align={"center"}>This is for Testing Purposes - Will Get Deleted When the Project is Finished</h3>
+      <h3 align={"center"}>Manual Entry</h3>
       <div align='center'>
         <TextField id="filled-basic-Time"
                    label="Enter Volumetric Data"
                    variant="filled"
-                   value={that.state.volume}
                    onChange={e => that.setState({ volume: e.target.value })}
+                   type="number"
+                   pattern="[0-9]*"
+                   inputmode="numeric"
         />
       </div>
 

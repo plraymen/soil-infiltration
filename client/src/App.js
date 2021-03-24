@@ -97,7 +97,8 @@ class App extends React.Component {
       play: false,
       isOpen: false,
       visible: false,
-      position: 'left'
+      position: 'left',
+      calculatedTime: 0
     };
     this.componentDidMount  = this.componentDidMount.bind(this);
     this.SwitchToMainToDataGathering = this.SwitchToMainToDataGathering.bind(this);
@@ -119,6 +120,7 @@ class App extends React.Component {
     this.EditData = this.EditData.bind(this)
     this.checkpoints = this.checkpoints.bind(this)
     this.SoilInfiltrometerCalculations = this.SoilInfiltrometerCalculations.bind(this)
+    this.CalculatedAddToDataArray = this.CalculatedAddToDataArray.bind(this)
 
     this.selectInftiltrometerTypeMiniDisk = this.selectInftiltrometerTypeMiniDisk.bind(this)
     this.selectInftiltrometerTypeMiniDiskV1 = this.selectInftiltrometerTypeMiniDiskV1.bind(this)
@@ -167,6 +169,9 @@ class App extends React.Component {
   pauseAudio() {
     this.loadTable()
     this.state.audio.pause();
+    this.state.audio = new Audio(sound)
+    this.state.audio.load()
+    this.loadTable()
   }
 
   loadTable() {
@@ -221,7 +226,7 @@ class App extends React.Component {
       time: this.state.time = 0
     })
 
-    let joined = this.state.Data.concat({id: this.state.id, Time: 0, Sqrt: this.state.sqrtTime, Volume: this.state.initialVolume, Infilt: this.state.infilt});
+    let joined = this.state.Data.concat({id: this.state.id, Time: this.state.calculatedTime, Sqrt: this.state.sqrtTime, Volume: this.state.initialVolume, Infilt: this.state.infilt});
     this.setState({Data: joined})
     console.log(this.state.Data)
   }
@@ -376,9 +381,6 @@ class App extends React.Component {
   }
 
   AddToDataArray() {
-    // this.setState({
-    //   volume: num
-    // })
     if (this.state.volume === "") {
       alert("Volumetric Data is Empty, Please Enter a number in the given text field.")
     } else {
@@ -403,6 +405,48 @@ class App extends React.Component {
       let joined = this.state.Data.concat({
         id: this.state.id,
         Time: this.totalTime,
+        Sqrt: this.state.sqrtTime,
+        Volume: this.state.volume,
+        Infilt: this.state.infilt
+      });
+      this.setState({Data: joined})
+      console.log(this.state.Data)
+
+      this.setState({
+        volume: this.state.volume = 0
+      })
+    }
+  }
+
+  CalculatedAddToDataArray() {
+    if (this.state.volume === "") {
+      alert("Volumetric Data is Empty, Please Enter a number in the given text field.")
+    } else {
+
+      this.state.calculatedTime = this.state.calculatedTime + parseInt(this.state.timeInterval);
+
+      getUsers().then(r => "something")
+      getUsers().then(r => "something")
+      this.setState({
+        DatabaseData: this.state.DatabaseData = users
+      })
+
+      this.state.id++;
+
+      //This setting the square root of the time
+      this.setState({
+        sqrtTime: this.state.sqrtTime = Math.sqrt(this.state.calculatedTime)
+      })
+
+      //This is for the infilt calculation
+      this.setState({
+        infilt: this.state.infilt = ((this.state.initialVolume - this.state.volume) / (Math.PI * Math.pow(this.state.Radius, 2)))
+      })
+
+
+      let joined = this.state.Data.concat({
+        id: this.state.id,
+        Time: this.state.calculatedTime,
         Sqrt: this.state.sqrtTime,
         Volume: this.state.volume,
         Infilt: this.state.infilt

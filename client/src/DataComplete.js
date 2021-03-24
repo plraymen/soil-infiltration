@@ -114,6 +114,9 @@ function DataComplete({that}) {
                      variant="filled"
                      value={that.state.longitude}
                      onChange={e => that.setState({ longitude: e.target.value })}
+                     type="number"
+                     pattern="[0-9]*"
+                     inputmode="numeric"
           />
         </div>
         <br/>
@@ -123,6 +126,9 @@ function DataComplete({that}) {
                      variant="filled"
                      value={that.state.latitude}
                      onChange={e => that.setState({ latitude: e.target.value })}
+                     type="number"
+                     pattern="[0-9]*"
+                     inputmode="numeric"
           />
         </div>
         <Button variant="contained"
