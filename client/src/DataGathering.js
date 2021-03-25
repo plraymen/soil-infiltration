@@ -1,6 +1,16 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Link, NavLink} from "react-router-dom";
-import {AppBar, Button, TextField, Toolbar, Typography, makeStyles, Modal} from "@material-ui/core";
+import {
+    AppBar,
+    Button,
+    TextField,
+    Toolbar,
+    Typography,
+    makeStyles,
+    Modal,
+    FormControl,
+    FormLabel, RadioGroup, FormControlLabel, Radio
+} from "@material-ui/core";
 import Timer from "react-compound-timer";
 import DataGatheringDrawer from './DataGatheringDrawer'
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,6 +22,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import CloseIcon from "@material-ui/icons/Close";
 import ListItemText from "@material-ui/core/ListItemText";
+import addNotification from "react-push-notification";
 
 const tiRef = React.createRef();
 function getModalStyle() {
@@ -37,25 +48,100 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DataGathering({that}) {
-    const classes = useStyles();
-    const [modalStyle] = React.useState(getModalStyle);
-    const [open, setOpen] = React.useState(false);
+    window.addEventListener("beforeunload", function (e) {
+        let confirmationMessage = 'It looks like you have been editing something. '
+            + 'If you leave before saving, test will be los5t.';
 
-    const handleOpen = () => {
-        that.playAudio()
-        setOpen(true);
+        (e || window.event).returnValue = confirmationMessage;
+        return confirmationMessage;
+    });
+    //-------------------------------------------------------------------------------------------------//
+    //Audio and Notification Settings
+    //Notification
+    const [NotificationValue, NotificationSetValue] = React.useState('Enabled');
+    const NotificationHandleChange = (event) => {
+        NotificationSetValue(event.target.value);
+        if (event.target.value === "Enabled") {
+            that.notificationFlag = true;
+            console.log("Notification: " + that.notificationFlag);
+        }
+
+        if (event.target.value === "Disabled") {
+            that.notificationFlag = false;
+            console.log("Notification: " + that.notificationFlag);
+        }
     };
 
-    const handleClose = () => {
-        that.pauseAudio()
-        that.CalculatedAddToDataArray()
-        setOpen(false);
+    //Audio
+    const [value, setValue] = React.useState('Enabled');
+    const handleChange = (event) => {
+        setValue(event.target.value);
+
+        if (event.target.value === "Enabled") {
+            that.audioFlag = true;
+            console.log("Audio: " + that.audioFlag);
+        }
+
+        if (event.target.value === "Disabled") {
+            that.audioFlag = false;
+            console.log("Audio: " + that.audioFlag);
+        }
     };
 
     //-------------------------------------------------------------------------------------------------//
-    //Modal
+    //Drawer
+    let index = 0;
+
+    const Name = [
+        {id: 0, name: "Data Collecting: Application is Running"},
+    ]
+
+    let currentWindow = window.location.pathname;
+    if (currentWindow === "/") {
+        index = 0;
+    }
+
+
+    const Categories =
+        [
+            {id: " Data Gathering Completed", location: "/data-complete", command: that.SwitchToDataCompleted, number: 0},
+            {id: " Reset to Main Page", location: "/", command: that.resettingToMainPage, number: 1},
+        ]
+
+
+    const [openModel, setOpenModal] = React.useState(false);
+    const handleDrawerOpen = () => {
+        setOpenModal(true);
+    };
+    const handleDrawerClose = () => {
+        setOpenModal(false);
+    };
+
+
+    //-------------------------------------------------------------------------------------------------//
+    //Enter Data Modal
+    const DataCollectingclasses = useStyles();
+    const [DataCollectingmodalStyle] = React.useState(getModalStyle);
+    const [DataCollectingModalopen, DataCollectingsetOpen] = React.useState(false);
+
+    const DataCollectingModalhandleOpen = () => {
+        if (that.notificationFlag === true) {
+            notification()
+        }
+
+        if (that.audioFlag === true) {
+            that.playAudio()
+        }
+        DataCollectingsetOpen(true);
+    };
+
+    const DataCollectingModalhandleClose = () => {
+        that.pauseAudio()
+        that.CalculatedAddToDataArray()
+        DataCollectingsetOpen(false);
+    };
     const body = (
-        <div align={"center"} style={modalStyle} className={classes.paper}>
+        <div align={"center"} style={DataCollectingmodalStyle} className={DataCollectingclasses.paper}>
             <h3>Quickly: Enter Volumetric Data</h3>
             <div align='center'>
                 <TextField id="filled-basic-Time"
@@ -71,40 +157,72 @@ function DataGathering({that}) {
             <div align={"center"}>
                 <Button variant="contained"
                         color="primary"
-                        onClick={handleClose}
+                        onClick={DataCollectingModalhandleClose}
                 > Submit Volume</Button>
             </div>
         </div>
     );
 
     //-------------------------------------------------------------------------------------------------//
-    //Drawer
-    let index = 0;
+    //Settings Modal
+    const Settingsclasses = useStyles();
+    const [SettingsmodalStyle] = React.useState(getModalStyle);
+    const [SettingsModalopen, SettingssetOpen] = React.useState(false);
 
-    const Name = [
-        {id: 0, name: "Data Collecting: Application is Running"},
-    ]
-
-    let currentWindow = window.location.pathname;
-    if (currentWindow === "/") {
-        index = 0;
-    }
-
-    const Categories =
-        [
-            {id: " Data Gathering Completed", location: "/data-complete", command: that.SwitchToDataCompleted, number: 0},
-            {id: " Reset to Main Page", location: "/", command: that.resettingToMainPage, number: 1},
-        ]
-
-    const [openModel, setOpenModal] = React.useState(false);
-    const handleDrawerOpen = () => {
-        setOpenModal(true);
+    const SettingsModalhandleOpen = () => {
+        SettingssetOpen(true);
     };
-    const handleDrawerClose = () => {
-        setOpenModal(false);
+
+    const SettingsModalhandleClose = () => {
+        handleDrawerClose()
+        SettingssetOpen(false);
     };
+    const Settingsbody = (
+        <div align={"center"} style={SettingsmodalStyle} className={Settingsclasses.paper}>
+            <div>
+                <div align={"center"}>
+                    <FormControl component="fieldset">
+                        <FormLabel component="legend" >Notification Settings</FormLabel>
+                        <RadioGroup aria-label="gender" name="gender1" value={NotificationValue} onChange={NotificationHandleChange}>
+                            <FormControlLabel value="Enabled" control={<Radio />} label="Enabled" />
+                            <FormControlLabel value="Disabled" control={<Radio />} label="Disabled" />
+                        </RadioGroup>
+                    </FormControl>
+                </div>
+
+                <br/>
+                <div align={"center"}>
+                    <FormControl component="fieldset">
+                        <FormLabel component="legend">Audio Settings</FormLabel>
+                        <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
+                            <FormControlLabel value="Enabled" control={<Radio />} label="Enabled" />
+                            <FormControlLabel value="Disabled" control={<Radio />} label="Disabled" />
+                        </RadioGroup>
+                    </FormControl>
+                </div>
+                <br/>
+                <div align={"center"}>
+                    <Button variant="contained"
+                            color="primary"
+                            onClick={SettingsModalhandleClose}
+                    > Close </Button>
+                </div>
+            </div>
+        </div>
+    );
 
     //------------------------------------------------------------------------------------------------//
+    //Notification
+    const notification = () => {
+        addNotification({
+            title: 'Warning',
+            subtitle: 'Timer',
+            message: 'YOUR TIMER IS GOING DONE. COLLECT DATA',
+            theme: 'darkblue',
+            native: true // when using native, your OS will handle theming.
+        });
+    };
+
 
   return (
     <div>
@@ -132,26 +250,35 @@ function DataGathering({that}) {
                                 <ListItemText primary={id.id} />
                             </ListItem>
                         ))}
+                        <ListItem button onClick={SettingsModalhandleOpen} activeClassName="Mui-selected" exact>
+                            <ListItemText primary={"Settings"} />
+                        </ListItem>
                     </List>
                 </List>
             </Drawer>
             <main style={{ marginTop: 50 }}>
             </main>
-
-
         </div>
-
-
       <div align='center'>
       </div>
         <div>
             <Modal
-                open={open}
-                onClose={handleClose}
+                open={DataCollectingModalopen}
+                onClose={DataCollectingModalhandleClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
                 {body}
+            </Modal>
+        </div>
+        <div>
+            <Modal
+                open={SettingsModalopen}
+                onClose={SettingsModalhandleClose}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+            >
+                {Settingsbody}
             </Modal>
         </div>
         <br/>
@@ -168,6 +295,7 @@ function DataGathering({that}) {
                     <Timer.Seconds /> Seconds
                 </Timer></td>
             </tr>
+
             <tr>
                 <td>Time Left in Interval:  </td>
                 <td><Timer
@@ -178,7 +306,7 @@ function DataGathering({that}) {
                         {time: 0, callback: function (e) {
                                 tiRef.current.reset()
                                 tiRef.current.start()
-                                handleOpen()
+                                DataCollectingModalhandleOpen()
                             },
                         },]}
                 > <Timer.Seconds/> seconds </Timer></td>

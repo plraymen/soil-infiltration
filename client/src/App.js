@@ -98,7 +98,9 @@ class App extends React.Component {
       isOpen: false,
       visible: false,
       position: 'left',
-      calculatedTime: 0
+      calculatedTime: 0,
+      notificationFlag: true,
+      audioFlag: true
     };
     this.componentDidMount  = this.componentDidMount.bind(this);
     this.SwitchToMainToDataGathering = this.SwitchToMainToDataGathering.bind(this);
@@ -180,6 +182,12 @@ class App extends React.Component {
     this.setState({
       DatabaseData: this.state.DatabaseData = users
     })
+
+    getUsers().then(r => "something")
+    getUsers().then(r => "something")
+    this.setState({
+      DatabaseData: this.state.DatabaseData = users
+    })
   }
 
   SwitchToMain() {
@@ -218,6 +226,11 @@ class App extends React.Component {
 
   SwitchToMainToDataGathering() {
     this.loadTable()
+    this.notificationFlag = true;
+    console.log("Notification: " + this.notificationFlag);
+
+    this.audioFlag = true;
+    console.log("Audio: " + this.audioFlag);
     getUsers().then(r => "something")
     getUsers().then(r => "something")
     this.setState({
@@ -225,6 +238,8 @@ class App extends React.Component {
       totalTime: this.state.totalTime = 0,
       time: this.state.time = 0
     })
+
+
 
     let joined = this.state.Data.concat({id: this.state.id, Time: this.state.calculatedTime, Sqrt: this.state.sqrtTime, Volume: this.state.initialVolume, Infilt: this.state.infilt});
     this.setState({Data: joined})
@@ -301,6 +316,8 @@ class App extends React.Component {
         PageState: this.state.PageState = "PeviousTestData"
       })
     }
+    this.loadTable();
+    this.loadTable();
   }
 
   SwitchToEditingOldData( e ) {
@@ -662,7 +679,7 @@ class App extends React.Component {
 
   //-------------------------------------------------------------------------------------------------------------------//
 
-  async ReviewOldData() {
+  async ReviewOldData( e ) {
     this.loadTable();
     getUsers().then(r => "something")
     getUsers().then(r => "something")
@@ -671,6 +688,7 @@ class App extends React.Component {
     })
     if (this.state.title === "") {
       alert("You have left the title blank. Please enter information")
+      e.preventDefault();
     } else {
       let confirmation = "no"
       for (let i = 0; i < this.state.DatabaseData.length; i++) {
@@ -693,6 +711,7 @@ class App extends React.Component {
         })
       } else {
         alert("No Titles Matched Your inputted Text. Please also check Spelling and/or Capitalization (this does matter)")
+        e.preventDefault();
       }
     }
   }

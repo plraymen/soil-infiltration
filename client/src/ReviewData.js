@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink, Route} from "react-router-dom";
 import {AppBar, Button,  Toolbar, Typography} from "@material-ui/core";
 import {ComposableMap, Geographies, Geography, Marker, ZoomableGroup} from "react-simple-maps";
 import { CSVLink } from "react-csv";
@@ -17,6 +17,14 @@ import ListItemText from "@material-ui/core/ListItemText";
 const geoUrl = "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
 function ReviewData({that}) {
+    window.addEventListener("beforeunload", function (e) {
+        let confirmationMessage = 'It looks like you have been editing something. '
+            + 'If you leave before saving, test will be los5t.';
+
+        (e || window.event).returnValue = confirmationMessage;
+
+        return confirmationMessage;
+    });
 
     //-------------------------------------------------------------------------------------------------//
     //Drawer

@@ -8,7 +8,6 @@ function PreviousData({that}) {
   return (
     <div>
         <OtherContent/>
-        {that.SwitchToPreviousData}
       <div className={"center"}>
         <h1>View or Edit old Data Values</h1>
 
@@ -46,9 +45,9 @@ function PreviousData({that}) {
 
         <hr></hr>
         <div align={"center"}>
-            <h3>Having Trouble Seeing Old Data? Or The Table is not Populated?</h3>
+            <h3>Load the Table Below</h3>
             <Link to="/previous-data" onClick={that.SwitchToPreviousData} style={{ textDecoration: 'none' }}>
-                <Button variant="contained" color="primary"> Refresh Table </Button>
+                <Button variant="contained" color="primary"> Load Table </Button>
             </Link>
         </div>
 

@@ -4,21 +4,19 @@ import OtherContent from "./OtherContent";
 import drawerButton from './DrawerEnter.png'
 import drawerOpen from './DrawerOpen.png'
 import './App.css'
-
-
 import {
     AppBar,
-    Button, Grid,
+    Button, FormControl, FormControlLabel, FormLabel, Grid,
     IconButton,
     InputLabel, makeStyles,
-    MenuItem, Modal,
+    MenuItem, Modal, Radio, RadioGroup,
     Select, SwipeableDrawer,
     TextField,
     Toolbar,
     Typography
 } from "@material-ui/core";
-
 import { soilData, suctionData } from "./configSoil";
+import addNotification from "react-push-notification";
 
 
 function getModalStyle() {
@@ -57,6 +55,12 @@ function Main({that}) {
     };
 
     window.onload = function() {
+        that.notificationFlag = true;
+        console.log("Notification: " + that.notificationFlag);
+
+        that.audioFlag = true;
+        console.log("Audio: " + that.audioFlag);
+        notification()
         handleOpen()
     }
 
@@ -75,6 +79,19 @@ function Main({that}) {
         </div>
     );
 
+    //------------------------------------------------------------------------------------------------//
+    //Notification
+    const notification = () => {
+        addNotification({
+            title: 'Warning',
+            subtitle: 'Notifications',
+            message: 'You will receive notifications while collecting data, you can choose to disable them in the settings while you are collecting data.',
+            theme: 'darkblue',
+            native: true // when using native, your OS will handle theming.
+        });
+    };
+
+
     return (
         <div>
             <div>
@@ -90,6 +107,7 @@ function Main({that}) {
             <div>
                 <OtherContent></OtherContent>
             </div>
+
             <h3 className={"center"}>Start the Program</h3>
             <div className={"center"}>
                 <TextField id="filled-basic-Time"

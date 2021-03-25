@@ -13,6 +13,13 @@ import CloseIcon from "@material-ui/icons/Close";
 import ListItemText from "@material-ui/core/ListItemText";
 
 function Edit({that}) {
+  window.addEventListener("beforeunload", function (e) {
+    let confirmationMessage = 'It looks like you have been editing something. '
+        + 'If you leave before saving, test will be los5t.';
+
+    (e || window.event).returnValue = confirmationMessage;
+    return confirmationMessage;
+  });
   //-------------------------------------------------------------------------------------------------//
   //Drawer
   let index = 0;
