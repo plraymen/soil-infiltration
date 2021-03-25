@@ -55,7 +55,7 @@ function PreviousData({that}) {
 
         <br/>
         <div align={"center"}>
-            <Link to="/" onClick={that.DeleteDatabase} style={{ textDecoration: 'none' }}>
+            <Link to="/index.html" onClick={that.DeleteDatabase} style={{ textDecoration: 'none' }}>
                 <Button variant="contained" color="secondary"> Delete Entire Database </Button>
             </Link>
         </div>

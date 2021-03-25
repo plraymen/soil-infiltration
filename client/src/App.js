@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
   Link
 } from "react-router-dom";
 import './App.css';
@@ -1029,6 +1030,9 @@ class App extends React.Component {
       <Router>
         <div>
            <Switch>
+             <Route exact path="/">
+               <Redirect to="/index.html" />
+             </Route>
             <Route path="/data-gathering">
               <DataGathering that={this} />
             </Route>
@@ -1059,7 +1063,7 @@ class App extends React.Component {
              <Route path="/responsiveDrawer">
                <OtherContent that={this} />
              </Route>
-            <Route path="/">
+            <Route path="/index.html">
               <Main that={this} />
             </Route>
           </Switch>

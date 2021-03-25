@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink, Redirect, Route, Switch} from "react-router-dom";
 import {
     AppBar,
     Button,
@@ -12,7 +12,6 @@ import {
     FormLabel, RadioGroup, FormControlLabel, Radio
 } from "@material-ui/core";
 import Timer from "react-compound-timer";
-import DataGatheringDrawer from './DataGatheringDrawer'
 import CssBaseline from "@material-ui/core/CssBaseline";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -48,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DataGathering({that}) {
+
     window.addEventListener("beforeunload", function (e) {
         let confirmationMessage = 'It looks like you have been editing something. '
             + 'If you leave before saving, test will be los5t.';
@@ -97,15 +97,12 @@ function DataGathering({that}) {
     ]
 
     let currentWindow = window.location.pathname;
-    if (currentWindow === "/") {
-        index = 0;
-    }
 
 
     const Categories =
         [
             {id: " Data Gathering Completed", location: "/data-complete", command: that.SwitchToDataCompleted, number: 0},
-            {id: " Reset to Main Page", location: "/", command: that.resettingToMainPage, number: 1},
+            {id: " Reset to Main Page", location: "/index.html", command: that.resettingToMainPage, number: 1},
         ]
 
 

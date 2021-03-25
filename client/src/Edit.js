@@ -29,14 +29,10 @@ function Edit({that}) {
   ]
 
   let currentWindow = window.location.pathname;
-  if (currentWindow === "/") {
-    index = 0;
-  }
-
   const Categories =
       [
-        {id: " Save Changes and Return to Main Page", location: "/", command: that.EditData, number: 0},
-        {id: " Reset and Return to Main Page", location: "/", command: that.resettingToEditingMainPage, number: 1},
+        {id: " Save Changes and Return to Main Page", location: "/index.html", command: that.EditData, number: 0},
+        {id: " Reset and Return to Main Page", location: "/index.html", command: that.resettingToEditingMainPage, number: 1},
       ]
 
   const [openModel, setOpenModal] = React.useState(false);

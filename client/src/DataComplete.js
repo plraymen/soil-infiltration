@@ -30,14 +30,11 @@ function DataComplete({that}) {
     ]
 
     let currentWindow = window.location.pathname;
-    if (currentWindow === "/") {
-        index = 0;
-    }
 
     const Categories =
         [
-            {id: " Save & Return to Main Page", location: "/", command: that.SaveAndExit, number: 0},
-            {id: " Reset to Main Page", location: "/", command: that.resettingToMainPage, number: 1},
+            {id: " Save & Return to Main Page", location: "/index.html", command: that.SaveAndExit, number: 0},
+            {id: " Reset to Main Page", location: "/index.html", command: that.resettingToMainPage, number: 1},
         ]
 
     const [openModel, setOpenModal] = React.useState(false);

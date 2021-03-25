@@ -25,7 +25,7 @@ export default function OtherContent({that}) {
     ]
 
     let currentWindow = window.location.pathname;
-    if (currentWindow === "/") {
+    if (currentWindow === "/index.html") {
         index = 0;
     } else if (currentWindow === "/learn") {
         index = 1;
@@ -37,7 +37,7 @@ export default function OtherContent({that}) {
         index = 4;
     }
 
-    const Categories = [{id: " Main Page", location: "/", command: "that.SwitchToMain", number: 0},
+    const Categories = [{id: " Main Page", location: "/index.html", command: "that.SwitchToMain", number: 0},
         {id: " Learn How To Use The App?", location: '/learn', command: "that.SwitchToLearnHowToUseTheApp", number: 1},
         {id: " Learn How to Use the Infiltrometer?", location: "/learn-infiltrometer", command: "that.SwitchToLearnHowToUseTheInfiltrometer", number: 2},
         {id: " Previous Test Data", location: "/previous-data", command: "that.SwitchToPreviousData", number: 3},
