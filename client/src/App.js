@@ -179,15 +179,9 @@ class App extends React.Component {
     this.loadTable()
   }
 
-  loadTable() {
-    getUsers().then(r => "something")
-    getUsers().then(r => "something")
-    this.setState({
-      DatabaseData: this.state.DatabaseData = users
-    })
+  async loadTable() {
+    await getUsers();
 
-    getUsers().then(r => "something")
-    getUsers().then(r => "something")
     this.setState({
       DatabaseData: this.state.DatabaseData = users
     })
@@ -380,19 +374,8 @@ class App extends React.Component {
   }
 
   async SwitchToPreviousData( e ) {
-    this.loadTable();
-    this.loadTable();
-    this.loadTable()
-    getUsers().then(r => "something")
-    getUsers().then(r => "something")
-    this.setState({
-      DatabaseData: this.state.DatabaseData = users
-    })
-    getUsers().then(r => "something")
-    getUsers().then(r => "something")
-    this.setState({
-      DatabaseData: this.state.DatabaseData = users
-    })
+    await this.loadTable();
+
     if (this.state.DatabaseData.length < 1) {
       alert("You have no Previous Data Entries. Please have a minimum of One Tests to view old data.")
       e.preventDefault();
@@ -419,8 +402,6 @@ class App extends React.Component {
         PageState: this.state.PageState = "PeviousTestData"
       })
     }
-    this.loadTable();
-    this.loadTable();
   }
 
   SwitchToEditingOldData( e ) {
