@@ -6,6 +6,7 @@ import {
   Redirect,
   Link
 } from "react-router-dom";
+import {Button} from "@material-ui/core";
 import './App.css';
 import './button.css';
 import 'prevent-pull-refresh';
@@ -741,12 +742,8 @@ class App extends React.Component {
   //-------------------------------------------------------------------------------------------------------------------//
 
   async ReviewOldData( e ) {
-    this.loadTable();
-    getUsers().then(r => "something")
-    getUsers().then(r => "something")
-    this.setState({
-      DatabaseData: this.state.DatabaseData = users
-    })
+    await this.loadTable();
+
     if (this.state.title === "") {
       alert("You have left the title blank. Please enter information")
       e.preventDefault();
@@ -1075,6 +1072,17 @@ class App extends React.Component {
             <td>{Title}</td>
             <td>{GPSLocation}</td>
             <td><img src={Picture} alt="Picture"/></td>
+            <td>
+              <Link to="/review-data" onClick={() => {this.state.title = Title; this.ReviewOldData();}} style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary" className={"buttonContainer"}>Review</Button>
+              </Link>
+              <Link to="/index.html" onClick={() => {this.state.title = Title; this.DeleteOldData();}} style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary" className={"buttonContainer"}>Delete</Button>
+              </Link>
+              <Link to="/edit-data" onClick={() => {this.state.title = Title; this.SwitchToEditingOldData();}} style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary" className={"buttonContainer"}>Edit Data</Button>
+              </Link>
+            </td>
           </tr>
       )
     })
@@ -1082,6 +1090,7 @@ class App extends React.Component {
 
   renderPreviousTableHeader() {
     let header = Object.keys(this.state.ReviewOldDataArray[0])
+    header.push('Actions');
     return header.map((key, index) => {
       return <th key={index}>{key.toUpperCase()}</th>
     })
