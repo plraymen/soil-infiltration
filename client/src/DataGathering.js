@@ -22,6 +22,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import CloseIcon from "@material-ui/icons/Close";
 import ListItemText from "@material-ui/core/ListItemText";
 import addNotification from "react-push-notification";
+import './button.css'
 
 const tiRef = React.createRef();
 function getModalStyle() {
@@ -253,7 +254,7 @@ function DataGathering({that}) {
                     </List>
                 </List>
             </Drawer>
-            <main style={{ marginTop: 50 }}>
+            <main style={{ marginTop: 10 }}>
             </main>
         </div>
       <div align='center'>
@@ -283,21 +284,22 @@ function DataGathering({that}) {
       <div align='center'>
         <table>
             <tr>
-                <td>Total Time: </td>
-                <td><Timer formatValue={e => that.totalTime = e}
+                <td><h3>Total Time: </h3></td>
+                <td><h3><Timer formatValue={e => that.totalTime = e}
                            lastUnit={"s"}
                            initialTime={0}
                            direction="forward"
                 >
                     <Timer.Seconds /> Seconds
-                </Timer></td>
+                </Timer></h3></td>
             </tr>
 
             <tr>
-                <td>Time Left in Interval:  </td>
-                <td><Timer
+                <td><h3>Time Left in Interval:  </h3></td>
+                <td><h3><Timer
                     ref={tiRef}
                     initialTime={that.state.timeInterval * 1000}
+                    lastUnit={"s"}
                     direction="backward"
                     checkpoints={[
                         {time: 0, callback: function (e) {
@@ -306,7 +308,7 @@ function DataGathering({that}) {
                                 DataCollectingModalhandleOpen()
                             },
                         },]}
-                > <Timer.Seconds/> seconds </Timer></td>
+                > <Timer.Seconds/> seconds </Timer></h3></td>
             </tr>
         </table>
       </div>
@@ -317,17 +319,19 @@ function DataGathering({that}) {
         <TextField id="filled-basic-Time"
                    label="Enter Volumetric Data"
                    variant="filled"
+                   value={that.state.volume}
                    onChange={e => that.setState({ volume: e.target.value })}
                    type="number"
                    pattern="[0-9]*"
                    inputmode="numeric"
         />
       </div>
-
+        <br/>
         <div align={"center"}>
         <Button variant="contained"
                 color="primary"
                 onClick={that.AddToDataArray}
+                className={"buttonContainer"}
         > Submit Volume</Button>
       </div>
       <br/>
@@ -336,7 +340,7 @@ function DataGathering({that}) {
 
         </div>
       <br/>
-      <div>
+      <div align={"center"}>
         <h1 id='title'>Table Data</h1>
         <table id='students'>
           <tbody>

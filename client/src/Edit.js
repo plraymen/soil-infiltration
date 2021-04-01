@@ -11,6 +11,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import CloseIcon from "@material-ui/icons/Close";
 import ListItemText from "@material-ui/core/ListItemText";
+import './button.css'
 
 function Edit({that}) {
   window.addEventListener("beforeunload", function (e) {
@@ -73,7 +74,7 @@ function Edit({that}) {
             </List>
           </List>
         </Drawer>
-        <main style={{ marginTop: 50 }}>
+        <main style={{ marginTop: 10 }}>
         </main>
       </div>
 
@@ -122,13 +123,7 @@ function Edit({that}) {
         <br/>
 
         <div>
-          <p>Change Picture:  </p>
-          <TextField id="filled-basic-Time"
-                     label="Picture"
-                     variant="filled"
-                     value={that.state.file}
-                     onChange={e => that.setState({ file: e.target.value })}
-          />
+          <h3>Change Picture:  </h3>
         </div>
         <div>
           <h3>Upload a Picture:</h3>
@@ -201,7 +196,7 @@ function Edit({that}) {
       </div>
 
 
-      <div>
+      <div align={"center"}>
         <Table Data={that.state.DatabaseData[that.state.indexNum].Data}/>
       </div>
 

@@ -12,6 +12,11 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import CloseIcon from "@material-ui/icons/Close";
 import ListItemText from "@material-ui/core/ListItemText";
+import LineGraph from 'react-line-graph'
+import LineChart from 'react-linechart';
+import '../node_modules/react-linechart/dist/styles.css';
+import './button.css'
+import './table.css'
 
 function DataComplete({that}) {
     window.addEventListener("beforeunload", function (e) {
@@ -46,8 +51,14 @@ function DataComplete({that}) {
     };
 
     //------------------------------------------------------------------------------------------------//
+    const data2 = [
+        {
+            color: "steelblue",
+            points: that.state.InfiltrometerCalculations.Coordinates
+        }
+    ];
 
-  return (
+    return (
     <div>
         <div>
             <CssBaseline />
@@ -76,11 +87,11 @@ function DataComplete({that}) {
                     </List>
                 </List>
             </Drawer>
-            <main style={{ marginTop: 50 }}>
+            <main style={{ marginTop: 10 }}>
             </main>
         </div>
       <div align={"center"}>
-
+          <h1>Save Test Results</h1>
         <h3>Add a Title to this Test</h3>
           <TextField id="filled-basic-Time"
                      label="Title"
@@ -92,7 +103,7 @@ function DataComplete({that}) {
       <br/>
 
       <div align={"center"}>
-        <h3>Upload a Picture:</h3>
+        <h3>Upload a Picture</h3>
         <div>
           <input
               type="file"
@@ -105,8 +116,6 @@ function DataComplete({that}) {
         </div>
       </div>
 
-      <br/>
-      <br/>
       <br/>
 
       <div align={"center"}>
@@ -134,37 +143,39 @@ function DataComplete({that}) {
                      inputmode="numeric"
           />
         </div>
+          <br/>
         <Button variant="contained"
                 color="primary"
                 onClick={that.getGPSLocation}
+                className={"buttonContainer"}
         >Use Phones GPS</Button>
       </div>
 
       <br/>
       <br/>
-      <br/>
       <div align={"center"}>
         <CSVLink
-            data={that.state.Data}
+            data={that.state.CSVArray}
             filename={that.state.title.toString() + ".csv"}
             className="btn btn-primary"
             target="_blank"
-
+            style={{ textDecoration: 'none' }}
         >
-            <Button variant="contained" color="primary">Export as CSV File</Button>
+            <Button variant="contained" color="primary" className={"buttonContainer"} style={{ textDecoration: 'none' }}>Export as CSV File</Button>
 
         </CSVLink>
       </div>
 
-      <br/>
-      <br/>
 
+      <br/>
+        <hr></hr>
+      <div className={"center"}>
+          <h1>Test Results</h1>
+      </div>
+        <br/>
       <div align={"center"}>
+          <h3>Soil Infiltrometer Configuration</h3>
         <table>
-          <tr>
-            <th>Setting</th>
-            <th>Number</th>
-          </tr>
           <tr>
             <td>Radius: </td>
             <td>{that.state.Radius.toString()}</td>
@@ -185,9 +196,42 @@ function DataComplete({that}) {
       </div>
 
       <br/>
-      <br/>
-
-      <div>
+      <div align={"center"}>
+          <div>
+              <h3>Calculated Constants</h3>
+          </div>
+            <table>
+                <tr>
+                    <td>A: </td>
+                    <td>{that.state.InfiltrometerCalculations.A}</td>
+                </tr>
+                <tr>
+                    <td>C1: </td>
+                    <td>{that.state.InfiltrometerCalculations.C1}</td>
+                </tr>
+                <tr>
+                    <td>K: </td>
+                    <td>{that.state.InfiltrometerCalculations.K}</td>
+                </tr>
+            </table>
+      </div>
+        <br/>
+        <div>
+            <div align={"center"}>
+                <div className="App">
+                    <h3>Linear Regression Chart</h3>
+                    <LineChart
+                        width={300}
+                        height={300}
+                        data={data2}
+                        xLabel={"Square Root of Time"}
+                        yLabel={"Cumulative Infiltration(cm)"}
+                        hidePoints={true}
+                    />
+                </div>
+            </div>
+        </div>
+      <div align={"center"}>
         <Table Data={that.state.Data}/>
       </div>
       <br/>

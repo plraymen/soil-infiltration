@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link, NavLink, Route} from "react-router-dom";
 import {AppBar, Button,  Toolbar, Typography} from "@material-ui/core";
-import {ComposableMap, Geographies, Geography, Marker, ZoomableGroup} from "react-simple-maps";
 import { CSVLink } from "react-csv";
 import Table from "./table";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,8 +12,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import CloseIcon from "@material-ui/icons/Close";
 import ListItemText from "@material-ui/core/ListItemText";
-
-const geoUrl = "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
+import LineChart from "react-linechart";
+import './button.css'
 
 function ReviewData({that}) {
     window.addEventListener("beforeunload", function (e) {
@@ -51,11 +50,15 @@ function ReviewData({that}) {
     };
 
     //------------------------------------------------------------------------------------------------//
-
+    const Data = [
+        {
+            color: "steelblue",
+            points: that.state.DatabaseData[that.state.indexNum].InfiltrometerCalculations.Coordinates
+        }
+    ];
 
     return (
       <div>
-
           <div>
               <CssBaseline />
               <AppBar position="static">
@@ -83,60 +86,52 @@ function ReviewData({that}) {
                       </List>
                   </List>
               </Drawer>
-              <main style={{ marginTop: 50 }}>
+              <main style={{ marginTop: 10 }}>
               </main>
           </div>
-
-
         <div align={"center"}>
-          <p>Title: {that.state.DatabaseData[that.state.indexNum].Title}</p>
+          <h2>Title: {that.state.DatabaseData[that.state.indexNum].Title}</h2>
           <br/>
-
-          <p>GPS Coordinate: {that.state.DatabaseData[that.state.indexNum].GPSLocation}</p>
-          <div>
-            <ComposableMap>
-              <ZoomableGroup zoom={1}>
-                <Geographies geography={geoUrl}>
-                  {({ geographies }) =>
-                      geographies.map(geo => (
-                          <Geography key={geo.rsmKey} geography={geo} />
-                      ))
-                  }
-                </Geographies>
-                <Marker coordinates={[that.state.longitude,that.state.latitude]}>
-                  <circle r={1} fill="#F53" />
-                </Marker>
-              </ZoomableGroup>
-            </ComposableMap>
+          <h2>GPS Coordinate: {that.state.DatabaseData[that.state.indexNum].GPSLocation}</h2>
+          <br/>
+          <div align={"center"}>
+              <div className="App">
+                  <h2>Linear Regression Chart</h2>
+                  <LineChart
+                      width={300}
+                      height={300}
+                      data={Data}
+                      xLabel={"Square Root of Time"}
+                      yLabel={"Cumulative Infiltration(cm)"}
+                      hidePoints={true}
+                  />
+              </div>
           </div>
           <br/>
 
-          <p>Picture</p>
+          <h2>Picture</h2>
           <img className={"reviewImg"} src={that.state.DatabaseData[that.state.indexNum].Picture} alt="Picture"/>
-          <br/>
-          <br/>
           <br/>
           <br/>
           <div align={"center"}>
             <CSVLink
-                data={that.state.DatabaseData[that.state.indexNum].Data}
+                data={that.state.DatabaseData[that.state.indexNum].InfiltrometerCalculations.CSVArray}
                 filename={that.state.DatabaseData[that.state.indexNum].Title.toString() + ".csv"}
                 className="btn btn-primary"
                 target="_blank"
-
+                style={{ textDecoration: 'none' }}
             >
-                <Button variant="contained" color="primary">Export as CSV File</Button>
+                <Button variant="contained" color="primary" style={{ textDecoration: 'none' }}>Export as CSV File</Button>
 
             </CSVLink>
           </div>
         </div>
 
         <br/>
-        <br/>
-        <br/>
-
-        <div align={"center"}>
-          <table>
+          <hr></hr>
+          <div align={"center"}>
+              <h3>Soil Infiltrometer Configuration</h3>
+              <table>
             <tr>
               <th>Setting</th>
               <th>Number</th>
@@ -160,11 +155,29 @@ function ReviewData({that}) {
           </table>
         </div>
 
-        <br/>
-        <br/>
+          <div align={"center"}>
+              <div>
+                  <h3>Calculated Constants</h3>
+              </div>
+              <table>
+                  <tr>
+                      <td>A: </td>
+                      <td>{that.state.DatabaseData[that.state.indexNum].InfiltrometerCalculations.A}</td>
+                  </tr>
+                  <tr>
+                      <td>C1: </td>
+                      <td>{that.state.DatabaseData[that.state.indexNum].InfiltrometerCalculations.C1}</td>
+                  </tr>
+                  <tr>
+                      <td>K: </td>
+                      <td>{that.state.DatabaseData[that.state.indexNum].InfiltrometerCalculations.K}</td>
+                  </tr>
+              </table>
+          </div>
+
         <br/>
 
-        <div>
+        <div align={"center"}>
           <Table Data={that.state.DatabaseData[that.state.indexNum].Data}/>
         </div>
 
