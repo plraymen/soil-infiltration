@@ -84,36 +84,6 @@ function PreviousData({that}) {
 
 
         </div>
-      <div className={"center"}>
-        <h1>View or Edit old Data Values</h1>
-
-        <p>Enter Test Title</p>
-
-            <TextField id="Title"
-                                   label="Title"
-                                   variant="filled"
-                                   value={that.state.title}
-                                   onChange={e => that.setState({ title: e.target.value })}
-        />
-        <br/>
-        <br/>
-        <Link to="/review-data" onClick={that.ReviewOldData} style={{ textDecoration: 'none' }}>
-            <Button variant="contained" color="primary" className={"buttonContainer"}>Review Old Data</Button>
-        </Link>
-      </div>
-      <br/>
-      <div align={"center"}>
-          <Link to="/index.html" onClick={that.DeleteOldData} style={{ textDecoration: 'none' }}>
-              <Button variant="contained" color="primary" className={"buttonContainer"}>Delete Old Data</Button>
-          </Link>
-      </div>
-
-      <br/>
-      <div align={"center"}>
-        <Link to="/edit-data" onClick={that.SwitchToEditingOldData} style={{ textDecoration: 'none' }}>
-            <Button variant="contained" color="primary" className={"buttonContainer"}>Edit Data</Button>
-        </Link>
-      </div>
 
         <br/>
         <br/>
