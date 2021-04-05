@@ -50,82 +50,79 @@ function PreviousData({that}) {
     const handleDrawerClose = () => {
         OtherContentsetOpen(false);
     };
-  return (
-    <div>
+    return (
         <div>
-            <CssBaseline />
-            <AppBar position="static">
-                <Toolbar variant="dense">
-                    <IconButton color="inherit" onClick={handleDrawerOpen} edge="start">
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}> {Name[OtherContentindex].name} </Typography>
-                </Toolbar>
-            </AppBar>
-            <Drawer variant="persistent" anchor="left" open={OtherContentopen}>
-                <List>
-                    <ListItem button key="home" onClick={handleDrawerClose}>
-                        <ListItemIcon>
-                            <CloseIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Close" />
-                    </ListItem>
+            <div>
+                <CssBaseline />
+                <AppBar position="static">
+                    <Toolbar variant="dense">
+                        <IconButton color="inherit" onClick={handleDrawerOpen} edge="start">
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}> {Name[OtherContentindex].name} </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Drawer variant="persistent" anchor="left" open={OtherContentopen}>
                     <List>
-                        {OtherContentCategories.map((id, command) => (
-                            <ListItem button component={NavLink} to={id.location} onClick={id.command} activeClassName="Mui-selected" exact>
-                                <ListItemText primary={id.id} />
-                            </ListItem>
-                        ))}
+                        <ListItem button key="home" onClick={handleDrawerClose}>
+                            <ListItemIcon>
+                                <CloseIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Close" />
+                        </ListItem>
+                        <List>
+                            {OtherContentCategories.map((id, command) => (
+                                <ListItem button component={NavLink} to={id.location} onClick={id.command} activeClassName="Mui-selected" exact>
+                                    <ListItemText primary={id.id} />
+                                </ListItem>
+                            ))}
+                        </List>
                     </List>
-                </List>
-            </Drawer>
-            <main style={{ marginTop: 10 }}>
-            </main>
+                </Drawer>
+                <main style={{ marginTop: 10 }}>
+                </main>
 
 
+            </div>
+
+            <hr></hr>
+            <div align={"center"}>
+                <h3>Are there any test not showing up for you?</h3>
+                <Link to="/previous-data" onClick={that.SwitchToPreviousData} style={{ textDecoration: 'none' }}>
+                    <Button variant="contained" color="primary" className={"buttonContainer"}> Re-Load Table </Button>
+                </Link>
+            </div>
+
+            <hr></hr>
+
+            <br/>
+            <div align={"center"}>
+                <Link to="/index.html" onClick={that.DeleteDatabase} style={{ textDecoration: 'none' }}>
+                    <Button variant="contained" color="secondary" className={"buttonContainer"}> Delete Entire Database </Button>
+                </Link>
+            </div>
+
+            <br/>
+            <br/>
+            <div>
+                <p>{console.log(that.state.ReviewOldDataArray)}</p>
+                {/*<RetrivalData ReviewOldDataArray={that.state.ReviewOldDataArray}/>*/}
+                <div align={"center"}>
+                    <h1 id='title'>Previous Test Data</h1>
+                    <table id='students'>
+                        <tbody>
+                        <tr>{that.renderPreviousTableHeader()}</tr>
+                        {that.renderPreviousTableData()}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
         </div>
-
-        <br/>
-        <br/>
-
-        <hr></hr>
-        <div align={"center"}>
-            <h3>Are there any test not showing up for you?</h3>
-            <Link to="/previous-data" onClick={that.SwitchToPreviousData} style={{ textDecoration: 'none' }}>
-                <Button variant="contained" color="primary" className={"buttonContainer"}> Re-Load Table </Button>
-            </Link>
-        </div>
-
-        <hr></hr>
-
-        <br/>
-        <div align={"center"}>
-            <Link to="/index.html" onClick={that.DeleteDatabase} style={{ textDecoration: 'none' }}>
-                <Button variant="contained" color="secondary" className={"buttonContainer"}> Delete Entire Database </Button>
-            </Link>
-        </div>
-
-      <br/>
-      <br/>
-      <div>
-        <p>{console.log(that.state.ReviewOldDataArray)}</p>
-        {/*<RetrivalData ReviewOldDataArray={that.state.ReviewOldDataArray}/>*/}
-          <div align={"center"}>
-              <h1 id='title'>Previous Test Data</h1>
-              <table id='students'>
-                  <tbody>
-                  <tr>{that.renderPreviousTableHeader()}</tr>
-                  {that.renderPreviousTableData()}
-                  </tbody>
-              </table>
-          </div>
-      </div>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-    </div>
-  )
+    )
 }
 
 export default PreviousData;

@@ -314,10 +314,10 @@ class App extends React.Component {
         X: result.points[i][0],
         Y: result.points[i][1],
         id: this.state.Data[i].id,
-        Time: this.state.Data[i].Time,
-        Sqrt: this.state.Data[i].Sqrt,
-        Volume: this.state.Data[i].Volume,
-        Infilt: this.state.Data[i].Infilt,
+        "Time(sec)": this.state.Data[i].Time,
+        "Sqrt(time)": this.state.Data[i].Sqrt,
+        "Volume(mL)": this.state.Data[i].Volume,
+        "Infilt(cm)": this.state.Data[i].Infilt,
       })
     }
 
@@ -741,8 +741,8 @@ class App extends React.Component {
 
   //-------------------------------------------------------------------------------------------------------------------//
 
-  async ReviewOldData( e ) {
-    await this.loadTable();
+  ReviewOldData( e ) {
+    this.loadTable();
 
     if (this.state.title === "") {
       alert("You have left the title blank. Please enter information")
@@ -1074,13 +1074,13 @@ class App extends React.Component {
             <td><img src={Picture} alt="Picture"/></td>
             <td>
               <Link to="/review-data" onClick={() => {this.state.title = Title; this.ReviewOldData();}} style={{ textDecoration: 'none' }}>
-                <Button variant="contained" color="primary" className={"buttonContainer"}>Review</Button>
+                <Button variant="contained" color="primary" className={"previousButtonTable"}>Review</Button>
               </Link>
-              <Link to="/index.html" onClick={() => {this.state.title = Title; this.DeleteOldData();}} style={{ textDecoration: 'none' }}>
-                <Button variant="contained" color="primary" className={"buttonContainer"}>Delete</Button>
+              <Link to="/index.html" onClick={() => {this.state.title = Title; this.DeleteOldData();}} style={{ textDecoration: 'none' }} >
+                <Button variant="contained" color="primary" className={"previousButtonTable"}>Delete</Button>
               </Link>
-              <Link to="/edit-data" onClick={() => {this.state.title = Title; this.SwitchToEditingOldData();}} style={{ textDecoration: 'none' }}>
-                <Button variant="contained" color="primary" className={"buttonContainer"}>Edit Data</Button>
+              <Link to="/edit-data" onClick={() => {this.state.title = Title; this.SwitchToEditingOldData();}} style={{ textDecoration: 'none' }} >
+                <Button variant="contained" color="primary" className={"previousButtonTable"}>Edit Data</Button>
               </Link>
             </td>
           </tr>

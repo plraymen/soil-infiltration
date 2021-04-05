@@ -25,6 +25,7 @@
     "react-simple-drawer": "^1.0.3",
     "react-simple-maps": "^2.3.0",
     "reactstrap": "^6.5.0",
+    "regression": "^2.0.1",
     "web-vitals": "^1.1.1"
   },
   "scripts": {
