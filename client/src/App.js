@@ -94,7 +94,7 @@ class App extends React.Component {
       C1:0,
       K:0,
       InfiltrometerCalculations: [],
-      ReviewOldDataArray: [{Title: 0, GPSLocation: 0, Picture: 0}],
+      ReviewOldDataArray: [{Title: 0, Picture: 0}],
       indexNum: 0,
       play: false,
       isOpen: false,
@@ -216,7 +216,7 @@ class App extends React.Component {
       longitude: this.state.longitude = 0,
       latitude: this.state.latitude = 0,
       InfiltrometerCalculations: [],
-      ReviewOldDataArray: [{Title: 0, GPSLocation: 0, Picture: 0}],
+      ReviewOldDataArray: [{Title: 0, Picture: 0}],
       PageState: this.state.PageState = "MainPage",
       totalTime: this.state.totalTime = 0,
       indexNum: 0,
@@ -387,7 +387,6 @@ class App extends React.Component {
         console.log(i);
         joined.push({
           Title: this.state.DatabaseData[i].Title,
-          GPSLocation: this.state.DatabaseData[i].GPSLocation,
           Picture: this.state.DatabaseData[i].Picture
         });
       }
@@ -436,6 +435,7 @@ class App extends React.Component {
           file: this.state.file = this.state.DatabaseData[this.state.indexNum].Picture,
           Data: this.state.Data = this.state.DatabaseData[this.state.indexNum].Data,
           infiltrometerData: this.state.infiltrometerData = this.state.DatabaseData[this.state.indexNum].InfiltrometerData,
+          InfiltrometerCalculations: this.state.InfiltrometerCalculations = this.state.DatabaseData[this.state.indexNum].InfiltrometerCalculations,
           PageState: this.state.PageState = "EditingPage"
         })
       } else if ((confirmation === "yes") && (this.state.DatabaseData[this.state.indexNum].GPSLocation.toString() !== "N/A - Not Saved")) {
@@ -450,6 +450,7 @@ class App extends React.Component {
           file: this.state.file = this.state.DatabaseData[this.state.indexNum].Picture,
           Data: this.state.Data = this.state.DatabaseData[this.state.indexNum].Data,
           infiltrometerData: this.state.infiltrometerData = this.state.DatabaseData[this.state.indexNum].InfiltrometerData,
+          InfiltrometerCalculations: this.state.InfiltrometerCalculations = this.state.DatabaseData[this.state.indexNum].InfiltrometerCalculations,
           PageState: this.state.PageState = "EditingPage"
         })
       }
@@ -874,11 +875,12 @@ class App extends React.Component {
         gpsCoordinates: this.state.gpsCoordinates = this.state.longitude + "," + this.state.latitude,
       })
       db.collection("Database").add({
-        Title: this.state.title.toString(),
+        Title: this.state.newTitle.toString(),
         GPSLocation: "N/A - Not Saved",
         Picture: "N/A - Not Saved",
         Data: this.state.Data,
-        InfiltrometerData: this.state.infiltrometerData
+        InfiltrometerData: this.state.infiltrometerData,
+        InfiltrometerCalculations: this.state.InfiltrometerCalculations
       })
 
       let joined = this.state.DatabaseData.concat({ Title: this.state.newTitle.toString(), GPSLocation: "N/A - Not Saved", Picture: "N/A - Not Saved", Data: this.state.Data, InfiltrometerData: this.state.infiltrometerData});
@@ -900,11 +902,12 @@ class App extends React.Component {
         gpsCoordinates: this.state.gpsCoordinates = this.state.longitude + "," + this.state.latitude,
       })
       db.collection("Database").add({
-        Title: this.state.title.toString(),
+        Title: this.state.newTitle.toString(),
         GPSLocation: "N/A - Not Saved",
         Picture: this.state.file,
         Data: this.state.Data,
-        InfiltrometerData: this.state.infiltrometerData
+        InfiltrometerData: this.state.infiltrometerData,
+        InfiltrometerCalculations: this.state.InfiltrometerCalculations
       })
 
       let joined = this.state.DatabaseData.concat({ Title: this.state.newTitle.toString(), GPSLocation: "N/A - Not Saved", Picture: this.state.file, Data: this.state.Data, InfiltrometerData: this.state.infiltrometerData});
@@ -926,11 +929,12 @@ class App extends React.Component {
         gpsCoordinates: this.state.gpsCoordinates = this.state.longitude + "," + this.state.latitude,
       })
       db.collection("Database").add({
-        Title: this.state.title.toString(),
+        Title: this.state.newTitle.toString(),
         GPSLocation: "N/A - Not Saved",
         Picture: this.state.file,
         Data: this.state.Data,
-        InfiltrometerData: this.state.infiltrometerData
+        InfiltrometerData: this.state.infiltrometerData,
+        InfiltrometerCalculations: this.state.InfiltrometerCalculations
       })
 
       let joined = this.state.DatabaseData.concat({ Title: this.state.newTitle.toString(), GPSLocation: "N/A - Not Saved", Picture: this.state.file, Data: this.state.Data, InfiltrometerData: this.state.infiltrometerData});
@@ -952,11 +956,12 @@ class App extends React.Component {
         gpsCoordinates: this.state.gpsCoordinates = this.state.longitude + "," + this.state.latitude,
       })
       db.collection("Database").add({
-        Title: this.state.title.toString(),
+        Title: this.state.newTitle.toString(),
         GPSLocation: this.state.gpsCoordinates.toString(),
         Picture: "N/A - Not Saved",
         Data: this.state.Data,
-        InfiltrometerData: this.state.infiltrometerData
+        InfiltrometerData: this.state.infiltrometerData,
+        InfiltrometerCalculations: this.state.InfiltrometerCalculations
       })
 
       let joined = this.state.DatabaseData.concat({ Title: this.state.newTitle.toString(), GPSLocation: this.state.gpsCoordinates.toString(), Picture: "N/A - Not Saved", Data: this.state.Data, InfiltrometerData: this.state.infiltrometerData});
@@ -978,11 +983,12 @@ class App extends React.Component {
         gpsCoordinates: this.state.gpsCoordinates = this.state.longitude + "," + this.state.latitude,
       })
       db.collection("Database").add({
-        Title: this.state.title.toString(),
+        Title: this.state.newTitle.toString(),
         GPSLocation: this.state.gpsCoordinates.toString(),
         Picture: this.state.file,
         Data: this.state.Data,
-        InfiltrometerData: this.state.infiltrometerData
+        InfiltrometerData: this.state.infiltrometerData,
+        InfiltrometerCalculations: this.state.InfiltrometerCalculations
       })
 
       let joined = this.state.DatabaseData.concat({ Title: this.state.newTitle.toString(), GPSLocation: this.state.gpsCoordinates.toString(), Picture: this.state.file, Data: this.state.Data, InfiltrometerData: this.state.infiltrometerData});
@@ -1066,11 +1072,10 @@ class App extends React.Component {
   renderPreviousTableData() {
 
     return this.state.ReviewOldDataArray.map((student, index) => {
-      const { Title, Picture, GPSLocation} = student //destructuring
+      const {Title, Picture} = student //destructuring
       return (
           <tr key={Title}>
             <td>{Title}</td>
-            <td>{GPSLocation}</td>
             <td><img src={Picture} alt="Picture"/></td>
             <td>
               <Link to="/review-data" onClick={() => {this.state.title = Title; this.ReviewOldData();}} style={{ textDecoration: 'none' }}>
@@ -1080,7 +1085,7 @@ class App extends React.Component {
                 <Button variant="contained" color="primary" className={"previousButtonTable"}>Delete</Button>
               </Link>
               <Link to="/edit-data" onClick={() => {this.state.title = Title; this.SwitchToEditingOldData();}} style={{ textDecoration: 'none' }} >
-                <Button variant="contained" color="primary" className={"previousButtonTable"}>Edit Data</Button>
+                <Button variant="contained" color="primary" className={"previousButtonTable"}>Edit</Button>
               </Link>
             </td>
           </tr>
