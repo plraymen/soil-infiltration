@@ -300,7 +300,7 @@ function Main({that}) {
 
                     <br/>
 
-                    <div class="buttonContainer">
+                    <div align={"center"}>
                         <InputLabel>Select a Value</InputLabel>
                         <Select labelId="label" id="suctionselect" defaultValue={"0.5"}>
 
