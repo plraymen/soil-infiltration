@@ -75,15 +75,22 @@ function Main({that}) {
     //-------------------------------------------------------------------------------------------------//
     //Modal
     const body = (
-        <div align={"center"} style={modalStyle} className={classes.paper}>
-            <h4>Welcome to Soil Infiltrometer App</h4>
-            <h5>We want to let you know that this app is still in active development. You may experience technical issues while using this App.</h5>
-            <h5>_____________________________________</h5>
-            <h4>Here is a helpful Hint</h4>
-            <img src={drawerButton} className={"img"}/>
-            <h5><li>This button, that is located in the top left corner, is your friend.</li></h5>
-            <h5><li>It host a myriad of different pages and options on every different page.</li></h5>
-            <Button onClick={handleClose} variant="contained" color="primary">Close this Pop-up</Button>
+        <div style={modalStyle} className={classes.paper}>
+            <div>
+                <h4 align={"center"}>Welcome to Soil Infiltrometer App</h4>
+                <h5><li>This Application is Designed to work offline. All you need to do is just Load it up before hand.</li></h5>
+                <h5><li>This application is per device, per browser specific, we've made it to save data to the current Browser you're using.</li></h5>
+                <h5><li>We are using Polynomial Regression in this to calculate certain constants, we cannot force the equation to go through [0,0] (x,y coordinates), so you're results could very a small percentage.</li></h5>
+                <h5><li>We do have an Android Application Built, download it in the "Download" Section.</li></h5>
+            </div>
+            <div align={"center"}>
+                <h5>_____________________________________</h5>
+                <h4>Here is a helpful Hint</h4>
+                <img src={drawerButton} className={"smimg"}/>
+                <h5><li>This button, that is located in the top left corner, is your friend.</li></h5>
+                <h5><li>It host a myriad of different pages and options on every different page.</li></h5>
+                <Button onClick={handleClose} variant="contained" color="primary">Close this Pop-Up</Button>
+            </div>
         </div>
     );
 

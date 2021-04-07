@@ -113,6 +113,7 @@ function Edit({that}) {
           </div>
         </div>
         <div>
+          <br/>
           <Button variant="contained"
                   color="primary"
                   onClick={that.getGPSLocation}
@@ -141,30 +142,6 @@ function Edit({that}) {
         <br/>
         <br/>
 
-        <div>
-          <p>Change Data:  </p>
-          <TextField id="filled-basic-Time"
-                     label="Data"
-                     variant="filled"
-                     value={that.state.Data}
-                     onChange={e => that.setState({ Data: e.target.value })}
-          />
-        </div>
-
-        <br/>
-        <br/>
-
-        <div>
-          <p>Change Infiltrometer Settings:  </p>
-          <TextField id="filled-basic-Time"
-                     label="Data"
-                     variant="filled"
-                     value={that.state.infiltrometerData}
-                     onChange={e => that.setState({ infiltrometerData: e.target.value })}
-          />
-        </div>
-        <br/>
-        <br/>
         <div align={"center"}>
           <table>
             <tr>

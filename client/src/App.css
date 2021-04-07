@@ -49,6 +49,13 @@ img {
   object-fit: cover;
 }
 
+.smimg {
+  text-align: center;
+  width:  75px;
+  height: 75px;
+  object-fit: cover;
+}
+
 .reviewImg {
   text-align: center;
   width:  350px;
