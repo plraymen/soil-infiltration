@@ -234,16 +234,64 @@ function Learn({that}) {
                   </div>
 
 
-
-                  {/*   TODO  */}
                   <div className="wrap-collapsible">
                       <input id="help3" className="toggle" type="checkbox"></input>
-                      <label htmlFor="help3" className="lbl-toggle">TODO: Finishing a test</label>
+                      <label htmlFor="help3" className="lbl-toggle">Finishing a test / Saving data</label>
                       <div className="collapsible-content">
                           <div className="content-inner">
-                              <h1 className={"step"}>Step 1: TODO...</h1>
+                              <h1 className={"step"}>Step 1: Ending the Test</h1>
                               <h2 className={"stepText"}>
-                                  TODO
+
+                                  Once you are done collecting data click on the menu button in the top-left corner as shown in Figure 3.1.
+                                  <br/>
+                                  <br/>
+                                  <img className={"helpImg"} src='help3_step1_1.jpg' alt='step1_1'></img>
+                                  <br/>
+                                  Figure 3.1
+                                  <br/>
+                                  <br/>
+                                  If you want to keep the data you've collected, click on "Data Gathering Completed".
+                                  If you'd rather restart the test and return to the previous page, click on
+                                  "Reset to Main Page". (See figure 3.2)
+                                  <br/>
+                                  <h3 className={"note"}>
+                                      You will lose the current test data if you click "Reset to Main Page"
+                                  </h3>
+                                  <br/>
+                                  <br/>
+                                  <img className={"helpImg"} src='help3_step1_2.jpg' alt='step1_2'></img>
+                                  <br/>
+                                  Figure 3.2
+                                  <br/>
+                                  <br/>
+
+                              </h2>
+                              <h1 className={"step"}>Step 2: Saving the data</h1>
+                              <h2 className={"stepText"}>
+
+                                If you selected "Data Gathering Completed" you should have been brought to the "Application
+                                  Completed" page. Here you can add a Title to the test, upload a Picture, add GPS coordinates,
+                                  and export as a .CSV file. You may also use your devices GPS service as the coordinates
+                                  by clicking "Use Phones GPS".
+                                  <br/>
+                                  <br/>
+                                  After you are done entering your information, click the menu button in the top-left
+                                  corner. If you are satisfied with the test and want to save it, click "Save & Return to
+                                  Main Page". (See Figure 3.3)
+                                  <br/>
+                                  If you want to delete this test and start over, click "Reset To Main Page".
+                                  <br/>
+                                  <h3 className={"note"}>
+                                      You will lose all current test data if you click "Reset to Main Page".
+                                  </h3>
+                                  <br/>
+                                  <br/>
+                                  <img className={"helpImg"} src='help3_step2_1.jpg' alt='step1_2'></img>
+                                  <br/>
+                                  Figure 3.3
+                                  <br/>
+                                  <br/>
+
                               </h2>
                           </div>
                       </div>
@@ -252,13 +300,58 @@ function Learn({that}) {
                   {/*   TODO  */}
                   <div className="wrap-collapsible">
                       <input id="help4" className="toggle" type="checkbox"></input>
-                      <label htmlFor="help4" className="lbl-toggle">TODO: Viewing past data</label>
+                      <label htmlFor="help4" className="lbl-toggle">Reviewing past data</label>
                       <div className="collapsible-content">
                           <div className="content-inner">
-                              <h1 className={"step"}>Step 1: TODO...</h1>
+                              <h1 className={"step"}>Step 1: Open Data Review Page</h1>
                               <h2 className={"stepText"}>
-                                  TODO
+                                  Click the menu button in the top-left corner to open the page menu. Then click "Previous Test Data"
+                                  to be brought to the Data Review page.
+                              <br/>
+                              <br/>
+                              <h3 className={"note"}>
+                                  If you do not see "Previous Test Data" you may have to finish your test, save your current data,
+                                  or exit the current test by clicking "Reset to Main Page" form the menu.
+                              </h3>
+                              <br/>
+                              <br/>
+                              Once at the "Previous Test Data" page, you should see a table at the bottom containing any
+                              previous tests you may have saved. If not, click "Reload Table" to refresh the table.
+                              <br/>
+                              <br/>
                               </h2>
+
+                              <h1 className={"step"}>Step 2: Review, Delete, or Edit</h1>
+                              <h2 className={"stepText"}>
+                                  If your data has been successfully loaded you should see at least 1 of your tests in the table
+                                   similar to that in Figure 4.1
+
+                                  <br/>
+                                  <br/>
+                                  <img className={"helpImg"} src='help4_step2_1.jpg' alt='step2_1'></img>
+                                  <br/>
+                                  Figure 4.1
+                                  <br/>
+                                  <br/>
+                                  The buttons in the Action column are used to interact with the table.
+                                  <br/>
+                                  By clicking "Review" you can see the data saved in the test and export
+                                  the data as a .CSV file if needed.
+                                  <br/>
+                                  Clicking "Delete" will prompt you to confirm if you'd like the data deleted.
+                                  <br/>
+                                  <h3 className={"note"}>
+                                      Deleted data CANNOT be recovered, only delete data if you are sure you don't need it.
+                                  </h3>
+                                  <br/>
+                                  Edit will allow you to change the Title, GPS data, and the associated Picture.
+                                  <br/>
+                                  <br/>
+                                  Once done you can click the menu button and save your results.
+                                  <br/>
+
+                              </h2>
+
                           </div>
                       </div>
                   </div>
