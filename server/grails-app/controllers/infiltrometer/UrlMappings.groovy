@@ -19,6 +19,7 @@ class UrlMappings {
         "/previous-data"(uri: "/index.html")
         "/edit-data"(uri: "/index.html")
         "/about"(uri: "/index.html")
+        "/download"(uri: "/index.html")
         "500"(view: '/error')
         "404"(view: '/notFound')
     }

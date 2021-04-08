@@ -23,6 +23,7 @@ import ReviewData from './ReviewData.js'
 import Edit from './Edit.js'
 import sound from './Alarm-ClockSound.mp3'
 import DataGatheringDrawer from "./DataGatheringDrawer";
+import Downloads from "./downloadsPage";
 import './table.css'
 
 let playSound = false;
@@ -1147,6 +1148,9 @@ class App extends React.Component {
             <Route path="/index.html">
               <Main that={this} />
             </Route>
+             <Route path="/download">
+               <Downloads that={this} />
+             </Route>
           </Switch>
         </div>
       </Router>

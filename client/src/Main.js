@@ -80,7 +80,7 @@ function Main({that}) {
                 <h4 align={"center"}>Welcome to Soil Infiltrometer App</h4>
                 <h5><li>This Application is Designed to work offline. All you need to do is just Load it up before hand.</li></h5>
                 <h5><li>This application is per device, per browser specific, we've made it to save data to the current Browser you're using.</li></h5>
-                <h5><li>We are using Polynomial Regression in this to calculate certain constants, we cannot force the equation to go through [0,0] (x,y coordinates), so you're results could very a small percentage.</li></h5>
+                <h5><li>We are using Polynomial Regression in this to calculate certain constants, we cannot force the equation to go through [0,0] (x,y coordinates), so you're results could vary a small percentage.</li></h5>
                 <h5><li>We do have an Android Application Built, download it in the "Download" Section.</li></h5>
             </div>
             <div align={"center"}>
@@ -115,7 +115,8 @@ function Main({that}) {
         {id: 1, name: "Learn How To Use The App?"},
         {id: 2, name: "Learn How to Use the Infiltrometer?"},
         {id: 3, name: "Previous Test Data"},
-        {id: 4, name: "Learn About Us?"}
+        {id: 4, name: "Learn About Us?"},
+        {id: 5, name: "Downloads"}
     ]
 
     let OtherContentcurrentWindow = window.location.pathname;
@@ -129,13 +130,16 @@ function Main({that}) {
         OtherContentindex = 3;
     } else if (OtherContentcurrentWindow === "/about") {
         OtherContentindex = 4;
+    } else if (OtherContentcurrentWindow === "/download") {
+        OtherContentindex = 5;
     }
 
     const OtherContentCategories = [{id: " Main Page", location: "/index.html", command: that.SwitchToMain, number: 0},
         {id: " Learn How To Use The App?", location: '/learn', command: that.SwitchToLearnHowToUseTheApp, number: 1},
         {id: " Learn How to Use the Infiltrometer?", location: "/learn-infiltrometer", command: that.SwitchToLearnHowToUseTheInfiltrometer, number: 2},
         {id: " Previous Test Data", location: "/previous-data", command: that.SwitchToPreviousData, number: 3},
-        {id: " Learn About Us?", location: "/about", command: that.SwitchToAboutUs, number: 4}
+        {id: " Learn About Us?", location: "/about", command: that.SwitchToAboutUs, number: 4},
+        {id: " Downloads", location: "/download", command: that.SwitchToAboutUs, number: 5}
     ]
 
     const [OtherContentopen, OtherContentsetOpen] = React.useState(false);
@@ -145,9 +149,6 @@ function Main({that}) {
     const handleDrawerClose = () => {
         OtherContentsetOpen(false);
     };
-
-
-    //End Drawer
     return (
         <div>
             <div>
