@@ -1,5 +1,10 @@
 export const soilData = [
     {
+        name: "None",
+        Alpha: 0,
+        NperH0: 0,
+    },
+    {
         name: "Clay",
         Alpha: 0.005,
         NperH0: 1.09,

@@ -78,10 +78,9 @@ function Main({that}) {
         <div style={modalStyle} className={classes.paper}>
             <div>
                 <h4 align={"center"}>Welcome to Soil Infiltrometer App</h4>
-                <h5><li>This Application is Designed to work offline. All you need to do is just Load it up before hand.</li></h5>
+                <h5><li>This Application is an Aid in Collecting Data, you're goal is to pay attention to the Soil Infiltrometer first.</li></h5>
                 <h5><li>This application is per device, per browser specific, we've made it to save data to the current Browser you're using.</li></h5>
-                <h5><li>We are using Polynomial Regression in this to calculate certain constants, we cannot force the equation to go through [0,0] (x,y coordinates), so you're results could vary a small percentage.</li></h5>
-                <h5><li>We do have an Android Application Built, download it in the "Download" Section.</li></h5>
+                <h5><li>We are using Polynomial Regression in this to calculate certain constants, you're results could vary a small percentage.</li></h5>
             </div>
             <div align={"center"}>
                 <h5>_____________________________________</h5>
@@ -198,10 +197,12 @@ function Main({that}) {
                            label="Time Intervals in Seconds"
                            variant="filled"
                            value={that.state.timeInterval}
-                           onChange={e => that.setState({ timeInterval: parseInt(e.target.value) })}
+                           onChange={e => that.setState({ timeInterval: parseInt(e.target.value) })
+                           }
                            type="number"
                            pattern="[0-9]*"
                            inputmode="numeric"
+                           placeholder={'[0-10000]'}
 
                 />
             </div>
@@ -223,7 +224,7 @@ function Main({that}) {
             <div className={"center"}>
                 <div>
                     <h5>Enter Soil Infiltrometer Radius</h5>
-                    <TextField id="filled-basic-Time"
+                    <TextField  id="filled-basic-Time"
                                label="Infiltrometer Radius (cm)"
                                variant="filled"
                                value={that.state.Radius}
@@ -235,8 +236,9 @@ function Main({that}) {
                 </div>
 
                 <div>
-                    <InputLabel>Select a Value</InputLabel>
-                    <Select name="infilSelect">
+                    <InputLabel>Select a Preset Value</InputLabel>
+                    <Select name="infilSelect" defaultValue={"None"}>
+                        <MenuItem value={"None"} onClick={that.selectInftiltrometerTypeNone}>None</MenuItem>
                         <MenuItem value="MiniDisk"
                                   onClick={that.selectInftiltrometerTypeMiniDisk}
                         >MiniDisk</MenuItem>
@@ -274,8 +276,8 @@ function Main({that}) {
                     />
                 </div>
                 <div>
-                    <InputLabel>Select a Value</InputLabel>
-                    <Select defaultValue={Select} labelId="label" id="select">
+                    <InputLabel>Select a Preset Value</InputLabel>
+                    <Select defaultValue={Select} labelId="label" id="select" defaultValue={"None"}>
                         {soilData.map((data, key) => {
                             return (
                                 <MenuItem defaultValue={"Clay"} key={key}
@@ -309,9 +311,9 @@ function Main({that}) {
                     <br/>
 
                     <div align={"center"}>
-                        <InputLabel>Select a Value</InputLabel>
-                        <Select labelId="label" id="suctionselect" defaultValue={"0.5"}>
-
+                        <InputLabel>Select a Preset Value</InputLabel>
+                        <Select labelId="label" id="suctionselect" defaultValue={"0.5"} defaultValue={"None"}>
+                            <MenuItem value={"None"} onClick={that.selectInftiltrometerSuctionNone}>None</MenuItem>
                             {suctionData.map((data, key) => {
                                 return (
                                     <MenuItem
@@ -320,7 +322,7 @@ function Main({that}) {
                                         color="primary"
                                         value={data.suction}
                                         onClick={() => that.selectSoilSuction(data.suction)}>
-                                        {Math.abs(data.suction)}
+                                        {(data.suction)}
                                     </MenuItem>
                                 );
                             })}

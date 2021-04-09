@@ -131,6 +131,7 @@ class App extends React.Component {
 
     this.selectInftiltrometerTypeMiniDisk = this.selectInftiltrometerTypeMiniDisk.bind(this)
     this.selectInftiltrometerTypeMiniDiskV1 = this.selectInftiltrometerTypeMiniDiskV1.bind(this)
+    this.selectInftiltrometerSuctionNone = this.selectInftiltrometerSuctionNone.bind(this)
 
     this.selectSoilType = this.selectSoilType.bind(this)
     this.selectSoilSuction = this.selectSoilSuction.bind(this)
@@ -141,6 +142,7 @@ class App extends React.Component {
     this.playAudio = this.playAudio.bind(this)
     this.loadTable = this.loadTable.bind(this)
     this.pauseAudio = this.pauseAudio.bind(this)
+    this.selectInftiltrometerTypeNone = this.selectInftiltrometerTypeNone.bind(this)
 
   }
 
@@ -1008,6 +1010,11 @@ class App extends React.Component {
   }
 
   //For infilt calculations - Select infiltrometer
+  selectInftiltrometerTypeNone() {
+    this.setState({
+      Radius: this.state.Radius = 0
+    })
+  }
   selectInftiltrometerTypeMiniDisk() {
     this.setState({
       Radius: this.state.Radius = 2.25
@@ -1017,6 +1024,12 @@ class App extends React.Component {
   selectInftiltrometerTypeMiniDiskV1() {
     this.setState({
       Radius: this.state.Radius = 1.6
+    })
+  }
+
+  selectInftiltrometerSuctionNone() {
+    this.setState({
+      Suction: this.state.Suction = 0
     })
   }
 

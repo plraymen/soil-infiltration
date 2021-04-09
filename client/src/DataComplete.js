@@ -38,8 +38,8 @@ function DataComplete({that}) {
 
     const Categories =
         [
-            {id: " Save & Return to Main Page", location: "/index.html", command: that.SaveAndExit, number: 0},
-            {id: " Reset to Main Page", location: "/index.html", command: that.resettingToMainPage, number: 1},
+            // {id: " Save & Return to Main Page", location: "/index.html", command: that.SaveAndExit, number: 0},
+            // {id: " Reset to Main Page", location: "/index.html", command: that.resettingToMainPage, number: 1},
         ]
 
     const [openModel, setOpenModal] = React.useState(false);
@@ -64,29 +64,29 @@ function DataComplete({that}) {
             <CssBaseline />
             <AppBar position="static">
                 <Toolbar variant="dense">
-                    <IconButton color="inherit" onClick={handleDrawerOpen} edge="start">
-                        <MenuIcon />
-                    </IconButton>
+                    {/*<IconButton color="inherit" onClick={handleDrawerOpen} edge="start">*/}
+                    {/*    <MenuIcon />*/}
+                    {/*</IconButton>*/}
                     <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}> {Name[index].name} </Typography>
                 </Toolbar>
             </AppBar>
-            <Drawer variant="persistent" anchor="left" open={openModel}>
-                <List>
-                    <ListItem button key="home" onClick={handleDrawerClose}>
-                        <ListItemIcon>
-                            <CloseIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Close" />
-                    </ListItem>
-                    <List>
-                        {Categories.map((id, command) => (
-                            <ListItem button component={NavLink} to={id.location} onClick={id.command} activeClassName="Mui-selected" exact>
-                                <ListItemText primary={id.id} />
-                            </ListItem>
-                        ))}
-                    </List>
-                </List>
-            </Drawer>
+            {/*<Drawer variant="persistent" anchor="left" open={openModel}>*/}
+            {/*    <List>*/}
+            {/*        <ListItem button key="home" onClick={handleDrawerClose}>*/}
+            {/*            <ListItemIcon>*/}
+            {/*                <CloseIcon/>*/}
+            {/*            </ListItemIcon>*/}
+            {/*            <ListItemText primary="Close" />*/}
+            {/*        </ListItem>*/}
+            {/*        <List>*/}
+            {/*            {Categories.map((id, command) => (*/}
+            {/*                <ListItem button component={NavLink} to={id.location} onClick={id.command} activeClassName="Mui-selected" exact>*/}
+            {/*                    <ListItemText primary={id.id} />*/}
+            {/*                </ListItem>*/}
+            {/*            ))}*/}
+            {/*        </List>*/}
+            {/*    </List>*/}
+            {/*</Drawer>*/}
             <main style={{ marginTop: 10 }}>
             </main>
         </div>
@@ -101,6 +101,40 @@ function DataComplete({that}) {
           />
       </div>
       <br/>
+        <div align={"center"}>
+            <h3>Enter GPS Location</h3>
+            <div>
+                <TextField id="filled-basic-Time"
+                           label="Longitude"
+                           variant="filled"
+                           value={that.state.longitude}
+                           onChange={e => that.setState({ longitude: e.target.value })}
+                           type="number"
+                           pattern="[0-9]*"
+                           inputmode="numeric"
+                />
+            </div>
+            <br/>
+            <div>
+                <TextField id="filled-basic-Time"
+                           label="Latitude"
+                           variant="filled"
+                           value={that.state.latitude}
+                           onChange={e => that.setState({ latitude: e.target.value })}
+                           type="number"
+                           pattern="[0-9]*"
+                           inputmode="numeric"
+                />
+            </div>
+            <br/>
+            <Button variant="contained"
+                    color="primary"
+                    onClick={that.getGPSLocation}
+                    className={"buttonContainer"}
+            >Use Phones GPS</Button>
+            <br/>
+            <br/>
+        </div>
 
       <div align={"center"}>
         <h3>Upload a Picture</h3>
@@ -118,61 +152,28 @@ function DataComplete({that}) {
 
       <br/>
 
-      <div align={"center"}>
-        <h3>Enter GPS Location</h3>
-        <div>
-          <TextField id="filled-basic-Time"
-                     label="Longitude"
-                     variant="filled"
-                     value={that.state.longitude}
-                     onChange={e => that.setState({ longitude: e.target.value })}
-                     type="number"
-                     pattern="[0-9]*"
-                     inputmode="numeric"
-          />
+      <br/>
+
+        <div className={"center"}>
+            <Link onClick={that.SaveAndExit} to="/index.html" style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary" className={"buttonContainer"}> Save & Return to Main Page </Button>
+            </Link>
         </div>
+
         <br/>
-        <div>
-          <TextField id="filled-basic-Time"
-                     label="Latitude"
-                     variant="filled"
-                     value={that.state.latitude}
-                     onChange={e => that.setState({ latitude: e.target.value })}
-                     type="number"
-                     pattern="[0-9]*"
-                     inputmode="numeric"
-          />
+
+        <div className={"center"}>
+            <Link onClick={that.resettingToMainPage} to="/index.html" style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="secondary" className={"buttonContainer"}> Reset to Main Page </Button>
+            </Link>
         </div>
-          <br/>
-        <Button variant="contained"
-                color="primary"
-                onClick={that.getGPSLocation}
-                className={"buttonContainer"}
-        >Use Phones GPS</Button>
-      </div>
-
-      <br/>
-      <br/>
-      <div align={"center"}>
-        <CSVLink
-            data={that.state.CSVArray}
-            filename={that.state.title.toString() + ".csv"}
-            className="btn btn-primary"
-            target="_blank"
-            style={{ textDecoration: 'none' }}
-        >
-            <Button variant="contained" color="primary" className={"buttonContainer"} style={{ textDecoration: 'none' }}>Export as CSV File</Button>
-
-        </CSVLink>
-      </div>
-
 
       <br/>
         <hr></hr>
       <div className={"center"}>
           <h1>Test Results</h1>
       </div>
-        <br/>
+
       <div align={"center"}>
           <h3>Soil Infiltrometer Configuration</h3>
         <table>
@@ -231,6 +232,21 @@ function DataComplete({that}) {
                 </div>
             </div>
         </div>
+        <br/>
+
+        <div align={"center"}>
+            <CSVLink
+                data={that.state.CSVArray}
+                filename={that.state.title.toString() + ".csv"}
+                className="btn btn-primary"
+                target="_blank"
+                style={{ textDecoration: 'none' }}
+            >
+                <Button variant="contained" color="primary" className={"buttonContainer"} style={{ textDecoration: 'none' }}>Export as CSV File</Button>
+
+            </CSVLink>
+        </div>
+
       <div align={"center"}>
         <Table Data={that.state.Data}/>
       </div>

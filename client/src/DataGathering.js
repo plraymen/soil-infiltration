@@ -102,7 +102,7 @@ function DataGathering({that}) {
 
     const Categories =
         [
-            {id: " Data Gathering Completed", location: "/data-complete", command: that.SwitchToDataCompleted, number: 0},
+            // {id: " Data Gathering Completed", location: "/data-complete", command: that.SwitchToDataCompleted, number: 0},
             {id: " Reset to Main Page", location: "/index.html", command: that.resettingToMainPage, number: 1},
         ]
 
@@ -259,6 +259,12 @@ function DataGathering({that}) {
         </div>
       <div align='center'>
       </div>
+        <div className={"center"}>
+            {/*{id: " Data Gathering Completed", location: "/data-complete", command: that.SwitchToDataCompleted, number: 0},*/}
+            <Link onClick={that.SwitchToDataCompleted} to="/data-complete" style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="secondary" className={"buttonContainer"}> Data Gathering Completed</Button>
+            </Link>
+        </div>
         <div>
             <Modal
                 open={DataCollectingModalopen}
@@ -337,7 +343,6 @@ function DataGathering({that}) {
       <br/>
       <br/>
         <div>
-
         </div>
       <br/>
       <div align={"center"}>
