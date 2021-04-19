@@ -14,8 +14,13 @@ import MobilePDFReader from 'pdf-viewer-reactjs';
 import "./LearnInfil.css";
 import pdf from './Mini_Disk_Manual_Web.pdf';
 import './button.css'
+import { Viewer } from '@react-pdf-viewer/core';
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
 function LearnInfil({that}) {
+    const defaultLayoutPluginInstance = defaultLayoutPlugin();
     let OtherContentindex = 0;
 
     const Name = [
@@ -89,15 +94,23 @@ function LearnInfil({that}) {
               <main style={{ marginTop: 10 }}>
               </main>
           </div>
-          <div className={"border"}>
+          <div>
               <br/>
-              <div className={"pdf"}>
-                  <MobilePDFReader
-                      document={{
-                          url: pdf,
-                          scale: "auto"
-                      }}
+              <div>
+                  {/*<MobilePDFReader*/}
+                  {/*    document={{*/}
+                  {/*        url: pdf,*/}
+                  {/*        scale: "auto"*/}
+                  {/*    }}*/}
+                  {/*/>*/}
+
+                  <Viewer
+                      fileUrl={pdf}
+                      plugins={[
+                          // defaultLayoutPluginInstance,
+                      ]}
                   />
+
               </div>
               <br/>
           </div>
