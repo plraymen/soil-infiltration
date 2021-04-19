@@ -46,101 +46,121 @@ function Edit({that}) {
 
   //------------------------------------------------------------------------------------------------//
   return (
-    <div>
       <div>
-        <CssBaseline />
-        <AppBar position="static">
-          <Toolbar variant="dense">
-            <IconButton color="inherit" onClick={handleDrawerOpen} edge="start">
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}> {Name[index].name} {that.state.DatabaseData[that.state.indexNum].Title} </Typography>
-          </Toolbar>
-        </AppBar>
-        <Drawer variant="persistent" anchor="left" open={openModel}>
-          <List>
-            <ListItem button key="home" onClick={handleDrawerClose}>
-              <ListItemIcon>
-                <CloseIcon/>
-              </ListItemIcon>
-              <ListItemText primary="Close" />
-            </ListItem>
-            <List>
-              {Categories.map((id, command) => (
-                  <ListItem button component={NavLink} to={id.location} onClick={id.command} activeClassName="Mui-selected" exact>
-                    <ListItemText primary={id.id} />
-                  </ListItem>
-              ))}
-            </List>
-          </List>
-        </Drawer>
-        <main style={{ marginTop: 10 }}>
-        </main>
-      </div>
-
-      <div align={"center"}>
-        <p>Change Title: </p>
         <div>
-        <TextField id="filled-basic-Time"
-                   label="Title"
-                   variant="filled"
-                   value={that.state.newTitle}
-                   onChange={e => that.setState({ newTitle: e.target.value })}
-        />
+          <CssBaseline />
+          <AppBar position="static">
+            <Toolbar variant="dense">
+              {/*<IconButton color="inherit" onClick={handleDrawerOpen} edge="start">*/}
+              {/*  <MenuIcon />*/}
+              {/*</IconButton>*/}
+              <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}> {Name[index].name} {that.state.DatabaseData[that.state.indexNum].Title} </Typography>
+            </Toolbar>
+          </AppBar>
+          {/*<Drawer variant="persistent" anchor="left" open={openModel}>*/}
+          {/*  <List>*/}
+          {/*    <ListItem button key="home" onClick={handleDrawerClose}>*/}
+          {/*      <ListItemIcon>*/}
+          {/*        <CloseIcon/>*/}
+          {/*      </ListItemIcon>*/}
+          {/*      <ListItemText primary="Close" />*/}
+          {/*    </ListItem>*/}
+          {/*    <List>*/}
+          {/*      {Categories.map((id, command) => (*/}
+          {/*          <ListItem button component={NavLink} to={id.location} onClick={id.command} activeClassName="Mui-selected" exact>*/}
+          {/*            <ListItemText primary={id.id} />*/}
+          {/*          </ListItem>*/}
+          {/*      ))}*/}
+          {/*    </List>*/}
+          {/*  </List>*/}
+          {/*</Drawer>*/}
+          <main style={{ marginTop: 10 }}>
+          </main>
         </div>
 
-        <br/>
-        <br/>
-
-        <p>Change GPS Coordinates: </p>
-        <div>
+        <div align={"center"}>
+          <h3>Change Title</h3>
           <div>
             <TextField id="filled-basic-Time"
-                       label="Longitude"
+                       label="Title"
                        variant="filled"
-                       value={that.state.longitude}
-                       onChange={e => that.setState({ longitude: e.target.value })}
+                       value={that.state.newTitle}
+                       onChange={e => that.setState({ newTitle: e.target.value })}
             />
           </div>
+
           <br/>
+          <br/>
+
+          <h3>Change GPS Coordinates </h3>
           <div>
-            <TextField id="filled-basic-Time"
-                       label="Latitude"
-                       variant="filled"
-                       value={that.state.latitude}
-                       onChange={e => that.setState({ latitude: e.target.value })}
-            />
+            <div>
+              <TextField id="filled-basic-Time"
+                         label="Longitude"
+                         variant="filled"
+                         value={that.state.longitude}
+                         onChange={e => that.setState({ longitude: e.target.value })}
+              />
+            </div>
+            <br/>
+            <div>
+              <TextField id="filled-basic-Time"
+                         label="Latitude"
+                         variant="filled"
+                         value={that.state.latitude}
+                         onChange={e => that.setState({ latitude: e.target.value })}
+              />
+            </div>
           </div>
-        </div>
-        <div>
+          <div>
+            <br/>
+            <Button variant="contained"
+                    color="primary"
+                    onClick={that.getGPSLocation}
+            >Use Phones GPS</Button>
+          </div>
+
           <br/>
-          <Button variant="contained"
-                  color="primary"
-                  onClick={that.getGPSLocation}
-          >Use Phones GPS</Button>
-        </div>
+          <br/>
 
-        <br/>
-        <br/>
-
-        <div>
-          <h3>Change Picture:  </h3>
-        </div>
-        <div>
-          <h3>Upload a Picture:</h3>
-          <div><input
-              type="file"
-              id="imageFile"
-              name='imageFile'
-              onChange={that.imageUpload} />
+          <div>
+            <h3>Upload a new Picture</h3>
+            <div><input
+                type="file"
+                id="imageFile"
+                name='imageFile'
+                onChange={that.imageUpload} />
+            </div>
+            <div>
+              <img src={that.state.file}/>
+            </div>
           </div>
-           <div>
-          <img src={that.state.file}/>
-           </div>
+
+          <br/>
+          <br/>
+
+        </div>
+
+
+        <div className={"center"}>
+          <Link onClick={that.EditData} to="/index.html" style={{ textDecoration: 'none' }}>
+            <Button variant="contained" color="primary" className={"buttonContainer"}> Save Changes and Return to Main Page</Button>
+          </Link>
         </div>
 
         <br/>
+
+        <div className={"center"}>
+          <Link onClick={that.resettingToEditingMainPage} to="/index.html" style={{ textDecoration: 'none' }}>
+            <Button variant="contained" color="secondary" className={"buttonContainer"}> Reset and Return to Main Page </Button>
+          </Link>
+        </div>
+
         <br/>
+        <hr></hr>
+        <div className={"center"}>
+          <h1>Non-Editable Test Results</h1>
+        </div>
 
         <div align={"center"}>
           <table>
@@ -168,27 +188,16 @@ function Edit({that}) {
         </div>
 
         <br/>
+        <div align={"center"}>
+          <Table Data={that.state.DatabaseData[that.state.indexNum].Data}/>
+        </div>
+
+
         <br/>
-
+        <br/>
+        <br/>
+        <br/>
       </div>
-
-
-      <div align={"center"}>
-        <Table Data={that.state.DatabaseData[that.state.indexNum].Data}/>
-      </div>
-
-
-
-      <br/>
-      <br/>
-      <br/>
-      <div>
-        {/*<TestInfiltrometerSettings Data={that.state.DatabaseData[indexNum].infiltrometerData}/>*/}
-      </div>
-      <br/>
-      <br/>
-      <br/>
-    </div>
   )
 }
 

@@ -222,143 +222,143 @@ function DataGathering({that}) {
     };
 
 
-  return (
-    <div>
+    return (
         <div>
-            <CssBaseline />
-            <AppBar position="static">
-                <Toolbar variant="dense">
-                    <IconButton color="inherit" onClick={handleDrawerOpen} edge="start">
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}> {Name[index].name} </Typography>
-                </Toolbar>
-            </AppBar>
-            <Drawer variant="persistent" anchor="left" open={openModel}>
-                <List>
-                    <ListItem button key="home" onClick={handleDrawerClose}>
-                        <ListItemIcon>
-                            <CloseIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Close" />
-                    </ListItem>
+            <div>
+                <CssBaseline />
+                <AppBar position="static">
+                    <Toolbar variant="dense">
+                        <IconButton color="inherit" onClick={handleDrawerOpen} edge="start">
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}> {Name[index].name} </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Drawer variant="persistent" anchor="left" open={openModel}>
                     <List>
-                        {Categories.map((id, command) => (
-                            <ListItem button component={NavLink} to={id.location} onClick={id.command} activeClassName="Mui-selected" exact>
-                                <ListItemText primary={id.id} />
-                            </ListItem>
-                        ))}
-                        <ListItem button onClick={SettingsModalhandleOpen} activeClassName="Mui-selected" exact>
-                            <ListItemText primary={"Settings"} />
+                        <ListItem button key="home" onClick={handleDrawerClose}>
+                            <ListItemIcon>
+                                <CloseIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Close" />
                         </ListItem>
+                        <List>
+                            {Categories.map((id, command) => (
+                                <ListItem button component={NavLink} to={id.location} onClick={id.command} activeClassName="Mui-selected" exact>
+                                    <ListItemText primary={id.id} />
+                                </ListItem>
+                            ))}
+                            <ListItem button onClick={SettingsModalhandleOpen} activeClassName="Mui-selected" exact>
+                                <ListItemText primary={"Settings"} />
+                            </ListItem>
+                        </List>
                     </List>
-                </List>
-            </Drawer>
-            <main style={{ marginTop: 10 }}>
-            </main>
-        </div>
-      <div align='center'>
-      </div>
-        <div className={"center"}>
-            {/*{id: " Data Gathering Completed", location: "/data-complete", command: that.SwitchToDataCompleted, number: 0},*/}
-            <Link onClick={that.SwitchToDataCompleted} to="/data-complete" style={{ textDecoration: 'none' }}>
-                <Button variant="contained" color="secondary" className={"buttonContainer"}> Data Gathering Completed</Button>
-            </Link>
-        </div>
-        <div>
-            <Modal
-                open={DataCollectingModalopen}
-                onClose={DataCollectingModalhandleClose}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-            >
-                {body}
-            </Modal>
-        </div>
-        <div>
-            <Modal
-                open={SettingsModalopen}
-                onClose={SettingsModalhandleClose}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-            >
-                {Settingsbody}
-            </Modal>
-        </div>
-        <br/>
-        <br/>
-      <div align='center'>
-        <table>
-            <tr>
-                <td><h3>Total Time: </h3></td>
-                <td><h3><Timer formatValue={e => that.totalTime = e}
-                           lastUnit={"s"}
-                           initialTime={0}
-                           direction="forward"
+                </Drawer>
+                <main style={{ marginTop: 10 }}>
+                </main>
+            </div>
+            <div align='center'>
+            </div>
+            <div>
+                <Modal
+                    open={DataCollectingModalopen}
+                    onClose={DataCollectingModalhandleClose}
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                 >
-                    <Timer.Seconds /> Seconds
-                </Timer></h3></td>
-            </tr>
+                    {body}
+                </Modal>
+            </div>
+            <div>
+                <Modal
+                    open={SettingsModalopen}
+                    onClose={SettingsModalhandleClose}
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                >
+                    {Settingsbody}
+                </Modal>
+            </div>
+            <div align='center'>
+                <table>
+                    <tr>
+                        <td><h3>Total Time: </h3></td>
+                        <td><h3><Timer formatValue={e => that.totalTime = e}
+                                       lastUnit={"s"}
+                                       initialTime={0}
+                                       direction="forward"
+                        >
+                            <Timer.Seconds /> seconds
+                        </Timer></h3></td>
+                    </tr>
 
-            <tr>
-                <td><h3>Time Left in Interval:  </h3></td>
-                <td><h3><Timer
-                    ref={tiRef}
-                    initialTime={that.state.timeInterval * 1000}
-                    lastUnit={"s"}
-                    direction="backward"
-                    checkpoints={[
-                        {time: 0, callback: function (e) {
-                                tiRef.current.reset()
-                                tiRef.current.start()
-                                DataCollectingModalhandleOpen()
-                            },
-                        },]}
-                > <Timer.Seconds/> seconds </Timer></h3></td>
-            </tr>
-        </table>
-      </div>
-        <br/>
-        <br/>
-      <h3 align={"center"}>Manual Entry</h3>
-      <div align='center'>
-        <TextField id="filled-basic-Time"
-                   label="Enter Volumetric Data"
-                   variant="filled"
-                   value={that.state.volume}
-                   onChange={e => that.setState({ volume: e.target.value })}
-                   type="number"
-                   pattern="[0-9]*"
-                   inputmode="numeric"
-        />
-      </div>
-        <br/>
-        <div align={"center"}>
-        <Button variant="contained"
-                color="primary"
-                onClick={that.AddToDataArray}
-                className={"buttonContainer"}
-        > Submit Volume</Button>
-      </div>
-      <br/>
-      <br/>
-        <div>
+                    <tr>
+                        <td><h3>Time Left in Interval:  </h3></td>
+                        <td><h3><Timer
+                            ref={tiRef}
+                            initialTime={that.state.timeInterval * 1000}
+                            lastUnit={"s"}
+                            direction="backward"
+                            checkpoints={[
+                                {time: 0, callback: function (e) {
+                                        tiRef.current.reset()
+                                        tiRef.current.start()
+                                        DataCollectingModalhandleOpen()
+                                    },
+                                },]}
+                        > <Timer.Seconds/> seconds </Timer></h3></td>
+                    </tr>
+                </table>
+            </div>
+            <br/>
+            <br/>
+            <div className={"center"}>
+                {/*{id: " Data Gathering Completed", location: "/data-complete", command: that.SwitchToDataCompleted, number: 0},*/}
+                <Link onClick={that.SwitchToDataCompleted} to="/data-complete" style={{ textDecoration: 'none' }}>
+                    <Button variant="contained" color="secondary" className={"buttonContainer"}> Data Gathering Completed</Button>
+                </Link>
+            </div>
+            <br/>
+            <br/>
+            <h3 align={"center"}>Manual Entry of Volumetric Data</h3>
+            <div align='center'>
+                <TextField id="filled-basic-Time"
+                           label="Enter Volumetric Data"
+                           variant="filled"
+                           value={that.state.volume}
+                           onChange={e => that.setState({ volume: e.target.value })}
+                           type="number"
+                           pattern="[0-9]*"
+                           inputmode="numeric"
+                />
+            </div>
+            <br/>
+            <div align={"center"}>
+                <Button variant="contained"
+                        color="primary"
+                        onClick={that.AddToDataArray}
+                        className={"buttonContainer"}
+                > Submit Volume</Button>
+            </div>
+            <br/>
+            <br/>
+            <div>
+            </div>
+            <br/>
+            <div align={"center"}>
+                <h1 id='title'>Table Data</h1>
+                <table id='students'>
+                    <tbody>
+                    <tr>{that.renderTableHeader()}</tr>
+                    {that.renderTableData()}
+                    </tbody>
+                </table>
+            </div>
+            <br/>
+            <br/>
+            <br/>
         </div>
-      <br/>
-      <div align={"center"}>
-        <h1 id='title'>Table Data</h1>
-        <table id='students'>
-          <tbody>
-          <tr>{that.renderTableHeader()}</tr>
-          {that.renderTableData()}
-          </tbody>
-        </table>
-      </div>
-      <br/>
-      <br/>
-      <br/>
-    </div>
-  )
+    )
 }
 
 export default DataGathering;

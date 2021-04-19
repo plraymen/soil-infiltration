@@ -577,12 +577,14 @@ class App extends React.Component {
     }
   }
 
-  resettingToEditingMainPage() {
+  resettingToEditingMainPage( e ) {
     let flag = false;
     flag = window.confirm("Are you sure you would like to reset to the main page? This will not save the changes that you have made while editing old data.");
 
     if (flag === true) {
       this.SwitchToMain()
+    } else {
+      e.preventDefault();
     }
   }
 
@@ -1121,54 +1123,54 @@ class App extends React.Component {
   render() {
 
     return  (
-    <div>
-      <div>
-      </div>
-      <div>
-      <Router>
         <div>
-           <Switch>
-             <Route exact path="/">
-               <Redirect to="/index.html" />
-             </Route>
-            <Route path="/data-gathering">
-              <DataGathering that={this} />
-            </Route>
-             <Route path="/Data-gathering-drawer">
-               <DataGatheringDrawer that={this} />
-             </Route>
-            <Route path="/data-complete">
-              <DataComplete that={this} />
-            </Route>
-            <Route path="/learn-infiltrometer">
-              <LearnInfil that={this} />
-            </Route>
-            <Route path="/learn">
-              <Learn that={this} />
-            </Route>
-            <Route path="/review-data">
-              <ReviewData that={this} />
-            </Route>
-            <Route path="/previous-data">
-              <PreviousData that={this} />
-            </Route>
-            <Route path="/edit-data">
-              <Edit that={this} />
-            </Route>
-            <Route path="/about">
-              <About that={this} />
-            </Route>
-            <Route path="/index.html">
-              <Main that={this} />
-            </Route>
-             <Route path="/download">
-               <Downloads that={this} />
-             </Route>
-          </Switch>
+          <div>
+          </div>
+          <div>
+            <Router>
+              <div>
+                <Switch>
+                  <Route exact path="/">
+                    <Redirect to="/index.html" />
+                  </Route>
+                  <Route path="/data-gathering">
+                    <DataGathering that={this} />
+                  </Route>
+                  <Route path="/Data-gathering-drawer">
+                    <DataGatheringDrawer that={this} />
+                  </Route>
+                  <Route path="/data-complete">
+                    <DataComplete that={this} />
+                  </Route>
+                  <Route path="/learn-infiltrometer">
+                    <LearnInfil that={this} />
+                  </Route>
+                  <Route path="/learn">
+                    <Learn that={this} />
+                  </Route>
+                  <Route path="/review-data">
+                    <ReviewData that={this} />
+                  </Route>
+                  <Route path="/previous-data">
+                    <PreviousData that={this} />
+                  </Route>
+                  <Route path="/edit-data">
+                    <Edit that={this} />
+                  </Route>
+                  <Route path="/about">
+                    <About that={this} />
+                  </Route>
+                  <Route path="/index.html">
+                    <Main that={this} />
+                  </Route>
+                  <Route path="/download">
+                    <Downloads that={this} />
+                  </Route>
+                </Switch>
+              </div>
+            </Router>
+          </div>
         </div>
-      </Router>
-      </div>
-    </div>
     )
   }
 }
