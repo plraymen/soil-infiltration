@@ -93,6 +93,7 @@ function About({that}) {
         <div className={"border"}>
 
             <h3 className={"text"}>
+                <h1>About the Application</h1>
                 This app will be used throughout a myriad of different scientists with all different
                 agricultural aspects from one single device called a Soil Infiltrometer. A Soil Infiltrometer is a device
                 that will penetrate the ground - it must be conducted in a loamy environment like soil. A user then will
@@ -118,6 +119,15 @@ function About({that}) {
                 is still static during the interval). The app will show a table below that will dynamically auto-populate
                 the information and create several different charts and graphs based-off of the recorded/calculated
                 values.
+
+                <br/>
+                <br/>
+                <h1>Contact Information</h1>
+                Name: Bryan Wandrych. Github: bdwandry, Email: bdwandry@mtu.edu<br/>
+                Name: Franklin Van Hove, Github: FrankVanHove, Email: ftvanhov@mtu.edu <br/>
+                Name: John Bland, Github: kgost, Email: jpbland@mtu.edu <br/>
+                Name: Nathan Kenwabikise, Github: nikenwab, Email: nikenwab@mtu.edu <br/>
+                Name: Paul Rayment, Github: plraymen, Email: plraymen@mtu.edu <br/>
             </h3>
         </div>
     </div>
