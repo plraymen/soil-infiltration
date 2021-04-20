@@ -158,7 +158,7 @@ function DataComplete({that}) {
             </div>
 
             <div align={"center"}>
-                <h3>Soil Infiltrometer Configuration</h3>
+                <h3>Mini-disk Configuration</h3>
                 <table>
                     <tr>
                         <td>Radius: </td>
@@ -187,15 +187,15 @@ function DataComplete({that}) {
                 <table>
                     <tr>
                         <td>A: </td>
-                        <td>{that.state.InfiltrometerCalculations.A}</td>
+                        <td>{that.state.InfiltrometerCalculations.A.toFixed(2)}</td>
                     </tr>
                     <tr>
                         <td>C1: </td>
-                        <td>{that.state.InfiltrometerCalculations.C1}</td>
+                        <td>{that.state.InfiltrometerCalculations.C1.toFixed(2)}</td>
                     </tr>
                     <tr>
                         <td>K: </td>
-                        <td>{that.state.InfiltrometerCalculations.K}</td>
+                        <td>{that.state.InfiltrometerCalculations.K.toFixed(2)}</td>
                     </tr>
                 </table>
             </div>
@@ -203,12 +203,12 @@ function DataComplete({that}) {
             <div>
                 <div align={"center"}>
                     <div className="App">
-                        <h3>Linear Regression Chart</h3>
+                        <h3>Regression plot</h3>
                         <LineChart
                             width={300}
                             height={300}
                             data={data2}
-                            xLabel={"Square Root of Time"}
+                            xLabel={"Square Root of Time(s)"}
                             yLabel={"Cumulative Infiltration(cm)"}
                             hidePoints={true}
                         />
@@ -216,7 +216,7 @@ function DataComplete({that}) {
                 </div>
             </div>
             <br/>
-
+            <br/>
             <div align={"center"}>
                 <CSVLink
                     data={that.state.CSVArray}
@@ -229,7 +229,8 @@ function DataComplete({that}) {
 
                 </CSVLink>
             </div>
-
+            <br/>
+            <br/>
             <div align={"center"}>
                 <Table Data={that.state.Data}/>
             </div>

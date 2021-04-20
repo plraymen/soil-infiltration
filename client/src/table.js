@@ -44,7 +44,7 @@ class Table extends Component {
     render() { //Whenever our class runs, render method will be called automatically, it may have already defined in the constructor behind the scene.
         return (
             <div>
-                <h1 id='title' align={"center"}>Table Data</h1>
+                <h1 id='title' align={"center"}>Mini-disk data</h1>
                 <table id='students'>
                     <tbody>
                     <tr>{this.renderTableHeader()}</tr>

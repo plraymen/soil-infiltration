@@ -191,7 +191,7 @@ function Main({that}) {
                 </main>
             </div>
 
-            <h3 className={"center"}>Start the Program</h3>
+            <h1 className={"center"}>Start the Program</h1>
             <div className={"center"}>
                 <TextField id="filled-basic-Time"
                            label="Time Intervals in Seconds"
@@ -218,10 +218,22 @@ function Main({that}) {
             </div>
             <br/>
             <br/>
-            <h3 className={"center"}>Enter Infiltrometer Setting</h3>
+            <h1 className={"center"}>Enter Mini-disk Settings</h1>
             <div className={"center"}>
+                <h3>Enter Soil Infiltrometer Radius</h3>
                 <div>
-                    <h5>Enter Soil Infiltrometer Radius</h5>
+                    {/*<InputLabel>Select a Preset Value</InputLabel>*/}
+                    <Select name="infilSelect" defaultValue={"None"}>
+                        <MenuItem value={"None"} onClick={that.selectInftiltrometerTypeNone}>Preset Values</MenuItem>
+                        <MenuItem value="MiniDisk"
+                                  onClick={that.selectInftiltrometerTypeMiniDisk}
+                        >MiniDisk</MenuItem>
+                        <MenuItem value="MiniDisk V1"
+                                  onClick={that.selectInftiltrometerTypeMiniDiskV1}
+                        >MiniDisk Version 1</MenuItem>
+                    </Select>
+                </div>
+                <div>
                     <TextField  id="filled-basic-Time"
                                label="Infiltrometer Radius (cm)"
                                variant="filled"
@@ -232,25 +244,28 @@ function Main({that}) {
                                inputmode="numeric"
                     />
                 </div>
-
-                <div>
-                    <InputLabel>Select a Preset Value</InputLabel>
-                    <Select name="infilSelect" defaultValue={"None"}>
-                        <MenuItem value={"None"} onClick={that.selectInftiltrometerTypeNone}>None</MenuItem>
-                        <MenuItem value="MiniDisk"
-                                  onClick={that.selectInftiltrometerTypeMiniDisk}
-                        >MiniDisk</MenuItem>
-                        <MenuItem value="MiniDisk V1"
-                                  onClick={that.selectInftiltrometerTypeMiniDiskV1}
-                        >MiniDisk Version 1</MenuItem>
-                    </Select>
-                </div>
             </div>
 
             <br/>
             <div className={"center"}>
                 <div>
-                    <h5>Enter Soil Type - Alpha and n/h0</h5>
+                    <h3>Enter Soil Type - Alpha and n/h0</h3>
+                    <div>
+                        <Select defaultValue={Select} labelId="label" id="select" defaultValue={"Preset Values"}>
+                            {soilData.map((data, key) => {
+                                return (
+                                    <MenuItem defaultValue={"Clay"} key={key}
+                                              variant="contained"
+                                              color="primary"
+                                              value={data.name}
+                                              onClick={() => that.selectSoilType(data.Alpha, data.NperH0)}>
+                                        {data.name}
+                                    </MenuItem>
+                                );
+                            })}
+
+                        </Select>
+                    </div>
                     <TextField id="filled-basic-Time"
                                label="Alpha"
                                variant="filled"
@@ -273,45 +288,15 @@ function Main({that}) {
                                inputmode="numeric"
                     />
                 </div>
-                <div>
-                    <InputLabel>Select a Preset Value</InputLabel>
-                    <Select defaultValue={Select} labelId="label" id="select" defaultValue={"None"}>
-                        {soilData.map((data, key) => {
-                            return (
-                                <MenuItem defaultValue={"Clay"} key={key}
-                                          variant="contained"
-                                          color="primary"
-                                          value={data.name}
-                                          onClick={() => that.selectSoilType(data.Alpha, data.NperH0)}>
-                                    {data.name}
-                                </MenuItem>
-                            );
-                        })}
-
-                    </Select>
-                </div>
             </div>
 
             <br/>
             <div className={"center"}>
                 <div>
-                    <h5>Enter Suction (cm)</h5>
-                    <TextField id="filled-basic-Time"
-                               label="Suction (cm)"
-                               variant="filled"
-                               value={that.state.Suction}
-                               onChange={e => that.setState({ Suction: e.target.value })}
-                               type="number"
-                               pattern="[0-9]*"
-                               inputmode="numeric"
-                    />
-
-                    <br/>
-
+                    <h3>Enter Suction (cm)</h3>
                     <div align={"center"}>
-                        <InputLabel>Select a Preset Value</InputLabel>
-                        <Select labelId="label" id="suctionselect" defaultValue={"0.5"} defaultValue={"None"}>
-                            <MenuItem value={"None"} onClick={that.selectInftiltrometerSuctionNone}>None</MenuItem>
+                        <Select labelId="label" id="suctionselect" defaultValue={"0.5"} defaultValue={"Preset Value"}>
+                            <MenuItem value={"Preset Value"} onClick={that.selectInftiltrometerSuctionNone}>Preset Value</MenuItem>
                             {suctionData.map((data, key) => {
                                 return (
                                     <MenuItem
@@ -326,6 +311,17 @@ function Main({that}) {
                             })}
                         </Select>
                     </div>
+                    <TextField id="filled-basic-Time"
+                               label="Suction (cm)"
+                               variant="filled"
+                               value={that.state.Suction}
+                               onChange={e => that.setState({ Suction: e.target.value })}
+                               type="number"
+                               pattern="[0-9]*"
+                               inputmode="numeric"
+                    />
+
+                    <br/>
                 </div>
             </div>
 

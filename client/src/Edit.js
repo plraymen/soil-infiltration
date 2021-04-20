@@ -163,6 +163,7 @@ function Edit({that}) {
         </div>
 
         <div align={"center"}>
+            <h3>Mini-disk Configuration</h3>
           <table>
             <tr>
               <th>Setting</th>

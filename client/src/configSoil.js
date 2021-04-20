@@ -1,6 +1,6 @@
 export const soilData = [
     {
-        name: "None",
+        name: "Preset Values",
         Alpha: "",
         NperH0: "",
     },

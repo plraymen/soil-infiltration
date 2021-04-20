@@ -322,10 +322,10 @@ function DataGathering({that}) {
             </div>
             <br/>
             <br/>
-            <h3 align={"center"}>Manual Entry of Volumetric Data</h3>
+            <h3 align={"center"}>Manual Entry of Volume (mL)</h3>
             <div align='center'>
                 <TextField id="filled-basic-Time"
-                           label="Enter Volumetric Data"
+                           label="Volume (mL)"
                            variant="filled"
                            value={that.state.volume}
                            onChange={e => that.setState({ volume: e.target.value })}
@@ -348,7 +348,7 @@ function DataGathering({that}) {
             </div>
             <br/>
             <div align={"center"}>
-                <h1 id='title'>Table Data</h1>
+                <h1 id='title'>Mini-disk Data</h1>
                 <table id='students'>
                     <tbody>
                     <tr>{that.renderTableHeader()}</tr>

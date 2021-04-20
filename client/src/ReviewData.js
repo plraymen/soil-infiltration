@@ -96,12 +96,12 @@ function ReviewData({that}) {
           <br/>
           <div align={"center"}>
               <div className="App">
-                  <h2>Linear Regression Chart</h2>
+                  <h2>Regression plot</h2>
                   <LineChart
                       width={300}
                       height={300}
                       data={Data}
-                      xLabel={"Square Root of Time"}
+                      xLabel={"Square Root of Time(s)"}
                       yLabel={"Cumulative Infiltration(cm)"}
                       hidePoints={true}
                   />
@@ -130,7 +130,7 @@ function ReviewData({that}) {
         <br/>
           <hr></hr>
           <div align={"center"}>
-              <h3>Soil Infiltrometer Configuration</h3>
+              <h3>Mini-disk Configuration</h3>
               <table>
             <tr>
               <th>Setting</th>
