@@ -14,13 +14,8 @@ import MobilePDFReader from 'pdf-viewer-reactjs';
 import "./LearnInfil.css";
 import pdf from './Mini_Disk_Manual_Web.pdf';
 import './button.css'
-import { Viewer } from '@react-pdf-viewer/core';
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
 function LearnInfil({that}) {
-    const defaultLayoutPluginInstance = defaultLayoutPlugin();
     let OtherContentindex = 0;
 
     const Name = [
@@ -62,61 +57,53 @@ function LearnInfil({that}) {
     const handleDrawerClose = () => {
         OtherContentsetOpen(false);
     };
-  return (
-      <div>
-          <div>
-              <CssBaseline />
-              <AppBar position="static">
-                  <Toolbar variant="dense">
-                      <IconButton color="inherit" onClick={handleDrawerOpen} edge="start">
-                          <MenuIcon />
-                      </IconButton>
-                      <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}> {Name[OtherContentindex].name} </Typography>
-                  </Toolbar>
-              </AppBar>
-              <Drawer variant="persistent" anchor="left" open={OtherContentopen}>
-                  <List>
-                      <ListItem button key="home" onClick={handleDrawerClose}>
-                          <ListItemIcon>
-                              <CloseIcon/>
-                          </ListItemIcon>
-                          <ListItemText primary="Close" />
-                      </ListItem>
-                      <List>
-                          {OtherContentCategories.map((id, command) => (
-                              <ListItem button component={NavLink} to={id.location} onClick={id.command} activeClassName="Mui-selected" exact>
-                                  <ListItemText primary={id.id} />
-                              </ListItem>
-                          ))}
-                      </List>
-                  </List>
-              </Drawer>
-              <main style={{ marginTop: 10 }}>
-              </main>
-          </div>
-          <div>
-              <br/>
-              <div>
-                  {/*<MobilePDFReader*/}
-                  {/*    document={{*/}
-                  {/*        url: pdf,*/}
-                  {/*        scale: "auto"*/}
-                  {/*    }}*/}
-                  {/*/>*/}
+    return (
+        <div>
+            <div>
+                <CssBaseline />
+                <AppBar position="static">
+                    <Toolbar variant="dense">
+                        <IconButton color="inherit" onClick={handleDrawerOpen} edge="start">
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}> {Name[OtherContentindex].name} </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Drawer variant="persistent" anchor="left" open={OtherContentopen}>
+                    <List>
+                        <ListItem button key="home" onClick={handleDrawerClose}>
+                            <ListItemIcon>
+                                <CloseIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Close" />
+                        </ListItem>
+                        <List>
+                            {OtherContentCategories.map((id, command) => (
+                                <ListItem button component={NavLink} to={id.location} onClick={id.command} activeClassName="Mui-selected" exact>
+                                    <ListItemText primary={id.id} />
+                                </ListItem>
+                            ))}
+                        </List>
+                    </List>
+                </Drawer>
+                <main style={{ marginTop: 10 }}>
+                </main>
+            </div>
+            <div className={"border"}>
+                <br/>
+                <div className={"pdf"}>
+                    <MobilePDFReader
+                        document={{
+                            url: pdf,
+                            scale: "auto"
+                        }}
+                    />
+                </div>
+                <br/>
+            </div>
 
-                  <Viewer
-                      fileUrl={pdf}
-                      plugins={[
-                          // defaultLayoutPluginInstance,
-                      ]}
-                  />
-
-              </div>
-              <br/>
-          </div>
-
-      </div>
-  )
+        </div>
+    )
 }
 
 export default LearnInfil;
