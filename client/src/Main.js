@@ -197,12 +197,10 @@ function Main({that}) {
                            label="Time Intervals in Seconds"
                            variant="filled"
                            value={that.state.timeInterval}
-                           onChange={e => that.setState({ timeInterval: parseInt(e.target.value) })
-                           }
+                           onChange={e => that.setState({ timeInterval: e.target.value })}
                            type="number"
                            pattern="[0-9]*"
                            inputmode="numeric"
-                           placeholder={'[0-10000]'}
 
                 />
             </div>
@@ -212,7 +210,7 @@ function Main({that}) {
                            label="Initial Volume in mL"
                            variant="filled"
                            value={that.state.initialVolume}
-                           onChange={e => that.setState({ initialVolume: parseInt(e.target.value) })}
+                           onChange={e => that.setState({ initialVolume: e.target.value })}
                            type="number"
                            pattern="[0-9]*"
                            inputmode="numeric"
@@ -228,7 +226,7 @@ function Main({that}) {
                                label="Infiltrometer Radius (cm)"
                                variant="filled"
                                value={that.state.Radius}
-                               onChange={e => that.setState({ Radius: parseInt(e.target.value) })}
+                               onChange={e => that.setState({ Radius: e.target.value })}
                                type="number"
                                pattern="[0-9]*"
                                inputmode="numeric"
@@ -257,7 +255,7 @@ function Main({that}) {
                                label="Alpha"
                                variant="filled"
                                value={that.state.Alpha}
-                               onChange={e => that.setState({ Alpha: parseInt(e.target.value) })}
+                               onChange={e => that.setState({ Alpha: e.target.value })}
                                type="number"
                                pattern="[0-9]*"
                                inputmode="numeric"
@@ -269,7 +267,7 @@ function Main({that}) {
                                label="n/h0"
                                variant="filled"
                                value={that.state.NperH0}
-                               onChange={e => that.setState({ NperH0: parseInt(e.target.value) })}
+                               onChange={e => that.setState({ NperH0: e.target.value })}
                                type="number"
                                pattern="[0-9]*"
                                inputmode="numeric"
@@ -302,7 +300,7 @@ function Main({that}) {
                                label="Suction (cm)"
                                variant="filled"
                                value={that.state.Suction}
-                               onChange={e => that.setState({ Suction: parseInt(e.target.value) })}
+                               onChange={e => that.setState({ Suction: e.target.value })}
                                type="number"
                                pattern="[0-9]*"
                                inputmode="numeric"

@@ -162,19 +162,19 @@ function DataComplete({that}) {
                 <table>
                     <tr>
                         <td>Radius: </td>
-                        <td>{that.state.Radius.toString()}</td>
+                        <td>{that.state.Radius}</td>
                     </tr>
                     <tr>
                         <td>Alpha: </td>
-                        <td>{that.state.Alpha.toString()}</td>
+                        <td>{that.state.Alpha}</td>
                     </tr>
                     <tr>
                         <td>n/ho: </td>
-                        <td>{that.state.NperH0.toString()}</td>
+                        <td>{that.state.NperH0}</td>
                     </tr>
                     <tr>
                         <td>Suction: </td>
-                        <td>{that.state.Suction.toString()}</td>
+                        <td>{that.state.Suction}</td>
                     </tr>
                 </table>
             </div>

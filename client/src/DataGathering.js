@@ -134,9 +134,11 @@ function DataGathering({that}) {
     };
 
     const DataCollectingModalhandleClose = () => {
-        that.pauseAudio()
-        that.CalculatedAddToDataArray()
-        DataCollectingsetOpen(false);
+        if (that.state.volume !== "") {
+            that.pauseAudio()
+            that.CalculatedAddToDataArray()
+            DataCollectingsetOpen(false);
+        }
     };
     const body = (
         <div align={"center"} style={DataCollectingmodalStyle} className={DataCollectingclasses.paper}>
