@@ -1124,6 +1124,10 @@
   version "1.1.3"
   resolved "https://registry.npmjs.org/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz"
 
+"@phuocng/react-pdf-viewer@^1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@phuocng/react-pdf-viewer/-/react-pdf-viewer-1.7.0.tgz"
+
 "@react-md/alert@^2.7.0":
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/@react-md/alert/-/alert-2.7.0.tgz"

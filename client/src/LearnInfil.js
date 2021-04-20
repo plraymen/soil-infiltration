@@ -15,6 +15,9 @@ import "./LearnInfil.css";
 import pdf from './Mini_Disk_Manual_Web.pdf';
 import './button.css'
 
+import Viewer from '@phuocng/react-pdf-viewer';
+import '@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css';
+
 function LearnInfil({that}) {
     let OtherContentindex = 0;
 
@@ -89,18 +92,26 @@ function LearnInfil({that}) {
                 <main style={{ marginTop: 10 }}>
                 </main>
             </div>
-            <div className={"border"}>
-                <br/>
-                <div className={"pdf"}>
-                    <MobilePDFReader
-                        document={{
-                            url: pdf,
-                            scale: "auto"
-                        }}
-                    />
-                </div>
-                <br/>
+            <div className="App">
+                {/*<Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">*/}
+                    <div id="pdfviewer">
+                        <Viewer fileUrl={pdf} />
+                    </div>
+                {/*</Worker>*/}
             </div>
+
+            {/*<div className={"border"}>*/}
+            {/*    <br/>*/}
+            {/*    <div className={"pdf"}>*/}
+            {/*        <MobilePDFReader*/}
+            {/*            document={{*/}
+            {/*                url: pdf,*/}
+            {/*                scale: "auto"*/}
+            {/*            }}*/}
+            {/*        />*/}
+            {/*    </div>*/}
+            {/*    <br/>*/}
+            {/*</div>*/}
 
         </div>
     )
