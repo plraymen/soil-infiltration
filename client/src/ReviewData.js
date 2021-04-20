@@ -162,15 +162,15 @@ function ReviewData({that}) {
               <table>
                   <tr>
                       <td>A: </td>
-                      <td>{that.state.DatabaseData[that.state.indexNum].InfiltrometerCalculations.A}</td>
+                      <td>{that.state.DatabaseData[that.state.indexNum].InfiltrometerCalculations.A.toFixed(3)}</td>
                   </tr>
                   <tr>
                       <td>C1: </td>
-                      <td>{that.state.DatabaseData[that.state.indexNum].InfiltrometerCalculations.C1}</td>
+                      <td>{that.state.DatabaseData[that.state.indexNum].InfiltrometerCalculations.C1.toFixed(3)}</td>
                   </tr>
                   <tr>
                       <td>K: </td>
-                      <td>{that.state.DatabaseData[that.state.indexNum].InfiltrometerCalculations.K}</td>
+                      <td>{that.state.DatabaseData[that.state.indexNum].InfiltrometerCalculations.K.toFixed(3)}</td>
                   </tr>
               </table>
           </div>

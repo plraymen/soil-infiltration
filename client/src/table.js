@@ -24,9 +24,9 @@ class Table extends Component {
                 <tr key={id}>
                     <td>{id}</td>
                     <td>{Time}</td>
-                    <td>{Sqrt.toFixed(5)}</td>
+                    <td>{Sqrt.toFixed(2)}</td>
                     <td>{Volume}</td>
-                    <td>{Infilt.toFixed(5)}</td>
+                    <td>{Infilt.toFixed(1)}</td>
                 </tr>
             )
         })
@@ -35,7 +35,25 @@ class Table extends Component {
     renderTableHeader() {
         let header = Object.keys(this.state.students[0])
         return header.map((key, index) => {
-            return <th key={index}>{key.toUpperCase()}</th>
+            console.log(key.toUpperCase())
+            if (key.toUpperCase() === "ID") {
+                return <th key={index}>{key.toUpperCase()}</th>
+            }
+            if (key.toUpperCase() === "TIME") {
+                return <th key={index}>{key.toUpperCase() + " (s)"}</th>
+            }
+
+            if (key.toUpperCase() === "SQRT") {
+                return <th key={index}>{key.toUpperCase() + " (s)"}</th>
+            }
+
+            if (key.toUpperCase() === "VOLUME") {
+                return <th key={index}>{key.toUpperCase() + " (mL)"}</th>
+            }
+            if (key.toUpperCase() === "INFILT") {
+                return <th key={index}>{key.toUpperCase() + " (cm)"}</th>
+            }
+            // return <th key={index}>{key.toUpperCase()}</th>
         })
     }
 

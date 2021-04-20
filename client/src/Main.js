@@ -194,7 +194,7 @@ function Main({that}) {
             <h1 className={"center"}>Start the Program</h1>
             <div className={"center"}>
                 <TextField id="filled-basic-Time"
-                           label="Time Intervals in Seconds"
+                           label="Time Intervals (s)"
                            variant="filled"
                            value={that.state.timeInterval}
                            onChange={e => that.setState({ timeInterval: e.target.value })}
@@ -207,7 +207,7 @@ function Main({that}) {
             <br/>
             <div className={"center"}>
                 <TextField id="filled-basic-Initial-Vol"
-                           label="Initial Volume in mL"
+                           label="Initial Volume (mL)"
                            variant="filled"
                            value={that.state.initialVolume}
                            onChange={e => that.setState({ initialVolume: e.target.value })}
