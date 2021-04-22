@@ -22,7 +22,8 @@ function About({that}) {
         {id: 2, name: "Learn How to Use the Infiltrometer?"},
         {id: 3, name: "Previous Test Data"},
         {id: 4, name: "Learn About Us?"},
-        {id: 5, name: "Downloads"}
+        {id: 5, name: "Downloads"},
+        {id: 6, name: "Learn BAER Protocol?"}
     ]
 
     let OtherContentcurrentWindow = window.location.pathname;
@@ -38,14 +39,17 @@ function About({that}) {
         OtherContentindex = 4;
     } else if (OtherContentcurrentWindow === "/download") {
         OtherContentindex = 5;
+    } else if (OtherContentcurrentWindow === "/learn-baer") {
+        OtherContentindex = 6;
     }
 
     const OtherContentCategories = [{id: " Main Page", location: "/index.html", command: that.SwitchToMain, number: 0},
         {id: " Learn How To Use The App?", location: '/learn', command: that.SwitchToLearnHowToUseTheApp, number: 1},
         {id: " Learn How to Use the Infiltrometer?", location: "/learn-infiltrometer", command: that.SwitchToLearnHowToUseTheInfiltrometer, number: 2},
-        {id: " Previous Test Data", location: "/previous-data", command: that.SwitchToPreviousData, number: 3},
-        {id: " Learn About Us?", location: "/about", command: that.SwitchToAboutUs, number: 4},
-        {id: " Downloads", location: "/download", command: that.SwitchToAboutUs, number: 5}
+        {id: " Learn BAER Protocol?", location: "/learn-baer", command: that.SwitchToLearnBAER, number: 3},
+        {id: " Previous Test Data", location: "/previous-data", command: that.SwitchToPreviousData, number: 4},
+        {id: " Learn About Us?", location: "/about", command: that.SwitchToAboutUs, number: 5},
+        {id: " Downloads", location: "/download", command: that.SwitchToAboutUs, number: 6}
     ]
 
     const [OtherContentopen, OtherContentsetOpen] = React.useState(false);

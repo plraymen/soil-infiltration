@@ -28,6 +28,7 @@ import DataGatheringBAER from "./DataGatheringBAERProtocol";
 import DataCompleteBAER from "./DataCompleteBAER";
 import ReviewDataBAER from "./ReviewDataBAER";
 import EditBAER from "./EditBAER";
+import LearnBAER from "./LearnBAERProtocol";
 
 import './table.css'
 
@@ -177,6 +178,7 @@ class App extends React.Component {
     this.SwitchToEditingOldDataBAER = this.SwitchToEditingOldDataBAER.bind(this)
     this.EditDataBAER = this.EditDataBAER.bind(this)
     this.DeleteOldDataBAER = this.DeleteOldDataBAER.bind(this)
+    this.SwitchToLearnBAER = this.SwitchToLearnBAER.bind(this)
 
 
   }
@@ -257,6 +259,7 @@ class App extends React.Component {
       latitude: this.state.latitude = "",
       InfiltrometerCalculations: [],
       ReviewOldDataArray: [{Title: 0, Picture: 0}],
+      ReviewOldDataArrayBAER: [{Title: 0, Picture: 0}],
       PageState: this.state.PageState = "MainPage",
       totalTime: this.state.totalTime = 0,
       indexNum: 0,
@@ -530,6 +533,17 @@ class App extends React.Component {
   }
 
   SwitchToAboutUs() {
+    getUsers().then(r => "something")
+    getUsers().then(r => "something")
+    this.setState({
+      DatabaseData: this.state.DatabaseData = users
+    })
+    this.setState({
+      PageState: this.state.PageState = "AboutUs"
+    })
+  }
+
+  SwitchToLearnBAER() {
     getUsers().then(r => "something")
     getUsers().then(r => "something")
     this.setState({
@@ -1910,6 +1924,9 @@ class App extends React.Component {
                   </Route>
                   <Route path="/learn">
                     <Learn that={this} />
+                  </Route>
+                  <Route path="/learn-baer">
+                    <LearnBAER that={this} />
                   </Route>
                   <Route path="/review-data">
                     <ReviewData that={this} />
