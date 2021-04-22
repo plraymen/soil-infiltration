@@ -94,7 +94,7 @@ function DataGathering({that}) {
     let index = 0;
 
     const Name = [
-        {id: 0, name: "Data Collecting: Application is Running"},
+        {id: 0, name: "Data Collecting: Application is Running (Standard)"},
     ]
 
     let currentWindow = window.location.pathname;
@@ -303,9 +303,9 @@ function DataGathering({that}) {
                             direction="backward"
                             checkpoints={[
                                 {time: 0, callback: function (e) {
+                                        DataCollectingModalhandleOpen()
                                         tiRef.current.reset()
                                         tiRef.current.start()
-                                        DataCollectingModalhandleOpen()
                                     },
                                 },]}
                         > <Timer.Seconds/> seconds </Timer></h3></td>

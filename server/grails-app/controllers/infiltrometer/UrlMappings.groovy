@@ -12,6 +12,7 @@ class UrlMappings {
 
 //        "/"(controller: 'application', action:'index')
         "/"(uri: "/index.html")
+        "/data-gathering-baer"(uri: "/index.html")
         "/learn"(uri: "/index.html")
         "/data-gathering"(uri: "/index.html")
         "/data-complete"(uri: "/index.html")

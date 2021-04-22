@@ -68,6 +68,7 @@ function Main({that}) {
 
         that.audioFlag = true;
         console.log("Audio: " + that.audioFlag);
+
         notification()
         handleOpen()
     }
@@ -148,6 +149,70 @@ function Main({that}) {
     const handleDrawerClose = () => {
         OtherContentsetOpen(false);
     };
+
+    //--------------------------------------------------------------------------------------------------//
+    //Data Collecting Protocol
+    const [value, setValue] = React.useState("StandardProtocol");
+    const handleChange = (event) => {
+        setValue(event.target.value);
+
+        if (event.target.value === "StandardProtocol") {
+            that.switchDataCollectionStandardProtocol();
+            that.state.DataCollectingProtocol = "StandardProtocol";
+        }
+
+        if (event.target.value === "BAERProtocol") {
+            that.switchDataCollectionBAERProtocol();
+            that.state.DataCollectingProtocol = "BAERProtocol";
+        }
+    };
+
+
+    const switchButton = () => {
+        if (that.state.DataCollectingProtocol === "StandardProtocol") {
+            return (
+                <div className={"center"}>
+                    <Link onClick={that.SwitchToMainToDataGathering} to="/data-gathering" style={{ textDecoration: 'none' }}>
+                        <Button variant="contained" color="primary" className={"buttonContainer"}> Start Collecting Data using Standard Protocol</Button>
+                    </Link>
+                </div>
+            )
+        }
+
+        else if (that.state.DataCollectingProtocol === "BAERProtocol") {
+            return (
+                <div className={"center"}>
+                    <Link onClick={that.SwitchToDataGatheringBAER} to="/data-gathering-baer" style={{ textDecoration: 'none' }}>
+                        <Button variant="contained" color="primary" className={"buttonContainer"}> Start Collecting Data using BAER Protocol</Button>
+                    </Link>
+                </div>
+            )
+        }
+    }
+
+    const renderOptions = () => {
+        if (that.state.DataCollectingProtocol === "BAERProtocol") {
+            console.log(that.state.NumberOfRuns)
+            return (
+                <div className={"center"}>
+                    <br/>
+                    <div className={"center"}>
+                        <h3>BAER Protocol: Enter the Number of Runs</h3>
+                        <TextField id="filled-basic-Time"
+                                   label="Number of Runs"
+                                   variant="filled"
+                                   value={that.state.NumberOfRuns}
+                                   onChange={e => that.setState({ NumberOfRuns: e.target.value })}
+                                   type="number"
+                                   pattern="[0-9]*"
+                                   inputmode="numeric"
+                        />
+                    </div>
+                </div>
+            )
+        }
+    }
+    //--------------------------------------------------------------------------------------------------//
     return (
         <div>
             <div>
@@ -217,6 +282,18 @@ function Main({that}) {
                 />
             </div>
             <br/>
+
+            <div align={"center"}>
+                <FormControl component="fieldset">
+                    <h3>Select Method of Collection</h3>
+                    {/*<RadioGroup aria-label="gender" name="gender1" value={NotificationValue} onChange={NotificationHandleChange}>*/}
+                    <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange} defaultValue={"StandardProtocol"}>
+                        <FormControlLabel value="StandardProtocol" control={<Radio />} label="Standard Protocol" onClick={that.switchDataCollectionStandardProtocol}/>
+                        <FormControlLabel value="BAERProtocol" control={<Radio />} label="BAER Protocol" onClick={that.switchDataCollectionBAERProtocol}/>
+                    </RadioGroup>
+                </FormControl>
+            </div>
+            {renderOptions()}
             <br/>
             <h1 className={"center"}>Enter Mini-disk Settings</h1>
             <div className={"center"}>
@@ -328,11 +405,14 @@ function Main({that}) {
             <br/>
             <br/>
 
-            <div className={"center"}>
-                <Link onClick={that.SwitchToMainToDataGathering} to="/data-gathering" style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" color="primary" className={"buttonContainer"}> Start Collecting Data</Button>
-                </Link>
-            </div>
+            {/*<div className={"center"}>*/}
+            {/*    <Link onClick={that.SwitchToMainToDataGathering} to="/data-gathering" style={{ textDecoration: 'none' }}>*/}
+            {/*        <Button variant="contained" color="primary" className={"buttonContainer"}> Start Collecting Data</Button>*/}
+            {/*    </Link>*/}
+            {/*</div>*/}
+
+            {switchButton()}
+
             <br/>
             <br/>
             <br/>

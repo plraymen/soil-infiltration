@@ -1,6 +1,15 @@
 import React from 'react';
 import {Link, NavLink} from "react-router-dom";
-import {AppBar, Button, TextField, Toolbar, Typography} from "@material-ui/core";
+import {
+    AppBar,
+    Button,
+    FormControl,
+    FormControlLabel, Radio,
+    RadioGroup,
+    TextField,
+    Toolbar,
+    Typography
+} from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -54,6 +63,105 @@ function PreviousData({that}) {
     const handleDrawerClose = () => {
         OtherContentsetOpen(false);
     };
+
+    const [value, setValue] = React.useState("StandardProtocol");
+    const handleChange = (event) => {
+        setValue(event.target.value);
+
+        if (event.target.value === "StandardProtocol") {
+            that.switchDataCollectionStandardProtocol();
+            that.state.DataCollectingProtocol = "StandardProtocol";
+        }
+
+        if (event.target.value === "BAERProtocol") {
+            that.switchDataCollectionBAERProtocol();
+            that.state.DataCollectingProtocol = "BAERProtocol";
+        }
+    };
+
+    const protocalSelection = () => {
+        return (
+            <div align={"center"}>
+                <FormControl component="fieldset">
+                    <h3>Select Protocol to Filter Data</h3>
+                    {/*<RadioGroup aria-label="gender" name="gender1" value={NotificationValue} onChange={NotificationHandleChange}>*/}
+                    <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange} defaultValue={"StandardProtocol"}>
+                        <FormControlLabel value="StandardProtocol" control={<Radio />} label="Standard Protocol" onClick={that.switchDataCollectionStandardProtocol}/>
+                        <FormControlLabel value="BAERProtocol" control={<Radio />} label="BAER Protocol" onClick={that.switchDataCollectionBAERProtocol}/>
+                    </RadioGroup>
+                </FormControl>
+            </div>
+        )
+    }
+
+    const tableData = () => {
+        console.log(that.state.ReviewOldDataArray.length)
+        if (that.state.ReviewOldDataArray.length === 1) {
+            return (
+                <div>
+                    <div align={"center"}>
+                        <h3>Are there any test not showing up for you?</h3>
+                        <Link to="/previous-data" onClick={that.SwitchToPreviousData} style={{ textDecoration: 'none' }}>
+                            <Button variant="contained" color="primary" className={"buttonContainer"}> Re-Load Table </Button>
+                        </Link>
+                    </div>
+                </div>
+            )
+        } else if (that.state.DataCollectingProtocol === "StandardProtocol") {
+            return (
+                <div>
+                    {protocalSelection()}
+                    <br/>
+                    <br/>
+                    <div align={"center"}>
+                        <Link to="/index.html" onClick={that.DeleteDatabase} style={{ textDecoration: 'none' }}>
+                            <Button variant="contained" color="secondary" className={"buttonContainer"}> Delete Entire Database (Standard) </Button>
+                        </Link>
+                    </div>
+
+                    <br/>
+                    {/*<RetrivalData ReviewOldDataArray={that.state.ReviewOldDataArray}/>*/}
+                    <div align={"center"}>
+                        <h1 id='title'>Previous Test Data</h1>
+                        <table id='students'>
+                            <tbody>
+                            <tr>{that.renderPreviousTableHeader()}</tr>
+                            {that.renderPreviousTableData()}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            )
+        }
+
+        else if (that.state.DataCollectingProtocol === "BAERProtocol") {
+            return (
+                <div>
+                    {protocalSelection()}
+                    <br/>
+                    <br/>
+                    <div align={"center"}>
+                        <Link to="/index.html" onClick={that.DeleteDatabaseBAER} style={{ textDecoration: 'none' }}>
+                            <Button variant="contained" color="secondary" className={"buttonContainer"}> Delete Entire Database (BAER)</Button>
+                        </Link>
+                    </div>
+
+                    <br/>
+                    {/*<RetrivalData ReviewOldDataArray={that.state.ReviewOldDataArrayBAER}/>*/}
+                    <div align={"center"}>
+                        <h1 id='title'>Previous Test Data</h1>
+                        <table id='students'>
+                            <tbody>
+                            <tr>{that.renderPreviousTableHeaderBAER()}</tr>
+                            {that.renderPreviousTableDataBAER()}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            )
+        }
+    }
+
     return (
         <div>
             <div>
@@ -85,41 +193,10 @@ function PreviousData({that}) {
                 </Drawer>
                 <main style={{ marginTop: 10 }}>
                 </main>
-
-
             </div>
 
-            <hr></hr>
-            <div align={"center"}>
-                <h3>Are there any test not showing up for you?</h3>
-                <Link to="/previous-data" onClick={that.SwitchToPreviousData} style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" color="primary" className={"buttonContainer"}> Re-Load Table </Button>
-                </Link>
-            </div>
-
-            <hr></hr>
-
-            <br/>
-            <div align={"center"}>
-                <Link to="/index.html" onClick={that.DeleteDatabase} style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" color="secondary" className={"buttonContainer"}> Delete Entire Database </Button>
-                </Link>
-            </div>
-
-            <br/>
-            <br/>
             <div>
-                <p>{console.log(that.state.ReviewOldDataArray)}</p>
-                {/*<RetrivalData ReviewOldDataArray={that.state.ReviewOldDataArray}/>*/}
-                <div align={"center"}>
-                    <h1 id='title'>Previous Test Data</h1>
-                    <table id='students'>
-                        <tbody>
-                        <tr>{that.renderPreviousTableHeader()}</tr>
-                        {that.renderPreviousTableData()}
-                        </tbody>
-                    </table>
-                </div>
+                {tableData()}
             </div>
             <br/>
             <br/>

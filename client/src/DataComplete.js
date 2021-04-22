@@ -31,7 +31,7 @@ function DataComplete({that}) {
     let index = 0;
 
     const Name = [
-        {id: 0, name: "Data Gathered: Application Completed"},
+        {id: 0, name: "Data Gathered: Application Completed (Standard)"},
     ]
 
     let currentWindow = window.location.pathname;

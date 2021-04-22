@@ -3,14 +3,6 @@ import {Link, NavLink} from "react-router-dom";
 import {AppBar, Button, TextField, Toolbar, Typography} from "@material-ui/core";
 import Table from "./table";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import CloseIcon from "@material-ui/icons/Close";
-import ListItemText from "@material-ui/core/ListItemText";
 import './button.css'
 
 function Edit({that}) {
@@ -51,29 +43,9 @@ function Edit({that}) {
           <CssBaseline />
           <AppBar position="static">
             <Toolbar variant="dense">
-              {/*<IconButton color="inherit" onClick={handleDrawerOpen} edge="start">*/}
-              {/*  <MenuIcon />*/}
-              {/*</IconButton>*/}
               <Typography variant="h5"  align="center" style={{width: "100%", alignItems: "center"}}> {Name[index].name} {that.state.DatabaseData[that.state.indexNum].Title} </Typography>
             </Toolbar>
           </AppBar>
-          {/*<Drawer variant="persistent" anchor="left" open={openModel}>*/}
-          {/*  <List>*/}
-          {/*    <ListItem button key="home" onClick={handleDrawerClose}>*/}
-          {/*      <ListItemIcon>*/}
-          {/*        <CloseIcon/>*/}
-          {/*      </ListItemIcon>*/}
-          {/*      <ListItemText primary="Close" />*/}
-          {/*    </ListItem>*/}
-          {/*    <List>*/}
-          {/*      {Categories.map((id, command) => (*/}
-          {/*          <ListItem button component={NavLink} to={id.location} onClick={id.command} activeClassName="Mui-selected" exact>*/}
-          {/*            <ListItemText primary={id.id} />*/}
-          {/*          </ListItem>*/}
-          {/*      ))}*/}
-          {/*    </List>*/}
-          {/*  </List>*/}
-          {/*</Drawer>*/}
           <main style={{ marginTop: 10 }}>
           </main>
         </div>
