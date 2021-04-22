@@ -238,7 +238,7 @@ function DataGatheringBAER({that}) {
                     <Button variant="contained" color="primary" className={"buttonContainer"} onClick={e.start}>Start Timer</Button> <br/>
                     <br/>
                     <br/>
-                    <Button variant="contained" color="primary" className={"buttonContainer"} onClick={that.incrementRun}>Run #{that.state.runIndex} is Completed</Button>
+                    <Button variant="contained" color="primary" className={"buttonContainer"} onClick={that.incrementRun}>Replicate #{that.state.runIndex} is Completed</Button>
                 </div>
             )
         }
@@ -305,7 +305,7 @@ function DataGatheringBAER({that}) {
             <div align={"center"}>
                 <table>
                     <tr><div align={"center"}>
-                        <td><h3>Run Number: </h3></td>
+                        <td><h3>Replicate Number: </h3></td>
                         <td><h3>{that.state.runIndex}/{that.state.NumberOfRuns} ({(that.state.runIndex/that.state.NumberOfRuns).toFixed(2)}%)</h3></td>
                     </div></tr>
 

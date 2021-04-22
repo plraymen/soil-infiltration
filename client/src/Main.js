@@ -201,9 +201,9 @@ function Main({that}) {
                 <div className={"center"}>
                     <br/>
                     <div className={"center"}>
-                        <h3>BAER Protocol: Enter the Number of Runs</h3>
+                        <h3>BAER Protocol: Enter the Number of Replicates</h3>
                         <TextField id="filled-basic-Time"
-                                   label="Number of Runs"
+                                   label="Number of Replicates"
                                    variant="filled"
                                    value={that.state.NumberOfRuns}
                                    onChange={e => that.setState({ NumberOfRuns: e.target.value })}

@@ -176,6 +176,14 @@ function DataCompleteBAER({that}) {
                         <td>Suction: </td>
                         <td>{that.state.Suction}</td>
                     </tr>
+                    <tr>
+                        <td>AVG:</td>
+                        <td>{that.state.AverageMLPerMin}</td>
+                    </tr>
+                    <tr>
+                        <td>Number of Replicates:</td>
+                        <td>{that.state.NumberOfRuns}</td>
+                    </tr>
                 </table>
             </div>
 

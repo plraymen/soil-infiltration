@@ -130,6 +130,14 @@ function ReviewDataBAER({that}) {
                         <td>Suction: </td>
                         <td>{that.state.DatabaseDataBAER[that.state.indexNum].InfiltrometerData.Suction.toString()}</td>
                     </tr>
+                    <tr>
+                        <td>AVG:</td>
+                        <td>{that.state.DatabaseDataBAER[that.state.indexNum].CSVArray[that.state.DatabaseDataBAER[that.state.indexNum].CSVArray.length - 1].AVG}</td>
+                    </tr>
+                    <tr>
+                        <td>Number of Replicates:</td>
+                        <td>{that.state.DatabaseDataBAER[that.state.indexNum].NumberOfReplicates}</td>
+                    </tr>
                 </table>
             </div>
 

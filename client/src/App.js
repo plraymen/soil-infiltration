@@ -127,7 +127,8 @@ class App extends React.Component {
       CSVArray: [],
       DataCollectingProtocol: "StandardProtocol",
       NumberOfRuns: "3",
-      runIndex: 0
+      runIndex: 0,
+      AverageMLPerMin: 0
     };
     this.componentDidMount  = this.componentDidMount.bind(this);
     this.SwitchToMainToDataGathering = this.SwitchToMainToDataGathering.bind(this);
@@ -273,7 +274,8 @@ class App extends React.Component {
       CSVArray: [],
       DataCollectingProtocol: "StandardProtocol",
       NumberOfRuns: "3",
-      runIndex: 0
+      runIndex: 0,
+      AverageMLPerMin: this.state.Average = 0
     })
     this.loadTable();
   }
@@ -1253,7 +1255,8 @@ class App extends React.Component {
         DatabaseData: this.state.DatabaseData = users,
         totalTime: this.state.totalTime = 0,
         time: this.state.time = 0,
-        MLPerMin: this.state.MLPerMin = 0
+        MLPerMin: this.state.MLPerMin = 0,
+        PreviousVolume: this.state.PreviousVolume = this.state.volume
       })
 
       let joined = this.state.Data.concat({
@@ -1326,19 +1329,29 @@ class App extends React.Component {
       })
 
       this.state.calculatedTime = this.state.calculatedTime + parseInt(this.state.timeInterval);
-
       this.state.id++;
+      this.state.previousVolume = this.state.volume;
+
+      if (this.state.Data.length === 1) {
+        console.log(this.state.initialVolume + " - " + this.state.volume);
+
+        //This is for the mLPerMinute
+        this.setState({
+          MLPerMin: this.state.MLPerMin =  this.state.initialVolume - this.state.volume
+        })
+      } else {
+        console.log(this.state.Data[this.state.Data.length - 1].Volume + " - " + this.state.volume)
+        //This is for the mLPerMinute
+        this.setState({
+          MLPerMin: this.state.MLPerMin =  this.state.Data[this.state.Data.length - 1].Volume - this.state.volume
+        })
+      }
 
       //This setting the infilt calculation
       this.setState({
         infilt: this.state.infilt = ((this.state.initialVolume - this.state.volume) / (Math.PI * Math.pow(this.state.Radius, 2)))
       })
       //
-      //This is for the mLPerMinute
-      this.setState({
-        MLPerMin: this.state.MLPerMin = this.state.volume / this.state.timeInterval
-      })
-
 
       let joined = this.state.Data.concat({
         id: this.state.id,
@@ -1365,9 +1378,14 @@ class App extends React.Component {
       DatabaseData: this.state.DatabaseData = users
     })
 
-    this.state.infiltrometerData = [{}]
-
+    let avg = 0;
     for (let  i = 0; i < this.state.Data.length; i++) {
+      avg += this.state.Data[i].MLPerMin
+    }
+    avg = avg/(this.state.Data.length - 1);
+    console.log(avg)
+
+    for (let  i = 1; i < this.state.Data.length; i++) {
       this.state.CSVArray.push({
         id: this.state.Data[i].id,
         "Time (s)": this.state.Data[i].Time,
@@ -1377,11 +1395,19 @@ class App extends React.Component {
       })
     }
 
+    this.state.CSVArray.push({
+      AVG: avg,
+      "Number of Replicates": this.state.NumberOfRuns
+    })
+
+
+
     console.log("CSVARR")
     console.log(this.state.CSVArray)
 
     this.setState({
       PageState: this.state.PageState = "DataCompleted",
+      AverageMLPerMin: this.state.AverageMLPerMin = avg
     })
   }
 
@@ -1419,7 +1445,8 @@ class App extends React.Component {
         Picture: "N/A - Not Saved",
         Data: this.state.Data,
         CSVArray: this.state.CSVArray,
-        InfiltrometerData : this.state.infiltrometerData
+        InfiltrometerData : this.state.infiltrometerData,
+        NumberOfReplicates: this.state.NumberOfRuns
       })
       this.loadTable()
       this.SwitchToMain();
@@ -1438,7 +1465,8 @@ class App extends React.Component {
         Picture: this.state.file,
         Data: this.state.Data,
         CSVArray: this.state.CSVArray,
-        InfiltrometerData : this.state.infiltrometerData
+        InfiltrometerData : this.state.infiltrometerData,
+        NumberOfReplicates: this.state.NumberOfRuns
       })
 
       this.loadTable()
@@ -1458,7 +1486,8 @@ class App extends React.Component {
         Picture: this.state.file,
         Data: this.state.Data,
         CSVArray: this.state.CSVArray,
-        InfiltrometerData : this.state.infiltrometerData
+        InfiltrometerData : this.state.infiltrometerData,
+        NumberOfReplicates: this.state.NumberOfRuns
       })
       this.loadTable()
       this.SwitchToMain();
@@ -1477,7 +1506,8 @@ class App extends React.Component {
         Picture: "N/A - Not Saved",
         Data: this.state.Data,
         CSVArray: this.state.CSVArray,
-        InfiltrometerData : this.state.infiltrometerData
+        InfiltrometerData : this.state.infiltrometerData,
+        NumberOfReplicates: this.state.NumberOfRuns
       })
       this.loadTable()
       this.SwitchToMain();
@@ -1496,7 +1526,8 @@ class App extends React.Component {
         Picture: this.state.file,
         Data: this.state.Data,
         CSVArray: this.state.CSVArray,
-        InfiltrometerData : this.state.infiltrometerData
+        InfiltrometerData : this.state.infiltrometerData,
+        NumberOfReplicates: this.state.NumberOfRuns
       })
       this.loadTable()
       this.SwitchToMain();
@@ -1660,8 +1691,8 @@ class App extends React.Component {
           infiltrometerData: this.state.infiltrometerData = this.state.DatabaseDataBAER[this.state.indexNum].InfiltrometerData,
           InfiltrometerCalculations: this.state.InfiltrometerCalculations = this.state.DatabaseDataBAER[this.state.indexNum].InfiltrometerCalculations,
           PageState: this.state.PageState = "EditingPage",
-          CSVArray: this.state.CSVArray = this.state.DatabaseDataBAER[this.state.indexNum].CSVArray
-
+          CSVArray: this.state.CSVArray = this.state.DatabaseDataBAER[this.state.indexNum].CSVArray,
+          NumberOfRuns: this.state.NumberOfRuns = this.state.DatabaseDataBAER[this.state.indexNum].NumberOfReplicates
         })
       } else if ((confirmation === "yes") && (this.state.DatabaseDataBAER[this.state.indexNum].GPSLocation.toString() !== "N/A - Not Saved")) {
         let arr = this.state.DatabaseDataBAER[this.state.indexNum].GPSLocation.split(",")
@@ -1677,7 +1708,8 @@ class App extends React.Component {
           infiltrometerData: this.state.infiltrometerData = this.state.DatabaseDataBAER[this.state.indexNum].InfiltrometerData,
           InfiltrometerCalculations: this.state.InfiltrometerCalculations = this.state.DatabaseDataBAER[this.state.indexNum].InfiltrometerCalculations,
           PageState: this.state.PageState = "EditingPage",
-          CSVArray: this.state.CSVArray = this.state.DatabaseDataBAER[this.state.indexNum].CSVArray
+          CSVArray: this.state.CSVArray = this.state.DatabaseDataBAER[this.state.indexNum].CSVArray,
+          NumberOfRuns: this.state.NumberOfRuns = this.state.DatabaseDataBAER[this.state.indexNum].NumberOfReplicates
         })
       }
       else {
@@ -1727,7 +1759,8 @@ class App extends React.Component {
         Picture: "N/A - Not Saved",
         Data: this.state.Data,
         CSVArray: this.state.CSVArray,
-        InfiltrometerData : this.state.infiltrometerData
+        InfiltrometerData : this.state.infiltrometerData,
+        NumberOfReplicates: this.state.NumberOfRuns
       })
 
       let joined = this.state.DatabaseDataBAER.concat({ Title: this.state.newTitle.toString(), GPSLocation: "N/A - Not Saved", Picture: "N/A - Not Saved", Data: this.state.Data, InfiltrometerData: this.state.infiltrometerData});
@@ -1754,7 +1787,8 @@ class App extends React.Component {
         Picture: this.state.file,
         Data: this.state.Data,
         CSVArray: this.state.CSVArray,
-        InfiltrometerData : this.state.infiltrometerData
+        InfiltrometerData : this.state.infiltrometerData,
+        NumberOfReplicates: this.state.NumberOfRuns
       })
 
       let joined = this.state.DatabaseDataBAER.concat({ Title: this.state.newTitle.toString(), GPSLocation: "N/A - Not Saved", Picture: this.state.file, Data: this.state.Data, InfiltrometerData: this.state.infiltrometerData});
@@ -1781,7 +1815,8 @@ class App extends React.Component {
         Picture: this.state.file,
         Data: this.state.Data,
         CSVArray: this.state.CSVArray,
-        InfiltrometerData : this.state.infiltrometerData
+        InfiltrometerData : this.state.infiltrometerData,
+        NumberOfReplicates: this.state.NumberOfRuns
       })
 
       let joined = this.state.DatabaseDataBAER.concat({ Title: this.state.newTitle.toString(), GPSLocation: "N/A - Not Saved", Picture: this.state.file, Data: this.state.Data, InfiltrometerData: this.state.infiltrometerData});
@@ -1808,7 +1843,8 @@ class App extends React.Component {
         Picture: "N/A - Not Saved",
         Data: this.state.Data,
         CSVArray: this.state.CSVArray,
-        InfiltrometerData : this.state.infiltrometerData
+        InfiltrometerData : this.state.infiltrometerData,
+        NumberOfReplicates: this.state.NumberOfRuns
       })
 
       let joined = this.state.DatabaseDataBAER.concat({ Title: this.state.newTitle.toString(), GPSLocation: this.state.gpsCoordinates.toString(), Picture: "N/A - Not Saved", Data: this.state.Data, InfiltrometerData: this.state.infiltrometerData});
@@ -1835,7 +1871,8 @@ class App extends React.Component {
         Picture: this.state.file,
         Data: this.state.Data,
         CSVArray: this.state.CSVArray,
-        InfiltrometerData : this.state.infiltrometerData
+        InfiltrometerData : this.state.infiltrometerData,
+        NumberOfReplicates: this.state.NumberOfRuns
       })
 
       let joined = this.state.DatabaseDataBAER.concat({ Title: this.state.newTitle.toString(), GPSLocation: this.state.gpsCoordinates.toString(), Picture: this.state.file, Data: this.state.Data, InfiltrometerData: this.state.infiltrometerData});
