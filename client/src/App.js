@@ -1311,6 +1311,8 @@ class App extends React.Component {
         DatabaseData: this.state.DatabaseData = users
       })
 
+      this.state.calculatedTime = this.state.calculatedTime + parseInt(this.state.timeInterval);
+
       this.state.id++;
 
       //This setting the infilt calculation
