@@ -238,7 +238,7 @@ function DataGatheringBAER({that}) {
                     <Button variant="contained" color="primary" className={"buttonContainer"} onClick={e.start}>Start Timer</Button> <br/>
                     <br/>
                     <br/>
-                    <Button variant="contained" color="primary" className={"buttonContainer"} onClick={that.incrementRun}>Replicate #{that.state.runIndex} is Completed</Button>
+                    <Button variant="contained" color="secondary" className={"buttonContainer"} onClick={that.incrementRun}>Replicate #{that.state.runIndex} is Completed</Button>
                 </div>
             )
         }

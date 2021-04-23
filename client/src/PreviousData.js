@@ -100,7 +100,10 @@ function PreviousData({that}) {
 
     const tableData = () => {
         console.log(that.state.ReviewOldDataArray.length)
-        if (that.state.ReviewOldDataArray.length === 1) {
+        console.log(that.state.ReviewOldDataArrayBAER.length)
+
+        if (that.state.LoadPreviousData === 0) {
+        // if ((that.state.ReviewOldDataArray.length === 1 && that.state.ReviewOldDataArrayBAER.length === 1) && (that.state.ReviewOldDataArray.Title === 0 && that.state.ReviewOldDataArrayBAER.Title === 0) ) {
             return (
                 <div>
                     <div align={"center"}>
@@ -112,30 +115,42 @@ function PreviousData({that}) {
                 </div>
             )
         } else if (that.state.DataCollectingProtocol === "StandardProtocol") {
-            return (
-                <div>
-                    {protocalSelection()}
-                    <br/>
-                    <br/>
-                    <div align={"center"}>
-                        <Link to="/index.html" onClick={that.DeleteDatabase} style={{ textDecoration: 'none' }}>
-                            <Button variant="contained" color="secondary" className={"buttonContainer"}> Delete Entire Database (Standard) </Button>
-                        </Link>
-                    </div>
+            if (that.state.ReviewOldDataArray.length != "0") {
+                return (
+                    <div>
+                        {protocalSelection()}
+                        <br/>
+                        <br/>
+                        <div align={"center"}>
+                            <Link to="/index.html" onClick={that.DeleteDatabase} style={{textDecoration: 'none'}}>
+                                <Button variant="contained" color="secondary" className={"buttonContainer"}> Delete
+                                    Entire Database (Standard) </Button>
+                            </Link>
+                        </div>
 
-                    <br/>
-                    {/*<RetrivalData ReviewOldDataArray={that.state.ReviewOldDataArray}/>*/}
-                    <div align={"center"}>
-                        <h1 id='title'>Previous Test Data</h1>
-                        <table id='students'>
-                            <tbody>
-                            <tr>{that.renderPreviousTableHeader()}</tr>
-                            {that.renderPreviousTableData()}
-                            </tbody>
-                        </table>
+                        <br/>
+                        {/*<RetrivalData ReviewOldDataArray={that.state.ReviewOldDataArray}/>*/}
+                        <div align={"center"}>
+                            <h1 id='title'>Previous Test Data</h1>
+                            <table id='students'>
+                                <tbody>
+                                <tr>{that.renderPreviousTableHeader()}</tr>
+                                {that.renderPreviousTableData()}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-            )
+                )
+            } else {
+                return (
+                    <div align={"center"}>
+                        {protocalSelection()}
+                        <br/>
+                        <br/>
+                        <h1>Please have at least one Test Case to Review Old Data (Standard)</h1>
+                    </div>
+                )
+            }
         }
 
         else if (that.state.DataCollectingProtocol === "BAERProtocol") {
@@ -173,7 +188,7 @@ function PreviousData({that}) {
                         {protocalSelection()}
                         <br/>
                         <br/>
-                        <h1>Please have at least one Test Case to Review Old Data</h1>
+                        <h1>Please have at least one Test Case to Review Old Data (BAER)</h1>
                     </div>
                 )
             }

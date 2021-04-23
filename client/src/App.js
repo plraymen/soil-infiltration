@@ -128,7 +128,8 @@ class App extends React.Component {
       DataCollectingProtocol: "StandardProtocol",
       NumberOfRuns: "3",
       runIndex: 0,
-      AverageMLPerMin: 0
+      AverageMLPerMin: 0,
+      LoadPreviousData: 0
     };
     this.componentDidMount  = this.componentDidMount.bind(this);
     this.SwitchToMainToDataGathering = this.SwitchToMainToDataGathering.bind(this);
@@ -275,7 +276,8 @@ class App extends React.Component {
       DataCollectingProtocol: "StandardProtocol",
       NumberOfRuns: "3",
       runIndex: 0,
-      AverageMLPerMin: this.state.Average = 0
+      AverageMLPerMin: this.state.Average = 0,
+      LoadPreviousData: this.state.LoadPreviousData =  0
     })
     this.loadTable();
   }
@@ -437,10 +439,12 @@ class App extends React.Component {
 
   async SwitchToPreviousData( e ) {
     await this.loadTable();
-    if (this.state.DatabaseData.length < 1) {
-      alert("You have no Previous Data Entries. Please have a minimum of One Tests to view old data.")
-      e.preventDefault();
-    } else {
+    this.state.LoadPreviousData = 1;
+
+      //if (this.state.DatabaseData.length < 1) {
+        // alert("You have no Previous Data Entries. Please have a minimum of One Tests to view old data.")
+        // e.preventDefault();
+    //} else {
 
       let joined = [];
       for (let i = 0; i < this.state.DatabaseData.length; i++) {
@@ -474,7 +478,7 @@ class App extends React.Component {
 
       console.log("DatabaseBAER");
       console.log(this.state.DatabaseDataBAER);
-    }
+   // }
   }
 
   SwitchToEditingOldData( e ) {
