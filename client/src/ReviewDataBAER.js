@@ -37,8 +37,8 @@ function ReviewDataBAER({that}) {
 
     const Categories =
         [
-            {id: " Return To Previous Data", location: "/previous-data", command: that.SwitchToPreviousData, number: 0},
-            {id: " Return to Main Page", location: "/index.html", command: that.SwitchToMain, number: 1},
+            {id: " Return To Previous Data", location: "/soilinfiltrometer/previous-data", command: that.SwitchToPreviousData, number: 0},
+            {id: " Return to Main Page", location: "/soilinfiltrometer/index.html", command: that.SwitchToMain, number: 1},
         ]
 
     const [openModel, setOpenModal] = React.useState(false);

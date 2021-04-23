@@ -1203,13 +1203,13 @@ class App extends React.Component {
             <td>{Title}</td>
             <td><img src={Picture} alt="Picture"/></td>
             <td>
-              <Link to="/review-data" onClick={() => {this.state.title = Title; this.ReviewOldData();}} style={{ textDecoration: 'none' }}>
+              <Link to="/soilinfiltrometer/review-data" onClick={() => {this.state.title = Title; this.ReviewOldData();}} style={{ textDecoration: 'none' }}>
                 <Button variant="contained" color="primary" className={"previousButtonTable"}>Review</Button>
               </Link>
-              <Link to="/index.html" onClick={() => {this.state.title = Title; this.DeleteOldData();}} style={{ textDecoration: 'none' }} >
+              <Link to="/soilinfiltrometer/index.html" onClick={() => {this.state.title = Title; this.DeleteOldData();}} style={{ textDecoration: 'none' }} >
                 <Button variant="contained" color="primary" className={"previousButtonTable"}>Delete</Button>
               </Link>
-              <Link to="/edit-data" onClick={() => {this.state.title = Title; this.SwitchToEditingOldData();}} style={{ textDecoration: 'none' }} >
+              <Link to="/soilinfiltrometer/edit-data" onClick={() => {this.state.title = Title; this.SwitchToEditingOldData();}} style={{ textDecoration: 'none' }} >
                 <Button variant="contained" color="primary" className={"previousButtonTable"}>Edit</Button>
               </Link>
             </td>
@@ -1546,13 +1546,13 @@ class App extends React.Component {
             <td>{Title}</td>
             <td><img src={Picture} alt="Picture"/></td>
             <td>
-              <Link to="/review-data-baer" onClick={() => {this.state.title = Title; this.ReviewOldDataBAER();}} style={{ textDecoration: 'none' }}>
+              <Link to="/soilinfiltrometer/review-data-baer" onClick={() => {this.state.title = Title; this.ReviewOldDataBAER();}} style={{ textDecoration: 'none' }}>
                 <Button variant="contained" color="primary" className={"previousButtonTable"}>Review</Button>
               </Link>
-              <Link to="/index.html" onClick={() => {this.state.title = Title; this.DeleteOldDataBAER();}} style={{ textDecoration: 'none' }} >
+              <Link to="/soilinfiltrometer/index.html" onClick={() => {this.state.title = Title; this.DeleteOldDataBAER();}} style={{ textDecoration: 'none' }} >
                 <Button variant="contained" color="primary" className={"previousButtonTable"}>Delete</Button>
               </Link>
-              <Link to="/edit-data-baer" onClick={() => {this.state.title = Title; this.SwitchToEditingOldDataBAER();}} style={{ textDecoration: 'none' }} >
+              <Link to="/soilinfiltrometer/edit-data-baer" onClick={() => {this.state.title = Title; this.SwitchToEditingOldDataBAER();}} style={{ textDecoration: 'none' }} >
                 <Button variant="contained" color="primary" className={"previousButtonTable"}>Edit</Button>
               </Link>
             </td>
@@ -1942,55 +1942,58 @@ class App extends React.Component {
             <Router>
               <div>
                 <Switch>
-                  <Route exact path="/">
-                    <Redirect to="/index.html" />
+                  <Route exact path="/soilinfiltrometer/">
+                    <Redirect to="/soilinfiltrometer/index.html" />
                   </Route>
-                  <Route path="/data-gathering">
+                  <Route exact path="/">
+                    <Redirect to="/soilinfiltrometer/index.html" />
+                  </Route>
+                  <Route path="/soilinfiltrometer/data-gathering">
                     <DataGathering that={this} />
                   </Route>
-                  <Route path="/data-gathering-baer">
+                  <Route path="/soilinfiltrometer/data-gathering-baer">
                     <DataGatheringBAER that={this} />
                   </Route>
-                  <Route path="/Data-gathering-drawer">
+                  <Route path="/soilinfiltrometer/Data-gathering-drawer">
                     <DataGatheringDrawer that={this} />
                   </Route>
-                  <Route path="/data-complete">
+                  <Route path="/soilinfiltrometer/data-complete">
                     <DataComplete that={this} />
                   </Route>
-                  <Route path="/data-complete-baer">
+                  <Route path="/soilinfiltrometer/data-complete-baer">
                     <DataCompleteBAER that={this} />
                   </Route>
-                  <Route path="/learn-infiltrometer">
+                  <Route path="/soilinfiltrometer/learn-infiltrometer">
                     <LearnInfil that={this} />
                   </Route>
-                  <Route path="/learn">
+                  <Route path="/soilinfiltrometer/learn">
                     <Learn that={this} />
                   </Route>
-                  <Route path="/learn-baer">
+                  <Route path="/soilinfiltrometer/learn-baer">
                     <LearnBAER that={this} />
                   </Route>
-                  <Route path="/review-data">
+                  <Route path="/soilinfiltrometer/review-data">
                     <ReviewData that={this} />
                   </Route>
-                  <Route path="/review-data-baer">
+                  <Route path="/soilinfiltrometer/review-data-baer">
                     <ReviewDataBAER that={this} />
                   </Route>
-                  <Route path="/previous-data">
+                  <Route path="/soilinfiltrometer/previous-data">
                     <PreviousData that={this} />
                   </Route>
-                  <Route path="/edit-data">
+                  <Route path="/soilinfiltrometer/edit-data">
                     <Edit that={this} />
                   </Route>
-                  <Route path="/edit-data-baer">
+                  <Route path="/soilinfiltrometer/edit-data-baer">
                     <EditBAER that={this} />
                   </Route>
-                  <Route path="/about">
+                  <Route path="/soilinfiltrometer/about">
                     <About that={this} />
                   </Route>
-                  <Route path="/index.html">
+                  <Route path="/soilinfiltrometer/index.html">
                     <Main that={this} />
                   </Route>
-                  <Route path="/download">
+                  <Route path="/soilinfiltrometer/download">
                     <Downloads that={this} />
                   </Route>
                 </Switch>

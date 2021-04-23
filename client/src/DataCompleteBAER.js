@@ -139,7 +139,7 @@ function DataCompleteBAER({that}) {
             <br/>
 
             <div className={"center"}>
-                <Link onClick={that.SaveAndExitBEAR} to="/index.html" style={{ textDecoration: 'none' }}>
+                <Link onClick={that.SaveAndExitBEAR} to="/soilinfiltrometer/index.html" style={{ textDecoration: 'none' }}>
                     <Button variant="contained" color="primary" className={"buttonContainer"}> Save & Return to Main Page </Button>
                 </Link>
             </div>
@@ -147,7 +147,7 @@ function DataCompleteBAER({that}) {
             <br/>
 
             <div className={"center"}>
-                <Link onClick={that.resettingToMainPage} to="/index.html" style={{ textDecoration: 'none' }}>
+                <Link onClick={that.resettingToMainPage} to="/soilinfiltrometer/index.html" style={{ textDecoration: 'none' }}>
                     <Button variant="contained" color="secondary" className={"buttonContainer"}> Reset to Main Page </Button>
                 </Link>
             </div>

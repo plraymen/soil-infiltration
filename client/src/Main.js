@@ -126,29 +126,29 @@ function Main({that}) {
     ]
 
     let OtherContentcurrentWindow = window.location.pathname;
-    if (OtherContentcurrentWindow === "/index.html") {
+    if (OtherContentcurrentWindow === "/soilinfiltrometer/index.html") {
         OtherContentindex = 0;
-    } else if (OtherContentcurrentWindow === "/learn") {
+    } else if (OtherContentcurrentWindow === "/soilinfiltrometer/learn") {
         OtherContentindex = 1;
-    } else if (OtherContentcurrentWindow === "/learn-infiltrometer") {
+    } else if (OtherContentcurrentWindow === "/soilinfiltrometer/learn-infiltrometer") {
         OtherContentindex = 2;
-    } else if (OtherContentcurrentWindow === "/previous-data") {
+    } else if (OtherContentcurrentWindow === "/soilinfiltrometer/previous-data") {
         OtherContentindex = 3;
-    } else if (OtherContentcurrentWindow === "/about") {
+    } else if (OtherContentcurrentWindow === "/soilinfiltrometer/about") {
         OtherContentindex = 4;
-    } else if (OtherContentcurrentWindow === "/download") {
+    } else if (OtherContentcurrentWindow === "/soilinfiltrometer/download") {
         OtherContentindex = 5;
-    } else if (OtherContentcurrentWindow === "/learn-baer") {
+    } else if (OtherContentcurrentWindow === "/soilinfiltrometer/learn-baer") {
         OtherContentindex = 6;
     }
 
-    const OtherContentCategories = [{id: " Main Page", location: "/index.html", command: that.SwitchToMain, number: 0},
-        {id: " Learn How To Use The App?", location: '/learn', command: that.SwitchToLearnHowToUseTheApp, number: 1},
+    const OtherContentCategories = [{id: " Main Page", location: "/soilinfiltrometer/index.html", command: that.SwitchToMain, number: 0},
+        {id: " Learn How To Use The App?", location: '/soilinfiltrometer/learn', command: that.SwitchToLearnHowToUseTheApp, number: 1},
         {id: " Learn How to Use the Infiltrometer?", location: "/learn-infiltrometer", command: that.SwitchToLearnHowToUseTheInfiltrometer, number: 2},
-        {id: " Learn BAER Protocol?", location: "/learn-baer", command: that.SwitchToLearnBAER, number: 3},
-        {id: " Previous Test Data", location: "/previous-data", command: that.SwitchToPreviousData, number: 4},
-        {id: " Learn About Us?", location: "/about", command: that.SwitchToAboutUs, number: 5},
-        {id: " Downloads", location: "/download", command: that.SwitchToAboutUs, number: 6}
+        {id: " Learn BAER Protocol?", location: "/soilinfiltrometer/learn-baer", command: that.SwitchToLearnBAER, number: 3},
+        {id: " Previous Test Data", location: "/soilinfiltrometer/previous-data", command: that.SwitchToPreviousData, number: 4},
+        {id: " Learn About Us?", location: "/soilinfiltrometer/about", command: that.SwitchToAboutUs, number: 5},
+        {id: " Downloads", location: "/soilinfiltrometer/download", command: that.SwitchToAboutUs, number: 6}
     ]
 
     const [OtherContentopen, OtherContentsetOpen] = React.useState(false);
@@ -181,7 +181,7 @@ function Main({that}) {
         if (that.state.DataCollectingProtocol === "StandardProtocol") {
             return (
                 <div className={"center"}>
-                    <Link onClick={that.SwitchToMainToDataGathering} to="/data-gathering" style={{ textDecoration: 'none' }}>
+                    <Link onClick={that.SwitchToMainToDataGathering} to="/soilinfiltrometer/data-gathering" style={{ textDecoration: 'none' }}>
                         <Button variant="contained" color="primary" className={"buttonContainer"}> Start Collecting Data using Standard Protocol</Button>
                     </Link>
                 </div>
@@ -191,7 +191,7 @@ function Main({that}) {
         else if (that.state.DataCollectingProtocol === "BAERProtocol") {
             return (
                 <div className={"center"}>
-                    <Link onClick={that.SwitchToDataGatheringBAER} to="/data-gathering-baer" style={{ textDecoration: 'none' }}>
+                    <Link onClick={that.SwitchToDataGatheringBAER} to="/soilinfiltrometer/data-gathering-baer" style={{ textDecoration: 'none' }}>
                         <Button variant="contained" color="primary" className={"buttonContainer"}> Start Collecting Data using BAER Protocol</Button>
                     </Link>
                 </div>

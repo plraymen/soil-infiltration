@@ -24,8 +24,8 @@ function EditBAER({that}) {
     let currentWindow = window.location.pathname;
     const Categories =
         [
-            {id: " Save Changes and Return to Main Page", location: "/index.html", command: that.EditData, number: 0},
-            {id: " Reset and Return to Main Page", location: "/index.html", command: that.resettingToEditingMainPage, number: 1},
+            {id: " Save Changes and Return to Main Page", location: "/soilinfiltrometer/index.html", command: that.EditData, number: 0},
+            {id: " Reset and Return to Main Page", location: "/soilinfiltrometer/index.html", command: that.resettingToEditingMainPage, number: 1},
         ]
 
     const [openModel, setOpenModal] = React.useState(false);
@@ -115,7 +115,7 @@ function EditBAER({that}) {
 
 
             <div className={"center"}>
-                <Link onClick={that.EditDataBAER} to="/index.html" style={{ textDecoration: 'none' }}>
+                <Link onClick={that.EditDataBAER} to="/soilinfiltrometer/index.html" style={{ textDecoration: 'none' }}>
                     <Button variant="contained" color="primary" className={"buttonContainer"}> Save Changes and Return to Main Page</Button>
                 </Link>
             </div>
@@ -123,7 +123,7 @@ function EditBAER({that}) {
             <br/>
 
             <div className={"center"}>
-                <Link onClick={that.resettingToEditingMainPage} to="/index.html" style={{ textDecoration: 'none' }}>
+                <Link onClick={that.resettingToEditingMainPage} to="/soilinfiltrometer/index.html" style={{ textDecoration: 'none' }}>
                     <Button variant="contained" color="secondary" className={"buttonContainer"}> Reset and Return to Main Page </Button>
                 </Link>
             </div>

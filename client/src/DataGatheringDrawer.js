@@ -21,13 +21,13 @@ export default function DataGatheringDrawer({that}) {
     ]
 
     let currentWindow = window.location.pathname;
-    if (currentWindow === "/") {
+    if (currentWindow === "/soilinfiltrometer/") {
         index = 0;
     }
 
     const Categories =
-        [{id: " Data Gathering Completed", location: "/data-complete", command: "that.SwitchToMain", number: 0},
-        {id: " Learn How To Use The App?", location: '/learn', command: "that.SwitchToLearnHowToUseTheApp", number: 1},
+        [{id: " Data Gathering Completed", location: "/soilinfiltrometer/data-complete", command: "that.SwitchToMain", number: 0},
+        {id: " Learn How To Use The App?", location: '/soilinfiltrometer/learn', command: "that.SwitchToLearnHowToUseTheApp", number: 1},
     ]
 
     const [openModel, setOpenModal] = React.useState(false);

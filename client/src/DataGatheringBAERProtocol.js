@@ -102,7 +102,7 @@ function DataGatheringBAER({that}) {
     const Categories =
         [
             // {id: " Data Gathering Completed", location: "/data-complete", command: that.SwitchToDataCompleted, number: 0},
-            {id: " Reset to Main Page", location: "/index.html", command: that.resettingToMainPage, number: 1},
+            {id: " Reset to Main Page", location: "/soilinfiltrometer/index.html", command: that.resettingToMainPage, number: 1},
         ]
 
 
@@ -227,7 +227,7 @@ function DataGatheringBAER({that}) {
         if ((that.state.runIndex/that.state.NumberOfRuns) === 1) {
             return (
                 <div>
-                    <Link onClick={that.SwitchToDataCompletedBAER} to="/data-complete-baer" style={{ textDecoration: 'none' }}>
+                    <Link onClick={that.SwitchToDataCompletedBAER} to="/soilinfiltrometer/data-complete-baer" style={{ textDecoration: 'none' }}>
                         <Button variant="contained" color="secondary" className={"buttonContainer"}> Data Gathering Completed</Button>
                     </Link>
                 </div>

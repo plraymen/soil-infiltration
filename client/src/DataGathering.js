@@ -103,7 +103,7 @@ function DataGathering({that}) {
     const Categories =
         [
             // {id: " Data Gathering Completed", location: "/data-complete", command: that.SwitchToDataCompleted, number: 0},
-            {id: " Reset to Main Page", location: "/index.html", command: that.resettingToMainPage, number: 1},
+            {id: " Reset to Main Page", location: "/soilinfiltrometer/index.html", command: that.resettingToMainPage, number: 1},
         ]
 
 
@@ -316,7 +316,7 @@ function DataGathering({that}) {
             <br/>
             <div className={"center"}>
                 {/*{id: " Data Gathering Completed", location: "/data-complete", command: that.SwitchToDataCompleted, number: 0},*/}
-                <Link onClick={that.SwitchToDataCompleted} to="/data-complete" style={{ textDecoration: 'none' }}>
+                <Link onClick={that.SwitchToDataCompleted} to="/soilinfiltrometer/data-complete" style={{ textDecoration: 'none' }}>
                     <Button variant="contained" color="secondary" className={"buttonContainer"}> Data Gathering Completed</Button>
                 </Link>
             </div>
