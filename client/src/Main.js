@@ -82,14 +82,19 @@ function Main({that}) {
                 <h5><li>This Application is an Aid in Collecting Data, you're goal is to pay attention to the Soil Infiltrometer first.</li></h5>
                 <h5><li>This application is per device, per browser specific, we've made it to save data to the current Browser you're using.</li></h5>
                 <h5><li>We are using Polynomial Regression in this to calculate certain constants, you're results could vary a small percentage.</li></h5>
+                <h5><li>During Gathering Data while Using BAER Protocol, a Replicate is a symbolic run that meant to increment when a user moves the Infiltrometer</li></h5>
             </div>
-            <div align={"center"}>
-                <h5>_____________________________________</h5>
-                <h4>Here is a helpful Hint</h4>
+            <div >
+                <h5 align={"center"}>_____________________________________</h5>
+                <h4 align={"center"}>Here is a helpful Hint</h4>
+                <div align={"center"}>
                 <img src={drawerButton} className={"smimg"}/>
+                </div>
                 <h5><li>This button, that is located in the top left corner, is your friend.</li></h5>
                 <h5><li>It host a myriad of different pages and options on every different page.</li></h5>
+                <div align={"center"}>
                 <Button onClick={handleClose} variant="contained" color="primary">Close this Pop-Up</Button>
+                </div>
             </div>
         </div>
     );

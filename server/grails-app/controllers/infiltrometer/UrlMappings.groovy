@@ -25,6 +25,7 @@ class UrlMappings {
         "/edit-data"(uri: "/index.html")
         "/about"(uri: "/index.html")
         "/download"(uri: "/index.html")
+        "/learn-baer"(uri: "/index.html")
         "500"(view: '/error')
         "404"(view: '/notFound')
     }
