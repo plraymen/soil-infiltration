@@ -35,11 +35,11 @@ Launches the Backend Server
 
 ## How to Deploy
 ### 1. Open the Root of the project into Terminal, then type: 'gradlew assembleServerAndClient'
-### 2. Navigate to '~\server\build\libs\', you will find a generated file called 'server.war', rename it to 'ROOT.war' (capitalization matters)
+### 2. Navigate to '~\server\build\libs\', you will find a generated file called 'server.war', rename it to 'soilinfiltrometer.war' (capitalization matters)
 ### 3. SSH into the tomcat server. Type: 'ssh 2021_hci_4@hci-dev.cs.mtu.edu' (You can find the password in the Google Drive)
 ### 4. Shutdown or Disable the Tomcat Server. Type: 'sudo systemctl stop tomcat@2021_hci_4'
 ### 5. Navigate to web-app folder. Type: 'cd /var/lib/tomcats/2021_hci_4/webapps/'
-### 6. Remove old files. Type: 'sudo rm -rf ROOT ROOT.war'
+### 6. Remove old files. Type: 'sudo rm -rf soilinfiltrometer soilinfiltrometer.war'
 ### 7. For this next portion, you will need to have a way to SFTP and transfer the other war file to the tomcat server. For Windows, highly reccomend using WinSCP. Next, transfer the newly created war file to '/var/lib/tomcats/2021_hci_4/webapps/' using SFTP.
-### 8. Start backup the server. For this part it will take 30 seconds to a minute to complete. The war file needs to be 'exploded'. Type: sudo systemctl start tomcat@2021_hci_4
-### 9.Just wait a couple of minutes for the tomcat server to officially bootup and then go the Website: In you Web-Browser, Type: 'https://hci-dev.cs.mtu.edu:8143/index.html'
+### 8. Start backup the server. For this part it will take 30 seconds to a minute to complete. The war file needs to be 'exploded'. Type: "sudo systemctl start tomcat@2021_hci_4"
+### 9.Just wait a couple of minutes for the tomcat server to officially bootup and then go the Website: In you Web-Browser, Type: 'https://hci-dev.cs.mtu.edu:8143/soilinfiltrometer/index.html'
